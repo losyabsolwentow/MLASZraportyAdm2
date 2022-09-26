@@ -1,0 +1,94 @@
+---
+title: |
+  | Raport z monitoringu karier absolwentów, którzy ukończyli liceum ogólnokształcące w roku szkolnym `r params$rok - 1`/`r params$rok`
+subtitle: |
+  | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$nazwa`
+  | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$adres`
+output:
+  pdf_document:
+    dev: cairo_pdf
+    fig_caption: no
+    includes:
+      in_header: naglowek2.tex
+    toc: yes
+    toc_depth: 2
+lang: pl
+papersize: a4
+fontsize: 11pt
+geometry: margin=20mm
+params:
+  plikZObiektami: ../../data/wskaznikiAdmin2.RData
+  obiektWskazniki: szk
+  obiektWskaznikiPorownanie: woj
+  obiektWskaznikiKraj: kraj
+  progLiczebnosci: 10
+  typDokumentu: pdf
+  wyrownanieTabWykr: center
+  rok: 2021
+wskazniki:
+  wskazniki: szk
+  wskaznikiGrPor: woj
+  wskaznikiKraj: kraj
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+library(tidyr)
+library(forcats)
+
+library(MLASZraportyAdm2)
+# if (!exists("params")) {
+#   params = list(plikZObiektami = "../../../../07_Biezace_2022/20_RAPORTY_ADMIN_2/data/wskazniki/robocze/wskazniki_v1_robocze.RData",
+#                 obiektWskazniki = "szk",
+#                 obiektWskaznikiPorownanie = "god",
+#                 obiektWskaznikiKraj = "kraj",
+#                 progLiczebnosci = 10,
+#                 typDokumentu = "pdf",
+#                 wyrownanieTabWykr = "center",
+#                 rok = 2020)
+# }
+
+progLiczebnosci = params$progLiczebnosci
+typDokumentu = params$typDokumentu
+wyrownanieTabWykr = params$wyrownanieTabWykr
+
+if (params$plikZObiektami != "") {# to działa przy ręcznym prototypowaniu
+  load(params$plikZObiektami)
+  szk = get(params$obiektWskazniki)
+  god = get(params$obiektWskaznikiPorownanie)
+} else {# to działa przy wywoływaniu przez generuj_raport()
+  szk = get(params$obiektWskazniki)
+  god = get(params$obiektWskaznikiPorownanie)
+}
+
+god = god %>%
+  filter(id_szk %in% szk$id_szk)
+
+rocznik = paste0(params$rok - 1, "/", params$rok)
+```
+
+```{r testing, echo=FALSE, message=FALSE, warning=FALSE}
+cat(
+  "ID RSPO szkoły: ",
+  szk$id_szk[[1]],
+  "\nWojewództwo: ",
+  szk$odniesieniePoziom[[1]],
+  "\nZmienna rocznik: ",
+  rocznik,
+  "\nLiczba absolwentów: ",
+  szk$l_abs[[1]],
+  sep = ""
+)
+```
+
+`r ifelse(typDokumentu %in% "pdf", "---", "")`
+
+`r ifelse(typDokumentu %in% "pdf", "\\vfill\n\\includegraphics{Belka-Losy-absolwentow-Kolor-PL}", "")`
+
+`r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
+
+
+
+
