@@ -46,15 +46,18 @@ wrapper = function(x, ...) {
 #' odczytać.
 #' @param wykres obiekt klasy \code{ggplot}
 #' @param tabela obiekt klasy \code{knitr_kable}
+#' @param tekst wartość logiczna określająca czy ma być zwracany tekst "Dane z
+#' wykresu przedstwiono w poniższej tabeli:"?
 #' @export
 #' @return lista
 #' @importFrom ggplot2 is.ggplot
-zwroc_wykres_tabela = function(wykres, tabela) {
+zwroc_wykres_tabela = function(wykres, tabela, tekst = TRUE) {
   stopifnot(
     is.ggplot(wykres),
-    class(tabela) %in% "knitr_kable")
+    class(tabela) %in% "knitr_kable",
+    is.logical(tekst))
   
   print(wykres)
-  cat("Dane z wykresu przedstwiono w poniższej tabeli:\n\n")
+  cat(ifelse(tekst, "Dane z wykresu przedstwiono w poniższej tabeli:\n\n", ""))
   cat(tabela)
 }

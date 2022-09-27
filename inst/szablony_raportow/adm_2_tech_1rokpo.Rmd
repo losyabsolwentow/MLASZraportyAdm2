@@ -58,9 +58,11 @@ if (params$plikZObiektami != "") {# to działa przy ręcznym prototypowaniu
   load(params$plikZObiektami)
   szk = get(params$obiektWskazniki)
   god = get(params$obiektWskaznikiPorownanie)
+  kraj = get(params$obiektWskaznikiKraj)
 } else {# to działa przy wywoływaniu przez generuj_raport()
   szk = get(params$obiektWskazniki)
   god = get(params$obiektWskaznikiPorownanie)
+  kraj = get(params$obiektWskaznikiKraj)
 }
 
 god = god %>%
@@ -158,7 +160,7 @@ cat(
   odmiany$abs_opi,
   " Państwa szkoły, którzy rozpoczęli naukę na uczelniach wyższych do końca grudnia ", 
   params$rok,
-  " roku (według stanu na 31 grudnia 2020 roku).\n\n* Dane pozyskane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia 2020 roku do 10 maja 2021 roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
+  " roku (według stanu na 31 grudnia ROK roku).\n\n* Dane pozyskane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia ROK roku do 10 maja ROK roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
   szk$l_abs_zrodla[[1]]$n_zus,
   odmiany$abs_zus,
   " Państwa szkoły.\n\n",
@@ -452,19 +454,11 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       paste0(
         "od ",
         min(wrz_gru),
-        if (unique(names(wrz_gru[wrz_gru == min(wrz_gru)])) %in% "wrześniu") {
-          paste0("% we ")
-        } else {
-          paste0("% w ")
-        },
+        ifelse(unique(names(wrz_gru[wrz_gru == min(wrz_gru)])) %in% "wrześniu", paste0("% we "), paste0("% w ")),
         paste(names(wrz_gru[wrz_gru == min(wrz_gru)]), collapse = ", "),
         " do ",
         max(wrz_gru),
-        if (unique(names(wrz_gru[wrz_gru == max(wrz_gru)])) %in% "wrześniu") {
-          paste0("% we ")
-        } else {
-          paste0("% w ")
-        },
+        ifelse(unique(names(wrz_gru[wrz_gru == min(wrz_gru)])) %in% "wrześniu", paste0("% we "), paste0("% w ")),
         paste(names(wrz_gru[wrz_gru == max(wrz_gru)]), collapse = ", "),
         ".",
         sep = ""
@@ -489,8 +483,7 @@ szkoly_month = rbind(
   as_tibble(szk$S3_09[[1]]),
   as_tibble(szk$S3_10[[1]]),
   as_tibble(szk$S3_11[[1]]),
-  as_tibble(szk$S3_12[[1]])
-)
+  as_tibble(szk$S3_12[[1]]))
 
 if (min(szkoly_month$n) >= progLiczebnosci) {
   tab_szk = szkoly_month %>%

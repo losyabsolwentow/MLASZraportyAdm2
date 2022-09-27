@@ -5,12 +5,15 @@
 \title{Funkcje robocze dla raportowania w 2. edycji monitoringu - dane
 administracyjne}
 \usage{
-zwroc_wykres_tabela(wykres, tabela)
+zwroc_wykres_tabela(wykres, tabela, tekst = TRUE)
 }
 \arguments{
 \item{wykres}{obiekt klasy \code{ggplot}}
 
 \item{tabela}{obiekt klasy \code{knitr_kable}}
+
+\item{tekst}{wartość logiczna określająca czy ma być zwracany tekst "Dane z
+wykresu przedstwiono w poniższej tabeli:"?}
 }
 \value{
 lista
