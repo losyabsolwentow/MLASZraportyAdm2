@@ -44,7 +44,7 @@ tab_wykres = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, etykiety, t
     typ_szk %in% "Liceum ogólnokształcące" ~ "licea ogólnokształcące")
   
   typ_god = ifelse(!is.null(god),
-                   paste0("Pozostałe ", szkola, "\nz ", god, nazwa_god),
+                   paste0("Pozostałe ", szkola, "\nz ", god, " ", nazwa_god),
                    "<GRUPA>")
 
   if (!is.null(dane_szk)) {
@@ -147,7 +147,7 @@ tab_facet = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, typ_szk, sze
     typ_szk %in% "Liceum ogólnokształcące" ~ "licea ogólnokształcące")
   
   typ_god = ifelse(!is.null(god),
-                   paste0("Pozostałe ", szkola, "\nz ", god, nazwa_god),
+                   paste0("Pozostałe ", szkola, "\nz ", god, " ", nazwa_god),
                    "<GRUPA>")
 
   if (!is.null(dane_szk)) {

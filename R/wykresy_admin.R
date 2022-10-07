@@ -16,7 +16,7 @@ wykres_poziomy_statusy = function(x, tytul) {
   stopifnot(is_tibble(x),
             ifelse(is.null(tytul), FALSE, nchar(tytul) > 1))
   
-  kolory_slupkow = c("#d62f26", "#fb8c59", "#f8dd00", "#d8ef8a", "#90cf60",	"#1a974f")
+  kolory_slupkow = c("#d62f26", "#f8dd00", "#d8ef8a", "#1a974f")
 
   ggplot(x, aes(x = .data$typ,
                 y = .data$value,
@@ -61,7 +61,7 @@ wave_chart = function(x, tytul) {
   stopifnot(is_tibble(x),
             ifelse(is.null(tytul), FALSE, nchar(tytul) > 1))
   
-  kolory_slupkow = c("#d62f26", "#fb8c59", "#f8dd00", "#d8ef8a", "#90cf60",	"#1a974f")
+  kolory_slupkow = c("#d62f26", "#f8dd00", "#d8ef8a", "#1a974f")
 
   ggplot(x, aes(x = .data$month, y = .data$value, fill = .data$name)) +
     geom_area(position = position_stack(reverse = TRUE), stat = "identity") +
