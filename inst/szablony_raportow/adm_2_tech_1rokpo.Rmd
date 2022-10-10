@@ -19,7 +19,9 @@ geometry: margin=20mm
 params:
   plikZObiektami: ../../data/wskaznikiAdmin2.RData
   obiektWskazniki: szk
-  obiektWskaznikiPorownanie: woj
+  obiektWskaznikiPorownanie: god
+  obiektWskaznikiKraj: kraj
+  obiektWskaznikiKraj2: kraj2
   progLiczebnosci: 10
   typDokumentu: pdf
   wyrownanieTabWykr: center
@@ -27,7 +29,9 @@ params:
   testowanie: FALSE
 wskazniki:
   wskazniki: szk
-  wskaznikiGrPor: woj
+  wskaznikiGrPor: god
+  wskaznikiKraj: kraj
+  wskaznikiKraj2: kraj2
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -1353,211 +1357,6 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
 }
 ```
 
-## Przychody brutto z pracy w okresie od września do grudnia `r params$rok` roku
-
-Informacje dotyczące miesięcznych przychodów absolwentów nie uwzględniają czasu, jaki poświęcili na pracę (przychody te nie są przeliczone np. do wymiaru pełnego etatu). Ponadto należy pamiętać, że raporty oparte na danych rejestrowych nie uwzględniają zarobków uzyskiwanych w "szarej strefie".
-
-Na poniższej ilustracji opisano sposób prezentowania danych na wykresie typu boxplot wraz z ich interpretacją. Dane na tym wykresie są fikcyjne - służy on tylko objaśnieniu jakiego rodzaju informacje można znaleźć na tego typu wykresach.
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = '100%'}
-knitr::include_graphics("../boxplot.png")
-```
-
-### Absolwenci kontynuujący naukę
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_ucz[[1]]$n >= progLiczebnosci) {
-  cat(
-    "W przypadku absolwentów Państwa szkoły, którzy studiowali lub uczyli się w szkole policealnej i przez co najmniej część okresu od września do grudnia ",
-    params$rok,
-    " roku pracowali^[Uwzględniono wyłącznie umowy o pracę oraz wykonywanie własnej działalności gospodarczej.], miesięczne przychody brutto^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w ",
-    params$rok + 1,
-    " roku przeciętne miesięczne zarobki na poziomie 13 147 zł), w miesiącach, w których to przekroczenie wystąpiło.] w przepracowanych miesiącach wyniosły średnio ",
-    round(szk$W1_ucz[[1]]$sred),
-    " zł, a ich mediana ",
-    round(szk$W1_ucz[[1]]$med),
-    " zł. To znaczy, że co najmniej połowa grupy, dla której dostępne były informacje o zarobkach, uzyskiwała średni miesięczny przychód nieprzekraczający tej kwoty, a co najmniej połowa - przychód w wysokosci co najmniej tej kwoty. W przypadku absolwentów pozostałych techników z ",
-    odmiany$god_dop,
-    " łączących pracę z nauką średni miesięczny przychód z pracy wyniósł ",
-    round(god$W1_ucz[[1]]$sred),
-    " zł, a mediana ",
-    round(god$W1_ucz[[1]]$med),
-    " zł.\n\n",
-    sep = ""
-  )
-} else {
-  cat("Liczba absolwentów Państwa szkoły pracujących oraz studiujących lub uczących się w szkole policealnej nie była wystarczająca, żeby możliwe było przedstawienie wyników dla tej grupy, zgodnie z zasadą chroniącą anonimowość respondentów.")
-}
-```
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_ucz[[1]]$n >= progLiczebnosci) {
-  etykiety = c("sred", "q5", "q25", "med", "q75", "q95")
-  
-  tab_wyk = tab_wykres(szk$W1_ucz[[1]],
-                       god$W1_ucz[[1]],
-                       NULL,
-                       odmiany$god_dop,
-                       "białostockiego",
-                       etykiety,
-                       # NAZWA_GOD_UZUZPELNIC, # muszę mieć tę zmienną, żeby działało!!!!
-                       szk$typ_szk[[1]],
-                       80) %>% 
-    select(-lab) %>% 
-    pivot_wider(names_from = name) %>% 
-    select(-sred)
-  
-  wyk_lab = tab_wyk %>% 
-    group_by(typ) %>% 
-    summarise(value = list(q5, q25, med, q75, q95)) %>% 
-    unnest() %>% 
-    mutate(lab = paste0(round(value), "zł"))
-  
-  wyk_tyt = wrapper(paste0("Wykres ",
-                           wyk_num(),
-                           ": Miesięczne przychody brutto z pracy absolwentów Państwa szkoły oraz pozostałych techników w ",
-                           odmiany$god_dop,
-                           ", od września do grudnia ",
-                           params$rok,
-                           " roku - pracujący i uczący się na studiach lub w szkole policealnej"),
-           width = 85)
-  
-  wykres = boxplot_zl(x = tab_wyk,
-                      tytul = wyk_tyt) +
-    ylab(paste0("Średni miesięczny przychód z pracy w okresie\nod września do grudnia ",
-                params$rok,
-                " roku (zł)")) +
-    geom_text(data = wyk_lab,
-              aes(x = typ, y = value, label = lab),
-              nudge_x = -0.4,
-              size = 2.5)
-  
-  print(wykres)
-  
-  cat(
-    "\\textcolor{black}{\\relscale{0.75}Na powyższym wykresie pogrubiona linia oznacza medianę średnich miesięcznych przychodów w danej grupie. Elementem wykresu jest również prostokąt, który “obejmuje” 50\\% absolwentów, którzy stanowią grupę środkową pod względem średnich miesięcznych przychodów w badanym okresie. Z kolei nad i pod prostokątem znajdują się poziome linie (tzw. wąsy). Pomiędzy tymi liniami zawierają się wartości wskaźnika dla “środkowych” 90\\% absolwentów. Im bardziej zróżnicowane są przychody w danej grupie, tym prostokąt jest wyższy, a odległość pomiędzy wspomnianymi liniami większa. \"Wąsy\" pokazują również minimalne i maksymalne miesięczne przychody w danej grupie, po wykluczeniu skrajnych wartości (5\\% najniższych i 5\\% najwyższych).}\n\n",
-    sep = ""
-  )
-}
-```
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_ucz[[1]]$n >= progLiczebnosci) {
-  tab_wyk %>%
-    mutate(across(q5:q95,
-                  ~paste0(round(.), "zł"))) %>%
-    kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-          linesep = "",
-          align = "lccccc",
-          col.names = NULL,
-          digits = 0) %>%
-    kable_styling(position = wyrownanieTabWykr,
-                  latex_options = c("hold_position", "repeat_header"),
-                  font_size = 10,
-                  full_width = FALSE,
-                  repeat_header_text = "(ciąg dalszy tabeli)") %>%
-    add_header_above(c(" ", "5%" = 1, "25%" = 1, "Mediana" = 1, "75%" = 1, "95%"),
-                     align = c("l", "c", "c", "c", "c", "c"))
-}
-```
-
-### Absolwenci nie kontynuujący nauki
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_nie_ucz[[1]]$n >= progLiczebnosci) {
-  cat(
-    "Niekontynuujący nauki absolwenci Państwa szkoły, którzy przez co najmniej część okresu od września do grudnia ",
-    params$rok,
-    " roku pracowali^[Uwzględniono zarówno umowy o pracę oraz wykonywanie własnej działalności gospodarczej, jak i umowy zlecenia, dlatego wartość wskaźnika nie jest porównywalna z wartością wskaźnika dla absolwentów będących uczniami.], uzyskiwali z tego tytułu średnie miesięczne wynagrodzenie brutto^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w ",
-    params$rok + 1,
-    " roku przeciętne miesięczne zarobki na poziomie 13 147 zł), w miesiącach, w których to przekroczenie wystąpiło.] w wysokości ",
-    round(szk$W1_nie_ucz[[1]]$sred),
-    " zł. Mediana średniego miesięcznego przychodu z pracy wynosi z kolei wśród absolwentów Państwa szkoły ",
-    round(szk$W1_nie_ucz[[1]]$med),
-    " zł. To znaczy, że co najmniej połowa grupy, dla której dostępne były informacje o zarobkach, uzyskiwała średni miesięczny przychód nieprzekraczający tej kwoty, a co najmniej połowa - przychód w wysokości co najmniej tej kwoty. W przypadku absolwentów pozostałych techników z ",
-    odmiany$god_dop,
-    " średni miesięczny przychód z pracy wyniósł ",
-    round(god$W1_nie_ucz[[1]]$sred),
-    " zł a mediana ",
-    round(god$W1_nie_ucz[[1]]$med),
-    " zł.\n\n",
-    sep = ""
-  )
-} else {
-  cat("Liczba absolwentów Państwa szkoły pracujących, ale nie studiujących ani nie uczących się w szkołach policealnych nie była wystarczająca, żeby możliwe było przedstawienie wyników dla tej grupy, zgodnie z zasadą chroniącą anonimowość respondentów.")
-}
-```
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_nie_ucz[[1]]$n >= progLiczebnosci) {
-  etykiety = c("sred", "q5", "q25", "med", "q75", "q95")
-  
-  tab_wyk = tab_wykres(szk$W1_nie_ucz[[1]],
-                       god$W1_nie_ucz[[1]],
-                       NULL,
-                       odmiany$god_dop,
-                       "białostockiego",
-                       etykiety,
-                       # NAZWA_GOD_UZUZPELNIC, # muszę mieć tę zmienną, żeby działało!!!!
-                       szk$typ_szk[[1]],
-                       80) %>% 
-    select(-lab) %>% 
-    pivot_wider(names_from = name) %>% 
-    select(-sred)
-  
-  wyk_lab = tab_wyk %>% 
-    group_by(typ) %>% 
-    summarise(value = list(q5, q25, med, q75, q95)) %>% 
-    unnest() %>% 
-    mutate(lab = paste0(round(value), "zł"))
-  
-  wyk_tyt = wrapper(paste0("Wykres ",
-                           wyk_num(),
-                           ": Miesięczne przychody brutto absolwentów Państwa szkoły oraz pozostałych techników w ",
-                           odmiany$god_dop,
-                           ", od września do grudnia ",
-                           params$rok,
-                           " roku - pracujący i nie studiujący ani nie uczący się w szkole policealnej"),
-                    width = 85)
-  
-  wykres = boxplot_zl(tab_wyk, wyk_tyt) +
-    ylab(paste0("Średni miesięczny przychód z pracy w okresie\nod grudnia ",
-                params$rok,
-                " roku (zł)")) +
-    geom_text(data = wyk_lab,
-              aes(x = typ, y = value, label = lab),
-              nudge_x = -0.4,
-              size = 2.5)
-  
-  print(wykres)
-  
-  cat(
-    "\\textcolor{black}{\\relscale{0.75}Na powyższym wykresie pogrubiona linia oznacza medianę średnich miesięcznych przychodów w danej grupie. Elementem wykresu jest również prostokąt, który “obejmuje” 50\\% absolwentów, którzy stanowią grupę środkową pod względem średnich miesięcznych przychodów w badanym okresie. Z kolei nad i pod prostokątem znajdują się poziome linie (tzw. wąsy). Pomiędzy tymi liniami zawierają się wartości wskaźnika dla “środkowych” 90\\% absolwentów. Im bardziej zróżnicowane są przychody w danej grupie, tym prostokąt jest wyższy, a odległość pomiędzy wspomnianymi liniami większa. \"Wąsy\" pokazują również minimalne i maksymalne miesięczne przychody w danej grupie, po wykluczeniu skrajnych wartości (5\\% najniższych i 5\\% najwyższych).}\n\n",
-    sep = ""
-  )
-}
-```
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
-if (szk$W1_nie_ucz[[1]]$n >= progLiczebnosci) {
-  tab_wyk %>%
-    mutate(across(q5:q95,
-                  ~paste0(round(.), "zł"))) %>%
-    kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-          linesep = "",
-          align = "lccccc",
-          col.names = NULL,
-          digits = 0) %>%
-    kable_styling(position = wyrownanieTabWykr,
-                  latex_options = c("hold_position", "repeat_header"),
-                  font_size = 10,
-                  full_width = FALSE,
-                  repeat_header_text = "(ciąg dalszy tabeli)") %>%
-    add_header_above(c(" ", "5%" = 1, "25%" = 1, "Mediana" = 1, "75%" = 1, "95%"),
-                     align = c("l", "c", "c", "c", "c", "c"))
-}
-```
-
 ## Przychody absolwentów z pracy etatowej w okresie od września do grudnia `r params$rok` roku w odniesieniu do średniego wynagrodzenia w powiatach, w których mieszkali
 
 Wskaźnik, którego wartości prezentujemy na poniższym wykresie, pokazuje stosunek przychodów absolwentów Państwa szkoły z pracy etatowej do przeciętnego miesięcznego wynagrodzenia^[Według danych publikowanych w [Banku Danych Lokalnych Głównego Urzędu Statystycznego.](https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/693,pojecie.html?pdf=1)] osób mieszkających w tych samych powiatach. Dla poszczególnych absolwentów wartość wskaźnika równa 100% oznaczałaby, że ich średnie zarobki z pracy etatowej były takie same, jak przeciętne wynagrodzenie mieszkańców danego powiatu.
@@ -1988,3 +1787,257 @@ Instytut Badań Edukacyjnych pragnie podziękować dyrektorom szkół, nauczycie
 Więcej informacji o monitorowaniu losów absolwentów znajdą Państwo na stronie:
 
 <https://losyabsolwentow.ibe.edu.pl/>
+
+# 6. Aneks
+
+```{r}
+kraj = kraj %>% 
+  filter(typ_szk %in% szk$typ_szk[[1]],
+         nazwa_zaw %in% unique(szk$tab_s3_zaw[[1]]$nazwa_zaw))
+
+kraj2 = kraj2 %>% 
+  filter(typ_szk %in% szk$typ_szk[[1]])
+```
+
+W aneksie zaprezentowano tabelaryczne rozkłady wskaźników przedstawionych w raporcie, ale dla ogółu techników w całym kraju.
+
+1. Rozkład statusów ogółem
+
+Poniższa tabela przedstawia rozkład statusów w technikach w całym kraju.
+
+```{r, fig.align='left'}
+kraj2$S3_12[[1]] %>%
+  as_tibble() %>% 
+  select(n, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
+  mutate(across(n, ~paste0("Technika w kraju"))) %>%
+  mutate(across(tylko_ucz:neet,
+                ~paste0(round(. * 100), "\\%"))) %>%
+  kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+        linesep = "",
+        align = "lcccc",
+        col.names = NULL,
+        digits = 0) %>% 
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                # font_size = 10,
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>% 
+  add_header_above(c(" ", "1. Tylko się uczy" = 1, "2. Uczy się i\npracuje" = 1, "3. Tylko pracuje" = 1, "4. Nie pracuje i\nnie uczy się" = 1),
+                   align = c("l", "c", "c", "c", "c"))
+```
+
+2. Rozkład statusów w poszczególnych zawodach
+
+```{r, fig.align='left'}
+tabela = tibble()
+for (i in 1:nrow(kraj)) {
+  wiersz = cbind(
+      kraj$nazwa_zaw[[i]] %>% as_tibble() %>% rename(nazwa_zaw = value),
+      kraj$S3_12[[i]] %>% as_tibble())
+  
+  tabela = rbind(
+    tabela,
+    wiersz)
+}
+tabela = tabela %>% 
+  filter(n >= progLiczebnosci) %>% 
+  arrange(desc(n)) %>% 
+  select(nazwa_zaw, tylko_ucz, ucz_prac, tylko_prac, neet)
+
+if (nrow(tabela) > 0) {
+  cat(
+    "Poniższa tabela przedstawia rozkład statusów w poszczególnych zawodach w technikach w całym kraju. Prezentowane są zawody, w których absolwentami zostali absolwenci Państwa szkoły pod warunkiem, że na poziomie kraju w takim zawodzie kształciło się więcej niż 10 absolwentów. W przeciwnym razie taki zawód nie zostanie pokazany.\n\n")
+  
+  tabela %>% 
+    mutate(across(tylko_ucz:neet,
+                  ~paste0(round(. * 100), "\\%"))) %>%
+    kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+          linesep = "",
+          align = "lcccc",
+          col.names = NULL,
+          digits = 0) %>% 
+    kable_styling(position = wyrownanieTabWykr,
+                  latex_options = c("hold_position", "repeat_header"),
+                  # font_size = 10,
+                  full_width = TRUE,
+                  repeat_header_text = "(ciąg dalszy tabeli)") %>% 
+    add_header_above(c("Zawody, w których obecni absolwenci\nuczyli się w całym kraju:", "1" = 1, "2" = 1, "3" = 1, "4" = 1),
+                     align = c("l", "c", "c", "c", "c")) %>%
+    add_header_above(c(" ",
+                       "1. Tylko się uczy\n2. Uczy się i pracuje\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
+                     align = c("c", "l")) %>% 
+    column_spec(1, width = "6cm") %>%
+    column_spec(2, width = "2.25cm") %>%
+    column_spec(3, width = "2.25cm") %>%
+    column_spec(4, width = "2.25cm") %>%
+    column_spec(5, width = "2.25cm")
+} else {
+  cat("W żadnym zawodzie, w którym absolwentami zostali absolwenci Państwa szkoły, na poziomie wszystkich techników, nie udało się zebrać minimum 10 absolwentóW, aby móc pokazać wyniki.")
+}
+```
+
+3. Sposoby kontynuowania kształcenia w grudniu `r params$rok` roku
+
+Poniższa tabela przedstawia rozkład form kontynuacji kształcenia w technikach w całym kraju. Odsetki mogą sumować się do więcej niż 100% ze względu na możliwość kontynuowania edukacji w więcej niż jednej formie.
+
+```{r, fig.align='left'}
+tabelka_bez_brak = kraj2$E2_nauka_kontyn[[1]][-1] %>% 
+  as_tibble() %>% 
+  pivot_longer(everything()) %>% 
+  filter(!name %in% "brak") %>% 
+  arrange(desc(value))
+
+tabelka = rbind(
+  tabelka_bez_brak,
+  kraj2$E2_nauka_kontyn[[1]][-1] %>% 
+    as_tibble() %>% 
+    pivot_longer(everything()) %>% 
+    filter(name %in% "brak"))
+
+tabelka$name = c(
+  "Studia",
+  "Szkoła policealna",
+  "Kwalifikacyjny Kurs Zawodowy (KKZ)",
+  "Liceum dla dorosłych",
+  "Branżowa szkoła II stopnia",
+  "Kurs Umiejętności Zawodoych (KUZ)",
+  "Nie kontynuują kształcenia")
+
+
+tabelka %>% 
+  mutate(across(value,
+                ~paste0(round(. * 100), "\\%"))) %>%
+  kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+        linesep = "",
+        align = "lc",
+        col.names = NULL,
+        digits = 0) %>% 
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                # font_size = 10,
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>% 
+  add_header_above(c(" ", "Sposoby kontynuowania kształcenia w\ntechnikach w kraju" = 1),
+                   align = c("l", "c"))
+```
+
+4. Praca po ukończeniu technikum
+
+Odsetek miesięcy, w których absolwenci techników w całym kraju pracowali od września do grudnia `r params$rok` roku
+
+```{r, fig.align='left'}
+ucz = kraj2$Z4_ucz[[1]] %>% 
+  as_tibble() %>% 
+  select(-c(n, srednia, med)) %>% 
+  pivot_longer(everything()) %>% 
+  rename(ucz = value)
+
+ucz$name = c("Brak pracy", "Część okresu", "Cały okres")
+
+n_ucz = kraj2$Z4_nie_ucz[[1]] %>% 
+  as_tibble() %>% 
+  select(-c(n, srednia, med)) %>% 
+  pivot_longer(everything()) %>% 
+  rename(nie_ucz = value)
+
+cbind(ucz, n_ucz[,2]) %>% 
+  mutate(across(2:3,
+                ~paste0(round(. * 100), "\\%"))) %>%
+  kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+        linesep = "",
+        align = "lcc",
+        col.names = NULL,
+        digits = 0) %>%
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                # font_size = 9,
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>%
+  add_header_above(c(" ", "Absolwenci będący\nuczniami" = 1, "Absolwenci nie będący\nuczniami" = 1),
+                   align = c("l", "c", "c"))
+
+```
+
+5. Formy wykonywania pracy
+
+Formy wykonywania pracy wśród absolwentów w technikach w całym kraju od września do grudnia `r params$rok` roku
+
+```{r, fig.align='left'}
+ucz = kraj2$Z8_formy_ucz[[1]] %>% 
+  as_tibble() %>% 
+  select(-n) %>% 
+  pivot_longer(everything()) %>% 
+  rename(ucz = value)
+
+ucz$name = c("Zatrudnieni tylko na UOP", "Tylko samozatrudnieni", "Tylko inna forma", "Więcej niż jedna forma")
+
+n_ucz = kraj2$Z8_formy_nie_ucz[[1]] %>% 
+  as_tibble() %>% 
+  select(-c(n)) %>% 
+  pivot_longer(everything()) %>% 
+  rename(nie_ucz = value)
+
+cbind(ucz, n_ucz[,2]) %>% 
+  mutate(across(2:3,
+                ~paste0(round(. * 100), "\\%"))) %>%
+  kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+          linesep = "",
+          align = "lcc",
+          col.names = NULL,
+          digits = 0) %>%
+    kable_styling(position = wyrownanieTabWykr,
+                  latex_options = c("hold_position", "repeat_header"),
+                  # font_size = 10,
+                  full_width = FALSE,
+                  repeat_header_text = "(ciąg dalszy tabeli)") %>%
+    add_header_above(c(" ", "Absolwenci będący\nuczniami" = 1, "Absolwenci nie będący\nuczniami" = 1),
+                   align = c("l", "c", "c"))
+```
+
+6. Bezrobocie rejestrowane
+
+Rozkład liczby miesięcy bezrobocia wśród absolwentów w technikach w całym kraju od września do grudnia `r params$rok` roku
+
+```{r, fig.align='left'}
+kraj2$B2_bezrob[[1]] %>% 
+  as_tibble() %>% 
+  select(l_mies_bezrob, value) %>% 
+  mutate(across(value,
+                ~paste0(round(. * 100), "\\%"))) %>% 
+  kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+        linesep = "",
+        align = "lc",
+        col.names = NULL,
+        digits = 0) %>%
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                # font_size = 10,
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>%
+  add_header_above(c("Liczba miesięcy\nbezrobocia", "Odsetek"),
+                   align = c("l", "c"))
+```
+
+7. Bierność edukacyjna i zawodowa
+
+Rozkład liczby miesięcy bierności edukacyjnej i zawodowej wśród absolwentów w technikach w całym kraju od września do grudnia `r params$rok` roku
+
+```{r, fig.align='left'}
+kraj2$N2_biernosc[[1]] %>% 
+  as_tibble() %>% 
+  select(l_mies_bier, value) %>% 
+  mutate(across(value,
+                ~paste0(round(. * 100), "\\%"))) %>% 
+  kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+        linesep = "",
+        align = "lc",
+        col.names = NULL,
+        digits = 0) %>%
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                # font_size = 10,
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>%
+  add_header_above(c("Liczba miesięcy\nbierności", "Odsetek"),
+                   align = c("l", "c"))
+```
