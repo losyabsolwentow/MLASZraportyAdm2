@@ -163,45 +163,6 @@ boxplot_proc = function(x, tytul) {
     return()
 }
 #' @title Wykresy w raportach z 1. rundy monitoringu na danych administracyjnych
-#' @description Funkcja rysująca wykres typu boxplot na potrzeby raportu. Wykres
-#' pokazuje wartości liczbowe (zarobki).
-#' @param x ramka z danymi do przedstawienia na wykresie
-#' @param tytul tytuł wykresu w formie ciągu tekstowego lub wartość NULL dla
-#' braku tytułu
-#' @export
-#' @return wykres
-#' @importFrom tibble is_tibble
-#' @importFrom ggplot2 ggplot geom_errorbar geom_boxplot theme xlab
-#' @importFrom dplyr .data
-boxplot_zl = function(x, tytul) {
-  stopifnot(is_tibble(x),
-            ifelse(is.null(tytul), TRUE, nchar(tytul) > 1))
-
-  ggplot(x, aes(x = .data$typ, fill = .data$typ)) +
-    geom_errorbar(aes(ymin = .data$q5, ymax = .data$q95), width = 0.5) +
-    geom_boxplot(aes(ymin = .data$q5,
-                     lower = .data$q25,
-                     middle = .data$med,
-                     upper = .data$q75,
-                     ymax = .data$q95),
-                 stat = "identity",
-                 width = 0.5) +
-    scale_fill_manual(values = c("#8de04e",	"#f8dd00", "#fb6a59"),
-                      guide = guide_legend(reverse = TRUE)) +
-    scale_y_continuous(limits = c(0.0, max(x$q95) + 500), expand = c(0,0)) +
-    theme(legend.position = "none",
-          panel.background = element_rect(fill = "white"),
-          axis.ticks.y = element_blank(),
-          axis.ticks.x = element_blank(),
-          plot.title.position = "plot",
-          plot.title = element_text(size = 11),
-          panel.border = element_rect(colour = "lightgrey", fill = NA, size = 1),
-          axis.line.y = element_line(colour = "lightgrey", size = 1)) +
-    xlab(NULL) +
-    labs(title = tytul) %>% 
-    return()
-}
-#' @title Wykresy w raportach z 1. rundy monitoringu na danych administracyjnych
 #' @description Funkcja rysująca wykres słupkowy, pionowy, skumulowany na
 #' potrzeby raportu.
 #' @param x ramka z danymi do przedstawienia na wykresie

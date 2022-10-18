@@ -8,7 +8,6 @@ tab_wykres(
   dane_szk,
   dane_god,
   dane_kraj,
-  god,
   nazwa_god,
   etykiety,
   typ_szk,
@@ -25,11 +24,7 @@ odniesienia (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)}
 \item{dane_kraj}{lista zawierająca wskaźniki na poziomie agregacji: cały kraj
 (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)}
 
-\item{god}{nazwa poziomu podziału terytorialnego, w którym znajduje
-się dana szkoła w formie dopełniacza (lub wartość NULL jeśli nie jest
-wymagana)}
-
-\item{nazwa_god}{nazwa poiatu, podregionu lub województwa}
+\item{nazwa_god}{nazwa powiatu, podregionu lub województwa}
 
 \item{etykiety}{lista etykiet wierszy tabeli, która ma być użyta potem jako
 etykiety wartości na wykresie. Nazwy etykiet nie powinny zawierać nazwy

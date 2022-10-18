@@ -9,10 +9,7 @@
 #' odniesienia (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)
 #' @param dane_kraj lista zawierająca wskaźniki na poziomie agregacji: cały kraj
 #' (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)
-#' @param god nazwa poziomu podziału terytorialnego, w którym znajduje
-#' się dana szkoła w formie dopełniacza (lub wartość NULL jeśli nie jest
-#' wymagana)
-#' @param nazwa_god nazwa poiatu, podregionu lub województwa
+#' @param nazwa_god nazwa powiatu, podregionu lub województwa
 #' @param etykiety lista etykiet wierszy tabeli, która ma być użyta potem jako
 #' etykiety wartości na wykresie. Nazwy etykiet nie powinny zawierać nazwy
 #' kolumny "n".
@@ -24,7 +21,7 @@
 #' @importFrom dplyr select everything mutate
 #' @importFrom tidyr pivot_longer
 #' @importFrom stringr str_to_sentence
-tab_wykres = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, etykiety, typ_szk, szer = 80) {
+tab_wykres = function(dane_szk, dane_god, dane_kraj, nazwa_god, etykiety, typ_szk, szer = 80) {
   stopifnot(is.list(dane_szk) | is.null(dane_szk),
             is.list(dane_god) | is.null(dane_god),
             is.list(dane_kraj) | is.null(dane_kraj),
@@ -43,8 +40,8 @@ tab_wykres = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, etykiety, t
     typ_szk %in% "Szkoła policealna" ~ "szkoły policealne",
     typ_szk %in% "Liceum ogólnokształcące" ~ "licea ogólnokształcące")
   
-  typ_god = ifelse(!is.null(god),
-                   paste0("Pozostałe ", szkola, "\nz ", god, " ", nazwa_god),
+  typ_god = ifelse(!is.null(nazwa_god),
+                   paste0("Pozostałe ", szkola, "\nz ", nazwa_god),
                    "<GRUPA>")
 
   if (!is.null(dane_szk)) {
@@ -127,7 +124,7 @@ tab_wykres = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, etykiety, t
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr case_when select starts_with mutate arrange
 #' @importFrom stringr str_to_sentence
-tab_facet = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, typ_szk, szer = 80) {
+tab_facet = function(dane_szk, dane_god, dane_kraj, nazwa_god, typ_szk, szer = 80) {
   stopifnot(is.list(dane_szk) | is.null(dane_szk),
             is.list(dane_god) | is.null(dane_god),
             is.list(dane_kraj) | is.null(dane_kraj),
@@ -146,8 +143,8 @@ tab_facet = function(dane_szk, dane_god, dane_kraj, god, nazwa_god, typ_szk, sze
     typ_szk %in% "Szkoła policealna" ~ "szkoły policealne",
     typ_szk %in% "Liceum ogólnokształcące" ~ "licea ogólnokształcące")
   
-  typ_god = ifelse(!is.null(god),
-                   paste0("Pozostałe ", szkola, "\nz ", god, " ", nazwa_god),
+  typ_god = ifelse(!is.null(nazwa_god),
+                   paste0("Pozostałe ", szkola, "\nz ", nazwa_god),
                    "<GRUPA>")
 
   if (!is.null(dane_szk)) {

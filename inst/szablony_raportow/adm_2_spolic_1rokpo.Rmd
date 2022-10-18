@@ -35,27 +35,33 @@ wskazniki:
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# biblioteki
 library(dplyr)
 library(ggplot2)
 library(kableExtra)
 library(tidyr)
 library(forcats)
-
 library(MLASZraportyAdm2)
 # if (!exists("params")) {
 #   params = list(plikZObiektami = "../../data/wskaznikiAdmin2.RData",
 #                 obiektWskazniki = "szk",
 #                 obiektWskaznikiPorownanie = "god",
+#                 obiektWskaznikiKraj = "kraj",
+#                 obiektWskaznikiKraj2 = "kraj2",
 #                 progLiczebnosci = 10,
 #                 typDokumentu = "pdf",
 #                 wyrownanieTabWykr = "center",
-#                 rok = 2021)
+#                 rok = 2020)
 # }
 
+# obiekty z parametrów
 progLiczebnosci = params$progLiczebnosci
 typDokumentu = params$typDokumentu
 wyrownanieTabWykr = params$wyrownanieTabWykr
+rocznik = paste0(params$rok - 1, "/", params$rok)
+testowanie = !params$testowanie
 
+# zbiory danych
 if (params$plikZObiektami != "") {# to działa przy ręcznym prototypowaniu
   load(params$plikZObiektami)
   szk = get(params$obiektWskazniki)
@@ -64,20 +70,20 @@ if (params$plikZObiektami != "") {# to działa przy ręcznym prototypowaniu
   szk = get(params$obiektWskazniki)
   god = get(params$obiektWskaznikiPorownanie)
 }
-
 god = god %>%
   filter(id_szk %in% szk$id_szk)
 
-rocznik = paste0(params$rok - 1, "/", params$rok)
-testowanie = !testowanie
+# obiekt powiaty
+powiaty = powiaty %>% 
+  filter(teryt_pow %in% szk$teryt_pow_szk[[1]])
 
 # opcje chunków
-opts_chunk$set(echo=FALSE,
-               message=FALSE, 
-               error=FALSE,
-               warning=FALSE,
-               results='asis',
-               fig.align=wyrownanieTabWykr)
+knitr::opts_chunk$set(echo=FALSE,
+                      message=FALSE, 
+                      error=FALSE,
+                      warning=FALSE,
+                      results='asis',
+                      fig.align=wyrownanieTabWykr)
 ```
 
 ```{r testing, eval=testowanie, echo=FALSE, message=FALSE, warning=FALSE}
@@ -107,9 +113,9 @@ ifelse(typDokumentu %in% "pdf", print("---"), print(""))
 
 ## Idea monitoringu
 
-Monitoring karier absolwentów to nowe zadanie powierzone ministrowi właściwemu do spraw oświaty i wychowania na podstawie [Ustawy "Prawo oświatowe"](http://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000619/O/D20210619.pdf). Analogiczne rozwiązania funkcjonują od kilku lat w szkolnictwie wyższym. Monitoring jest prowadzony w celu zapewnienia informacji na temat przebiegu karier absolwentów na potrzeby prowadzenia polityki oświatowej państwa na poziomie krajowym, regionalnym i lokalnym. Wiarygodne i dostarczane cyklicznie statystyki opisujące przebieg karier edukacyjno-zawodowych absolwentów szkół ponadpodstawowych w Polsce mają pomóc w dostosowywaniu kierunków i treści kształcenia do wymogów rynku pracy. Wiedza ta może być użyteczna dla szkół, instytucji rynku pracy i pracodawców, a także pomóc uczniom w wyborze zawodu i kierunku kształcenia.
+Monitoring karier absolwentów to nowe zadanie powierzone ministrowi właściwemu do spraw oświaty i wychowania na podstawie [Ustawy "Prawo oświatowe"](http://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000619/O/D20210619.pdf). Analogiczne rozwiązania funkcjonują od kilku lat w szkolnictwie wyższym. Monitoring jest prowadzony w celu zapewnienia informacji na temat przebiegu karier absolwentów na potrzeby prowadzenia polityki oświatowej państwa na poziomie krajowym, regionalnym i lokalnym. Wiarygodne i dostarczane cyklicznie statystyki opisujące przebieg karier edukacyjno-zawodowych absolwentów szkół ponadpodstawowych w Polsce mają pomóc w dostosowywaniu kierunków i treści kształcenia do wymogów rynku pracy. Raporty takie jak ten są opracowywane dla poszczególnych szkół, żeby pomóc im w monitorowaniu losów kolejnych roczników absolwentów. Informacje zawarte w raportach mogą być użyteczne również dla instytucji rynku pracy i pracodawców, a także pomóc uczniom w wyborze kierunku kształcenia.
 
-Należy pamiętać, że oprócz kształcenia w szkole ponadpodstawowej i umiejętności nabytych w czasie praktycznej nauki zawodu u pracodawcy, na sytuację edukacyjną i zawodową absolwentów wpływa wiele innych uwarunkowań. Do takich uwarunkowań należą wiedza i umiejętności zdobyte przed rozpoczęciem nauki w szkole oraz sytuacja na lokalnym rynku pracy. Dlatego informacji o losach absolwentów nie można, bez uwzględnienia dodatkowego kontekstu, traktować jako miary efektywności poszczególnych szkół.
+Należy pamiętać, że oprócz kształcenia w szkole ponadpodstawowej i umiejętności nabytych w czasie praktycznej nauki zawodu u pracodawcy, na sytuację edukacyjną i zawodową absolwentów wpływa wiele innych uwarunkowań. Do takich uwarunkowań należą wiedza i umiejętności zdobyte przed rozpoczęciem nauki w szkole oraz sytuacja na lokalnym rynku pracy. Ponadto dane, na podstawie których są sporządzane raporty, nie odzwierciedlają w pełni aktywności zawodowej absolwentów, nie uwzględniają na przykład pracy podejmowanej za granicą. Dlatego informacji o losach absolwentów nie można, bez uwzględnienia dodatkowego kontekstu, traktować jako miary efektywności poszczególnych szkół.
 
 ## Źródła i przetwarzanie danych
 
@@ -149,11 +155,7 @@ odmiany = list(
     case_when(
       (szk$l_abs_zrodla[[1]]$n_zus %% 10) %in% c(0, 1, 5:9) ~ " osoby",
       (szk$l_abs_zrodla[[1]]$n_zus %% 10) %in% c(2:4) ~ " osób")
-  },
-  god_dop = case_when(
-    szk$odniesieniePoziom %in% "powiat" ~ "powiatu",
-    szk$odniesieniePoziom %in% "podregion" ~ "podregionu",
-    szk$odniesieniePoziom %in% "województwo" ~ "województwa")
+  }
 )
 
 cat(
@@ -192,9 +194,43 @@ Wyniki monitoringu prezentujemy w różnych ujęciach:
 
 * Niektóre wskaźniki są zdefiniowane jako średnia wartość w danym okresie (przychód uzyskiwany z pracy) lub okres, w którym absolwent miał określony status (praca, bezrobocie, bierność edukacyjna i zawodowa). Takie wskaźniki obliczyliśmy dla okresu od września do grudnia `r params$rok` roku. Wrzesień jest pierwszym miesiącem, w którym absolwenci formalnie nie byli już uczniami Państwa szkoły, a grudzień ostatnim, dla którego w momencie sporządzania tego raportu dysponujemy kompletnymi danymi o absolwentach figurujących w rejestrach.
 
-Niektóre wyniki dotyczące absolwentów `r ifelse(szk$l_abs[[1]] >= progLiczebnosci, paste0("Państwa szkoły"), paste0("poszczególnych szkół"))` zostały zestawione z wynikami dotyczącymi absolwentów pozostałych szkół policealnych z danej grupy porównawczej^[Absolwenci Państwa szkoły są wykluczani z tej grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] `r odmiany$god_dop` oraz z całego kraju.
+Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne technika. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu, województwa lub kraju – na którym liczy łącznie co najmniej 10 absolwentów co najmniej 3 techników innych^[Absolwenci Państwa szkoły są wykluczani z grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła^[Na przykład dla ogółu absolwentów szkoły, której dotyczy raport, grupę odniesienia mogą stanowić absolwenci pozostałych techników z danego powiatu, ale dla absolwentów wykształconych w danym zawodzie grupa odniesienia z poziomu powiatu mogłaby nie spełniać wymogów dotyczących liczebności. W takiej sytuacji zostałaby dobrana z poziomu podregionu, województwa lub kraju - w zależności od tego na ile powszechne jest kształcenie w danym zawodzie.]. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. W różnych częściach raportu absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale na uczących się i niekontynuujących nauki albo w podziale ze względu na wyuczony zawód.
 
-Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup liczących poniżej 10 osób nie są prezentowane. W celu zachowania czytelności, na wykresach nie są umieszczane wartości etykiet poniżej 5%.
+Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup liczących poniżej 10 osób nie są prezentowane również w przypadku absolwentów Państwa szkoły. W celu zachowania czytelności, na wykresach nie są umieszczane wartości etykiet poniżej 6%.
+
+## Główne zmiany w stosunku do pierwszej edycji raportów
+
+Żeby zwiększyć przydatności raportów, po rozważaniu uwag zgłoszonych przez dyrektorów szkół, nauczycieli i doradców zawodowych, wprowadziliśmy zmiany w stosunku do pierwszej edycji. Polegają one przede wszystkim na:
+
+* zastosowaniu jako grupy odniesienia absolwentów powiatu, podregionu, województwa lub kraju (zgodnie z zasadą opisaną w poprzednim podrozdziale),
+
+* uzupełnieniu raportów o zestawienie sytuacji edukacyjno-zawodowej absolwentów Państwa szkoły wykształconych w poszczególnych zawodach z sytuacją absolwentów z grupy odniesienia wykształconych w tych samych zawodach, 
+
+* uzupełnieniu raportów o informacje na temat dyscyplin, w których podjęli studia absolwenci wykształceni w Państwa technikum w poszczególnych zawodach (o ile liczebność grup wyróżnionych ze względu na wyuczony zawód na to pozwala),
+
+* uproszczeniu sposobu prezentacji sytuacji absolwentów poprzez zmniejszenie liczby statusów odzwierciedlających ich sytuację edukacyjną i zawodową z sześciu do czterech; kategoria “uczy się i brak informacji o sytuacji zawodowej” została dołączona do kategorii “uczy się i nie pracuje brak informacji o sytuacji zawodowej”, a kategoria “nie uczy się i brak informacji o sytuacji zawodowej” do kategorii “nie uczy się i nie pracuje”,
+
+* rezygnacji z prezentowania kwot miesięcznych przychodów z pracy, ze względu na – wspomniane już w pierwszej edycji – ograniczenie miarodajności tego wskaźnika, wynikające z braku informacji o tym, jaki czas poświęcili absolwenci na pracę w poszczególnych miesiącach.
+
+Instytut Badań Edukacyjnych pragnie podziękować uczestnikom spotkań poświęconych pierwszej edycji raportów oraz osobom, które wypełniły ankietę dotyczącą ich zakresu i możliwości wykorzystania. Zgłoszone uwagi posłużyły do ulepszenia drugiej edycji raportów i zostaną wykorzystane w pracach nad kolejnymi. Staramy się, żeby relacja pomiędzy wysiłkiem potrzebnym do zapoznania się z raportem a przydatnością przedstawionych w nim wyników była dla Państwa jak najkorzystniejsza.
+
+## Prośba o wypełnienie krótkiej ankiety zwrotnej dla IBE
+
+Niniejszy raport przygotowano w ramach drugiej edycji monitoringu karier absolwentów szkół ponadpodstawowych opartego na danych administracyjnych. System monitoringu karier będzie rozwijany w kolejnych latach. W dalszym dostosowywaniu go do potrzeb szkół bardzo przydatne będą Państwa opinie. Dlatego będziemy wdzięczni za wypełnienie kolejnej ankiety on-line przygotowanej przez Instytut Badań Edukacyjnych, który jest odpowiedzialny za opracowanie wyników monitoringu. 
+
+Ankieta dotyczy Państwa opinii i uwag odnośnie raportu (dlatego przed wypełnieniem ankiety prosimy się z nim zapoznać), potrzeb dotyczących monitorowania losów absolwentów oraz wykorzystania wyników.
+
+Wyniki wypełnionej przez Państwa ankiety nie będą prezentowane w powiązaniu z konkretnymi szkołami.
+
+**Ankieta otworzy się w przeglądarce internetowej po kliknięciu w link:**
+
+`r szk$link`
+
+W każdym raporcie szkolnym umieszczono inny link do ankiety. Po wypełnieniu, ankieta nie będzie już dla Państwa dostępna. W przypadku prośby o podanie kodu dostępu prosimy wpisać następujący ciąg znaków: `r szk$token`
+
+Wypełnienie ankiety zajmie około 10 minut.
+
+Prosimy o wypełnienie ankiety do **...tutaj data...**
 
 ## Wykorzystanie raportu
 
@@ -210,11 +246,15 @@ Raport jest dostępny na zasadach licencji ["Creative Commons Uznanie autorstwa-
 
 ## Kontynuowanie edukacji oraz wykonywanie pracy
 
-Wskaźnik prezentowany w tym rozdziale wykorzystuje 6 statusów absolwentów opisujących ich sytuację edukacyjno-zawodową w różnych momentach. Poniższa tabela przybliża konstrukcję poszczególnych statusów.
+W tym rozdziale prezentowane są 4 statusy absolwentów opisujących ich sytuację edukacyjno-zawodową w różnych momentach. Poniższa tabela przybliża konstrukcję poszczególnych statusów.
 
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 data.frame(
-  "UPDATE TABELI ZE STATUSAMI",
+  `Kategoria` = "Znaczenie kategorii",
+  `1. Uczy się i nie pracuje na podstawie umowy o pracę ani samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce i jednocześnie figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy (\"innym tytułem\" może być w szczególności status osoby bezrobotnej, przebywanie na urlopie macierzyńskim lub wychowawczym) lub osoby, które nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. Nie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło lub zlecenia, albo bez umowy (“na czarno”).",
+  `2. Uczy się i pracuje na podstawie umowy o pracę lub samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce, a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, prowadzenia indywidualnej działalności gospodarczej albo - ale tylko, jeśli mają więcej niż 26 lat - umowy zlecenia. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS), praca na podstawie umowy o dzieło - a w przypadku osób, które mają nie więcej niż 26 lat również praca na podstawie umowy zlecenia - oraz praca bez umowy (“na czarno”).",
+  `3. Nie uczy się i pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, bez umowy (“na czarno”), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
+  `4. Nie uczy się i nie pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej (jak w przypadku kategorii 2) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej (jak w przypadku kategorii 2) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana.",
   check.names = FALSE) %>% 
   pivot_longer(everything()) %>% 
   rename(`Kategoria` = name,
@@ -249,7 +289,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       round(szk$S3_12[[1]]$ucz_prac * 100) > round(god$S3_12[[1]]$ucz_prac * 100) ~ "wyższy, niż",
       round(szk$S3_12[[1]]$ucz_prac * 100) %in% round(god$S3_12[[1]]$ucz_prac * 100) ~ "taki sam, jak"
     ),
-    " wśród absolwentów pozostałych szkół policealnych z ",
+    " wśród absolwentów pozostałych szkół policealnych z tego samego rocznika z ",
     odmiany$god_dop,
     " (",
     round(god$S3_12[[1]]$ucz_prac * 100),
@@ -279,7 +319,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     sep = ""
   )
 } else {
-  cat("Liczba absolwentów Państwa szkoły nie była wystarczająca (n < 10), żeby możliwe było przedstawienie wyników, zgodnie z zasadą chroniącą anonimowość respondentów.")
+  cat("Liczba absolwentów Państwa szkoły nie była wystarczająca (n < 10), żeby możliwe było przedstawienie wyników, zgodnie z zasadą chroniącą anonimowość absolwentów")
 }
 ```
 
@@ -357,19 +397,21 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci & !length(szk$tab_s3_zaw[[1]]) %in% 0) {
                    " roku - w poszczególnych zawodach (%)"), 80))
   
   tabela = szk$tab_s3_zaw[[1]] %>% 
-    as_tibble()
-  tabela$nazwa_zaw = gsub("Ogółem", "Ogółem*", tabela$nazwa_zaw)
+    as_tibble() %>% 
+    select(nazwa_zaw, n, tylko_ucz, ucz_prac, tylko_prac, neet)
+  # tabela$nazwa_zaw = gsub("Ogółem", "Ogółem*", tabela$nazwa_zaw)
   
   tabela = tabela %>% 
-    mutate(across(ucz_prac:neet,
+    mutate(across(tylko_ucz:neet,
                   ~ round(. * 100))) %>%
-    mutate(across(ucz_prac:neet,
+    mutate(across(tylko_ucz:neet,
                   ~ paste0(., "\\%"))) %>%
     slice_max(n = 10, order_by = n) %>%
     arrange(desc(n),desc(nazwa_zaw))
   
-  tabela = rbind(tabela %>% filter(!nazwa_zaw %in% "Ogółem*"),
-                 tabela %>% filter(nazwa_zaw %in% "Ogółem*")) %>% 
+  tabela = r
+  # bind(tabela %>% filter(!nazwa_zaw %in% "Ogółem*"),
+                 # tabela %>% filter(nazwa_zaw %in% "Ogółem*")) %>% 
     select(-n) %>% 
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
           linesep = "",
@@ -384,7 +426,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci & !length(szk$tab_s3_zaw[[1]]) %in% 0) {
     add_header_above(c("Zawody, w których obecni absolwenci\nuczyli się w Państwa szkole:", "1" = 1, "2" = 1, "3" = 1, "4" = 1),
                      align = c("l", "l", "l", "l", "l")) %>% 
     add_header_above(c(" ",
-                       "1. Uczy się i pracuje\n2. Tylko się uczy\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
+                       "1. Tylko się uczy\n2. Uczy się i pracuje\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
                      align = c("c", "l")) %>% 
     column_spec(1, width = "6cm") %>%
     column_spec(2, width = "2.25cm") %>%
