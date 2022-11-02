@@ -1,6 +1,6 @@
 ---
 title: |
-  | Raport z monitoringu karier absolwentów, którzy ukończyli technikum w roku szkolnym `r params$rok - 1`/`r params$rok`
+  | Raport roczny z monitoringu karier absolwentów, którzy ukończyli technikum w roku szkolnym `r params$rok - 1`/`r params$rok`
 subtitle: |
   | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$nazwa`
   | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$adres`
@@ -59,7 +59,6 @@ progLiczebnosci = params$progLiczebnosci
 typDokumentu = params$typDokumentu
 wyrownanieTabWykr = params$wyrownanieTabWykr
 rocznik = paste0(params$rok - 1, "/", params$rok)
-testowanie = !params$testowanie
 
 # zbiory danych
 if (params$plikZObiektami != "") {# to działa przy ręcznym prototypowaniu
@@ -74,21 +73,22 @@ god = god %>%
   filter(id_szk %in% szk$id_szk)
 
 # obiekt powiaty
-powiaty_dop = powiaty %>% 
-  filter(teryt_pow %in% szk$teryt_pow_szk[[1]]) %>% 
-  select(starts_with(szk$odniesieniePoziom[[1]])) %>% 
+powiaty_dop = powiaty %>%
+  filter(teryt_pow %in% szk$teryt_pow_szk[[1]]) %>%
+  select(starts_with(szk$odniesieniePoziom[[1]])) %>%
   as.character()
+# powiaty_dop = "województwa kujawsko-pomorskiego"
 
 # opcje chunków
-knitr::opts_chunk$set(echo=FALSE,
-                      message=FALSE, 
-                      error=FALSE,
-                      warning=FALSE,
-                      results='asis',
-                      fig.align=wyrownanieTabWykr)
+# knitr::opts_chunk$set(echo=FALSE,
+#                       message=FALSE, 
+#                       error=FALSE,
+#                       warning=FALSE,
+#                       results='asis',
+#                       fig.align=wyrownanieTabWykr)
 ```
 
-```{r testing, eval=testowanie, echo=FALSE, message=FALSE, warning=FALSE}
+```{r testing, eval=params$testowanie, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 ifelse(typDokumentu %in% "pdf", print("---"), print(""))
 
 cat(
@@ -115,7 +115,7 @@ ifelse(typDokumentu %in% "pdf", print("---"), print(""))
 
 ## Idea monitoringu
 
-Monitoring karier absolwentów to nowe zadanie powierzone ministrowi właściwemu do spraw oświaty i wychowania na podstawie [Ustawy "Prawo oświatowe"](http://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000619/O/D20210619.pdf). Analogiczne rozwiązania funkcjonują od kilku lat w szkolnictwie wyższym. Monitoring jest prowadzony w celu zapewnienia informacji na temat przebiegu karier absolwentów na potrzeby prowadzenia polityki oświatowej państwa na poziomie krajowym, regionalnym i lokalnym. Wiarygodne i dostarczane cyklicznie statystyki opisujące przebieg karier edukacyjno-zawodowych absolwentów szkół ponadpodstawowych w Polsce mają pomóc w dostosowywaniu kierunków i treści kształcenia do wymogów rynku pracy. Raporty takie jak ten są opracowywane dla poszczególnych szkół, żeby pomóc im w monitorowaniu losów kolejnych roczników absolwentów. Informacje zawarte w raportach mogą być użyteczne również dla instytucji rynku pracy i pracodawców, a także pomóc uczniom w wyborze kierunku kształcenia.
+Monitoring karier absolwentów to zadanie powierzone ministrowi właściwemu do spraw oświaty i wychowania na podstawie [Ustawy "Prawo oświatowe"](http://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000619/O/D20210619.pdf). Analogiczne rozwiązania funkcjonują od kilku lat w szkolnictwie wyższym. Monitoring jest prowadzony w celu zapewnienia informacji na temat przebiegu karier absolwentów na potrzeby prowadzenia polityki oświatowej państwa na poziomie krajowym, regionalnym i lokalnym. Wiarygodne i dostarczane cyklicznie statystyki opisujące przebieg karier edukacyjno-zawodowych absolwentów szkół ponadpodstawowych w Polsce mają pomóc w dostosowywaniu kierunków i treści kształcenia do wymogów rynku pracy. Raporty takie jak ten są opracowywane dla poszczególnych szkół, żeby pomóc im w monitorowaniu losów kolejnych roczników absolwentów. Informacje zawarte w raportach mogą być użyteczne również dla instytucji rynku pracy i pracodawców, a także pomóc uczniom w wyborze kierunku kształcenia.
 
 Należy pamiętać, że oprócz kształcenia w szkole ponadpodstawowej i umiejętności nabytych w czasie praktycznej nauki zawodu u pracodawcy, na sytuację edukacyjną i zawodową absolwentów wpływa wiele innych uwarunkowań. Do takich uwarunkowań należą wiedza i umiejętności zdobyte przed rozpoczęciem nauki w szkole oraz sytuacja na lokalnym rynku pracy. Ponadto dane, na podstawie których są sporządzane raporty, nie odzwierciedlają w pełni aktywności zawodowej absolwentów, nie uwzględniają na przykład pracy podejmowanej za granicą. Dlatego informacji o losach absolwentów nie można, bez uwzględnienia dodatkowego kontekstu, traktować jako miary efektywności poszczególnych szkół.
 
@@ -168,15 +168,16 @@ cat(
   odmiany$abs,
   " (w tym ",
   szk$l_kobiet[[1]],
+  " ",
   odmiany$kob,
   "), którzy ukończyli Państwa szkołę w roku szkolnym ",
   rocznik,
-  "^[Na podstawie informacji pozyskanych z Informatycznego Centrum Edukacji i Nauki według stanu na 15 marca 2021 roku.]. Informacje o absolwentach pozyskano z Systemu Informacji Oświatowej według stanu bazy na 21 marca 2021 roku. Absolwentami są uczniowie ostatnich klas Państwa szkoły, którym w SIO zakończono przypisanie do oddziału wybierając status \"Ukończył szkołę\". Ze względu na zapewnienie kompletności danych w kolejnych raportach, ważne jest nadawanie przez szkoły takiego statusu absolwentom do końca roku kalendarzowego, w którym zakończyli naukę.\n\nLiczebność grup, dla których prezentowane są wyniki, zależy od dostępności informacji o Państwa absolwentach należących do danej grupy w poszczególnych rejestrach.\n\n* Ośrodek Przetwarzania Informacji przekazał dane dotyczące ",
+  ". Informacje o absolwentach pozyskano z Systemu Informacji Oświatowej według stanu bazy na 15 marca 2022 roku. Absolwentami są uczniowie ostatnich klas Państwa szkoły, którym w SIO zakończono przypisanie do oddziału wybierając status \"Ukończył szkołę\". Ze względu na zapewnienie kompletności danych w kolejnych raportach, ważne jest nadawanie przez szkoły takiego statusu absolwentom do końca roku kalendarzowego, w którym zakończyli naukę.\n\nLiczebność grup, dla których prezentowane są wyniki, zależy od dostępności informacji o Państwa absolwentach należących do danej grupy w poszczególnych rejestrach.\n\n* Ośrodek Przetwarzania Informacji przekazał dane dotyczące ",
   szk$l_abs_zrodla[[1]]$n_opi,
   odmiany$abs_opi,
   " Państwa szkoły, którzy rozpoczęli naukę na uczelniach wyższych do końca grudnia ", 
   params$rok,
-  " roku (według stanu na 31 grudnia ROK roku).\n\n* Dane pozyskane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia ROK roku do 10 maja ROK roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
+  " roku (według stanu na 31 grudnia 2021 roku).\n\n* Dane pozyskane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia 2021 roku do 10 maja 2021 roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
   szk$l_abs_zrodla[[1]]$n_zus,
   odmiany$abs_zus,
   " Państwa szkoły.\n\n",
@@ -210,15 +211,15 @@ Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup li
 
 * uzupełnieniu raportów o informacje na temat dyscyplin, w których podjęli studia absolwenci wykształceni w Państwa technikum w poszczególnych zawodach (o ile liczebność grup wyróżnionych ze względu na wyuczony zawód na to pozwala),
 
-* uproszczeniu sposobu prezentacji sytuacji absolwentów poprzez zmniejszenie liczby statusów odzwierciedlających ich sytuację edukacyjną i zawodową z sześciu do czterech; kategoria “uczy się i brak informacji o sytuacji zawodowej” została dołączona do kategorii “uczy się i nie pracuje brak informacji o sytuacji zawodowej”, a kategoria “nie uczy się i brak informacji o sytuacji zawodowej” do kategorii “nie uczy się i nie pracuje”,
+* uproszczeniu sposobu prezentacji sytuacji absolwentów poprzez zmniejszenie liczby statusów odzwierciedlających ich sytuację edukacyjną i zawodową z sześciu do czterech; kategoria “uczy się i brak informacji o sytuacji zawodowej” została dołączona do kategorii “uczy się i nie pracuje”, a kategoria “nie uczy się i brak informacji o sytuacji zawodowej” do kategorii “nie uczy się i nie pracuje”,
 
 * rezygnacji z prezentowania kwot miesięcznych przychodów z pracy, ze względu na – wspomniane już w pierwszej edycji – ograniczenie miarodajności tego wskaźnika, wynikające z braku informacji o tym, jaki czas poświęcili absolwenci na pracę w poszczególnych miesiącach.
 
-Instytut Badań Edukacyjnych pragnie podziękować uczestnikom spotkań poświęconych pierwszej edycji raportów oraz osobom, które wypełniły ankietę dotyczącą ich zakresu i możliwości wykorzystania. Zgłoszone uwagi posłużyły do ulepszenia drugiej edycji raportów i zostaną wykorzystane w pracach nad kolejnymi. Staramy się, żeby relacja pomiędzy wysiłkiem potrzebnym do zapoznania się z raportem a przydatnością przedstawionych w nim wyników była dla Państwa jak najkorzystniejsza.
+Instytut Badań Edukacyjnych pragnie podziękować uczestnikom spotkań poświęconych pierwszej edycji raportów oraz osobom, które wypełniły ankietę dotyczącą ich zakresu i możliwości wykorzystania. Zgłoszone uwagi posłużyły do ulepszenia drugiej edycji raportów i zostaną wykorzystane w pracach nad kolejnymi. Staramy się, żeby relacja pomiędzy zaangażowaniem potrzebnym do zapoznania się z raportem a przydatnością przedstawionych w nim wyników była dla Państwa jak najkorzystniejsza.
 
 ## Prośba o wypełnienie krótkiej ankiety zwrotnej dla IBE
 
-Niniejszy raport przygotowano w ramach drugiej edycji monitoringu karier absolwentów szkół ponadpodstawowych opartego na danych administracyjnych. System monitoringu karier będzie rozwijany w kolejnych latach. W dalszym dostosowywaniu go do potrzeb szkół bardzo przydatne będą Państwa opinie. Dlatego będziemy wdzięczni za wypełnienie kolejnej ankiety on-line przygotowanej przez Instytut Badań Edukacyjnych, który jest odpowiedzialny za opracowanie wyników monitoringu. 
+System monitoringu karier oparty na danych administracyjnych będzie rozwijany w kolejnych latach. W dalszym dostosowywaniu go do potrzeb szkół bardzo przydatne będą Państwa opinie. Dlatego będziemy wdzięczni za wypełnienie kolejnej ankiety on-line przygotowanej przez Instytut Badań Edukacyjnych, który jest odpowiedzialny za opracowanie wyników monitoringu. 
 
 Ankieta dotyczy Państwa opinii i uwag odnośnie raportu (dlatego przed wypełnieniem ankiety prosimy się z nim zapoznać), potrzeb dotyczących monitorowania losów absolwentów oraz wykorzystania wyników.
 
@@ -232,13 +233,13 @@ W każdym raporcie szkolnym umieszczono inny link do ankiety. Po wypełnieniu, a
 
 Wypełnienie ankiety zajmie około 10 minut.
 
-Prosimy o wypełnienie ankiety do **...tutaj data...**
+Prosimy o wypełnienie ankiety do końca czerwca 2023 roku.
 
 ## Wykorzystanie raportu
 
 Przy wykorzystywaniu informacji z raportów prosimy o podanie źródła:
 
-*Raport szkolny z monitoringu karier absolwentów szkół ponadpodstawowych `r rocznik` prowadzonego w 2022 r. na podstawie danych administracyjnych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
+*Raport roczny z monitoringu karier absolwentów, którzy ukończyli `r szk$dane_szkoly[[1]]$nazwa` w `r params$rok` roku, prowadzonego na podstawie danych administracyjnych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
 
 Raport jest dostępny na zasadach licencji ["Creative Commons Uznanie autorstwa-Użycie niekomercyjne-Na tych samych warunkach 4.0 Międzynarodowe"](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pl).
 
@@ -253,10 +254,11 @@ W tym rozdziale prezentowane są 4 statusy absolwentów opisujących ich sytuacj
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 data.frame(
   `Kategoria` = "Znaczenie kategorii",
-  `1. Uczy się i nie pracuje na podstawie umowy o pracę ani samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce i jednocześnie figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy (\"innym tytułem\" może być w szczególności status osoby bezrobotnej, przebywanie na urlopie macierzyńskim lub wychowawczym) lub osoby, które nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. Nie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło lub zlecenia, albo bez umowy (“na czarno”).",
-  `2. Uczy się i pracuje na podstawie umowy o pracę lub samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce, a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, prowadzenia indywidualnej działalności gospodarczej albo - ale tylko, jeśli mają więcej niż 26 lat - umowy zlecenia. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS), praca na podstawie umowy o dzieło - a w przypadku osób, które mają nie więcej niż 26 lat również praca na podstawie umowy zlecenia - oraz praca bez umowy (“na czarno”).",
-  `3. Nie uczy się i pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, bez umowy (“na czarno”), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
-  `4. Nie uczy się i nie pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej (jak w przypadku kategorii 2) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej (jak w przypadku kategorii 2) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana.",
+  `1. Uczy się i nie pracuje na podstawie umowy o pracę ani samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce i jednocześnie figurują w rejestrze ZUS z tytułu innego, niż aktualne wykonywanie pracy (\"innym tytułem\" może być w szczególności status osoby bezrobotnej, przebywanie na urlopie macierzyńskim lub wychowawczym) lub osoby, które nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. Nie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło lub (jeżeli mają nie więcej niż 26 lat) umowy zlecenia albo bez umowy (“na czarno”).\n\n",
+  `2. Uczy się i pracuje na podstawie umowy o pracę lub samozatrudnienia` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce, a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, prowadzenia indywidualnej działalności gospodarczej albo - ale tylko, jeśli mają więcej niż 26 lat - umowy zlecenia. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS), praca na podstawie umowy o dzieło - a w przypadku osób, które mają nie więcej niż 26 lat również praca na podstawie umowy zlecenia - oraz praca bez umowy (“na czarno”).\n\n",
+  `3. Nie uczy się i pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, bez umowy (“na czarno”), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.\n\n",
+  `4. Nie uczy się i nie pracuje` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu bezrobocia lub innego powodu niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana.\n\nNie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło (jeżeli nie są zarejestrowane jako bezrobotne), albo bez umowy (\"na czarno\").
+\n\n",
   check.names = FALSE) %>% 
   pivot_longer(everything()) %>% 
   rename(`Kategoria` = name,
@@ -283,7 +285,11 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     params$rok,
     " roku kształciło się ",
     round((szk$S3_12[[1]]$ucz_prac + szk$S3_12[[1]]$tylko_ucz) * 100),
-    "%. Studia lub edukację w szkole policealnej z zatrudnieniem na podstawie umowy o pracę lub z wykonywaniem własnej działalności gospodarczej (samozatrudnieniem)^[W przypadku uczniów i studentów do 26. roku życia nie są dostępne dane dotyczące ewentualnego wykonywania pracy na podstawie umów cywilnoprawnych.] łączyło ",
+    "%, podczas gdy spośród absolwentów pozostałych techników z ",
+    powiaty_dop,
+    " ",
+    round((god$S3_12[[1]]$ucz_prac + god$S3_12[[1]]$tylko_ucz) * 100),
+    "%.\n\nStudia lub edukację w szkole policealnej z zatrudnieniem na podstawie umowy o pracę lub z wykonywaniem własnej działalności gospodarczej (samozatrudnieniem)^[W przypadku uczniów i studentów do 26. roku życia nie są dostępne dane dotyczące ewentualnego wykonywania pracy na podstawie umów cywilnoprawnych.] łączyło ",
     round(szk$S3_12[[1]]$ucz_prac * 100),
     "%. Odsetek takich osób wśród absolwentów Państwa szkoły był ",
     case_when(
@@ -291,11 +297,11 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       round(szk$S3_12[[1]]$ucz_prac * 100) > round(god$S3_12[[1]]$ucz_prac * 100) ~ "wyższy, niż",
       round(szk$S3_12[[1]]$ucz_prac * 100) %in% round(god$S3_12[[1]]$ucz_prac * 100) ~ "taki sam, jak"
     ),
-    " wśród absolwentów pozostałych techników z tego samego rocznika z ", 
+    " wśród absolwentów pozostałych techników z ", 
     powiaty_dop,
     " (",
     round(god$S3_12[[1]]$ucz_prac * 100),
-    "%).\n\nW tym samym miesiącu ",
+    "%), z tego samego rocznika.\n\nW tym samym miesiącu ",
     round(szk$S3_12[[1]]$tylko_prac * 100),
     "% absolwentów Państwa technikum pracowało^[Na podstawie umowy o pracę, umowy cywilnoprawnej lub prowadząc własną działalność gospodarczą.], ale nie studiowało ani nie uczęszczało do kolejnej szkoły. Do grupy pracujących ale nie kontynuujących edukacji formalnej należało ",
     round(god$S3_12[[1]]$tylko_prac * 100),
@@ -305,7 +311,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     params$rok,
     " ",
     round(szk$S3_12[[1]]$neet * 100),
-    "% nie kontynuowało nauki w szkole ponadpodstawowej ani nie wykonywało pracy odnotowywanej przez ZUS^[Na podstawie umowy o pracę, na podstawie umowy cywilnoprawnej ani prowadząc własną działalność gospodarczą.]. W takiej samej sytuacji było ",
+    "% nie kontynuowało nauki w szkole policealnej, nie studiowało ani nie wykonywało pracy odnotowywanej przez ZUS^[Na podstawie umowy o pracę, na podstawie umowy cywilnoprawnej ani prowadząc własną działalność gospodarczą.]. W takiej samej sytuacji było ",
     round(god$S3_12[[1]]$neet * 100),
     "% absolwentów pozostałych techników z ",
     powiaty_dop,
@@ -313,7 +319,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     sep = ""
   )
 } else {
-  cat("Liczba absolwentów Państwa szkoły nie była wystarczająca (n < 10), żeby możliwe było przedstawienie wyników, zgodnie z zasadą chroniącą anonimowość absolwentów")
+  cat("Liczba absolwentów Państwa szkoły nie była wystarczająca (mniej niż 10), żeby możliwe było przedstawienie wyników zgodnie z zasadą chroniącą anonimowość absolwentów.")
 }
 ```
 
@@ -349,7 +355,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
 }
 ```
 
-```{r}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 # do `tab_s3_zaw` już trafiają zawody odfiltrowane po liczebności n>=10
 tab_s3_zaw_check = szk$tab_s3_zaw[[1]] %>% 
     as_tibble() %>%  
@@ -363,91 +369,12 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
   } else if (nrow(tab_s3_zaw_check) %in% 1) {
     cat("Poniższy wykresy przedstawia sytuację absolwentów wykształconych w Państwa szkole w zawodzie, w którym kształciło się co najmniej 10 osób.")
   } else if (nrow(tab_s3_zaw_check) > 1) {
-    cat("Poniższe wykresy przedstawiają sytuację absolwentów poszczególnych zawodów z Państwa szkoły, o ile kształciło się w nich co najmniej 10 osób.")
+    cat("Poniższe tabele i wykresy przedstawiają sytuację absolwentów Państwa szkoły wykształconych w poszczególnych zawodach, o ile kształciło się w nich co najmniej 10 osób.")
   }
 }
 ```
 
-```{r, eval=FALSE, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
-# zawody ogółem chyba nie będą pokazywane
-if (szk$S3_12[[1]]$n >= progLiczebnosci & !length(szk$tab_s3_zaw[[1]]) %in% 0) {
-  tab_szk = szk$tab_s3_zaw[[1]] %>% 
-    as_tibble() %>%  
-    filter(!row_number() %in% nrow(.)) %>% 
-    arrange(n, nazwa_zaw) %>%
-    mutate(typ = ordered(nazwa_zaw, levels = unique(nazwa_zaw))) %>% 
-    select(-c(n, nazwa_zaw)) %>%
-    pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
-    mutate(across(name,
-                  ~case_when(
-                    . %in% "ucz_prac" ~ "Uczy się i pracuje",
-                    . %in% "tylko_ucz" ~ "Tylko się uczy",
-                    . %in% "tylko_prac" ~ "Tylko pracuje",
-                    . %in% "neet" ~ "Nie pracuje i nie uczy się"))) %>% 
-    mutate(lab = ifelse(round(value, 2) >= 0.06,
-                        paste0(round(value * 100), "%"),
-                        ""),
-           name = ordered(name, levels = c("Nie pracuje i nie uczy się",
-                                           "Tylko pracuje",
-                                           "Uczy się i pracuje",
-                                           "Tylko się uczy")))
-  
-  wykres = wykres_poziomy_statusy(
-    tab_szk,
-    wrapper(paste0("Wykres ",
-                   wyk_num(),
-                   ": Status edukacyjno-zawodowy absolwentów Państwa szkoły w grudniu ",
-                   params$rok,
-                   " roku - w poszczególnych zawodach (%)"), 80))
-  
-  tabelka = szk$tab_s3_zaw[[1]] %>% 
-    as_tibble() %>% 
-    select(nazwa_zaw, n, tylko_ucz, ucz_prac, tylko_prac, neet)
-  
-  tabelka = tabelka %>% 
-    mutate(across(ucz_prac:neet,
-                  ~ round(. * 100))) %>%
-    mutate(across(ucz_prac:neet,
-                  ~ paste0(., "\\%"))) %>%
-    slice_max(n = 10, order_by = n) %>%
-    arrange(desc(n), desc(nazwa_zaw))
-  
-  tabelka = tabelka %>% 
-    select(-n) %>% 
-    kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-          linesep = "",
-          align = "lcccc",
-          col.names = NULL,
-          digits = 0) %>% 
-    kable_styling(position = wyrownanieTabWykr,
-                  latex_options = c("hold_position", "repeat_header"),
-                  font_size = 10,
-                  full_width = TRUE,
-                  repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-    add_header_above(c("Zawody, w których obecni absolwenci\nuczyli się w Państwa szkole:", "1" = 1, "2" = 1, "3" = 1, "4" = 1),
-                     align = c("l", "c", "c", "c", "c")) %>%
-    add_header_above(c(" ",
-                       "1. Tylko się uczy\n2. Uczy się i pracuje\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
-                     align = c("c", "l")) %>% 
-    column_spec(1, width = "6cm") %>%
-    column_spec(2, width = "2.25cm") %>%
-    column_spec(3, width = "2.25cm") %>%
-    column_spec(4, width = "2.25cm") %>%
-    column_spec(5, width = "2.25cm")
-  
-  cat(
-    "Poniższy wykres przedstawia sytuację absolwentów Państwa szkoły wykształconych w poszczególnych zawodach, o ile kształciło się w nich co najmniej 10 osób.\n",
-    sep = "")
-  
-  zwroc_wykres_tabela(wykres, tabelka)
-} else {
-  cat(
-    "W przypadku żadnego zawodu liczba absolwentów Państwa szkoły nie była wystarczająca, żeby możliwe było przedstawienie wyników w tym ujęciu zgodnie z zasadą chroniącą anonimowość respondentów. Dlatego tabela z wynikami nie została zaprezentowana."
-  )
-}
-```
-
-```{r}
+```{r petla_zawody_S3, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (szk$S3_12[[1]]$n >= progLiczebnosci & nrow(tab_s3_zaw_check) > 0) {
   for (i in tab_s3_zaw_check$typ) {
     tab_szk = tab_s3_zaw_check[tab_s3_zaw_check$typ %in% i,]
@@ -481,83 +408,46 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci & nrow(tab_s3_zaw_check) > 0) {
       tabela,
       wrapper(paste0("Wykres ",
                      wyk_num(),
-                     ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych techników w ",
+                     ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych techników z ",
                      powiaty_dop,
                      ", w grudniu ",
                      params$rok,
                      " roku - w zawodzie ",
-                     i), 90))
+                     i), 85))
     
-  tabela = rbind(tab_szk, tab_god) %>% 
-    select(typ, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
-    mutate(across(tylko_ucz:neet,
-                  ~ round(. * 100))) %>%
-    mutate(across(tylko_ucz:neet,
-                  ~ paste0(., "\\%"))) %>%
-    kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-          linesep = "",
-          align = "lcccc",
-          col.names = NULL,
-          digits = 0) %>% 
-    kable_styling(position = wyrownanieTabWykr,
-                  latex_options = c("hold_position", "repeat_header"),
-                  font_size = 10,
-                  full_width = TRUE,
-                  repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-    add_header_above(c("Zawody, w których obecni absolwenci\nuczyli się w Państwa technikum:", "1" = 1, "2" = 1, "3" = 1, "4" = 1),
-                     align = c("l", "c", "c", "c", "c")) %>%
-    add_header_above(c(" ",
-                       "1. Uczy się i nie pracuje na podstawie\nUOP ani samozatrudnienia\n2. Uczy się i pracuje na podstawie\nUOP lub samozatrudnienia\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
-                     align = c("c", "l")) %>% 
-    column_spec(1, width = "6cm") %>%
-    column_spec(2, width = "2.25cm") %>%
-    column_spec(3, width = "2.25cm") %>%
-    column_spec(4, width = "2.25cm") %>%
-    column_spec(5, width = "2.25cm")
+    tabela = rbind(tab_szk, tab_god) %>% 
+      select(typ, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
+      mutate(across(tylko_ucz:neet,
+                    ~ round(. * 100))) %>%
+      mutate(across(tylko_ucz:neet,
+                    ~ paste0(., "\\%"))) %>%
+      kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
+            linesep = "",
+            align = "lcccc",
+            col.names = NULL,
+            digits = 0) %>% 
+      kable_styling(position = wyrownanieTabWykr,
+                    latex_options = c("hold_position", "repeat_header"),
+                    font_size = 10,
+                    full_width = TRUE,
+                    repeat_header_text = "(ciąg dalszy tabeli)") %>% 
+      add_header_above(c(i, "1" = 1, "2" = 1, "3" = 1, "4" = 1),
+                       align = c("l", "c", "c", "c", "c")) %>%
+      add_header_above(c(" ",
+                         "1. Uczy się i nie pracuje na podstawie\nUOP ani samozatrudnienia\n2. Uczy się i pracuje na podstawie\nUOP lub samozatrudnienia\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
+                       align = c("c", "l")) %>% 
+      column_spec(1, width = "6cm") %>%
+      column_spec(2, width = "2.25cm") %>%
+      column_spec(3, width = "2.25cm") %>%
+      column_spec(4, width = "2.25cm") %>%
+      column_spec(5, width = "2.25cm")
     
-  zwroc_wykres_tabela(wykres, tabela)
+    if (nrow(tab_god) %in% 0) {
+      cat("Liczba absolwentów w grupie odniesienia lub szkół do których uczęszczali nie była wystarczająca, żeby możliwe było przedstawienie dla niej wyników zgodnie z zasadą chroniącą anonimowość absolwentów.")
+    }
+    
+    zwroc_wykres_tabela(wykres, tabela)
   }
-}
-```
-
-```{r}
-# tutaj warunek więcej niż 1, żeby nie dublować tabeli jeśli jest 1 zawód
-if (szk$S3_12[[1]]$n >= progLiczebnosci & nrow(tab_s3_zaw_check) > 1) {
-  cat("Poniższa tabela przedstawia status edukacyjno-zawodowy absolwentów Państwa szkoły w grudniu ",
-      params$rok,
-      " roku - w poszczególnych zawodach.",
-      sep = "")
-  
-  szk$tab_s3_zaw[[1]] %>% 
-    as_tibble() %>% 
-    select(nazwa_zaw, n, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
-    mutate(across(ucz_prac:neet,
-                  ~ round(. * 100))) %>%
-    mutate(across(ucz_prac:neet,
-                  ~ paste0(., "\\%"))) %>%
-    slice_max(n = 10, order_by = n) %>%
-    arrange(desc(n), desc(nazwa_zaw)) %>% 
-    select(-n) %>% 
-    kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-          linesep = "",
-          align = "lcccc",
-          col.names = NULL,
-          digits = 0) %>% 
-    kable_styling(position = wyrownanieTabWykr,
-                  latex_options = c("hold_position", "repeat_header"),
-                  font_size = 10,
-                  full_width = TRUE,
-                  repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-    add_header_above(c("Zawody, w których obecni absolwenci\nuczyli się w Państwa szkole:", "1" = 1, "2" = 1, "3" = 1, "4" = 1),
-                     align = c("l", "c", "c", "c", "c")) %>%
-    add_header_above(c(" ",
-                       "1. Tylko się uczy\n2. Uczy się i pracuje\n3. Tylko pracuje\n4. Nie pracuje i nie uczy się" = 4),
-                     align = c("c", "l")) %>% 
-    column_spec(1, width = "6cm") %>%
-    column_spec(2, width = "2.25cm") %>%
-    column_spec(3, width = "2.25cm") %>%
-    column_spec(4, width = "2.25cm") %>%
-    column_spec(5, width = "2.25cm")
 }
 ```
 
@@ -850,7 +740,7 @@ if (szk$E2_nauka_kontyn[[1]]$n >= progLiczebnosci) {
                           ""))
   tab$name = ordered(tab$name, tab$name)
   
-  wykres_poziomy_slupki(
+  wykres = wykres_poziomy_slupki(
     tab,
     wrapper(paste0("Wykres ",
                    wyk_num(),
@@ -858,26 +748,49 @@ if (szk$E2_nauka_kontyn[[1]]$n >= progLiczebnosci) {
                    params$rok,
                    " roku - ogółem (%)"), 80))
   
-  # czy to pójdzie czy musi być w następnym chunku, który obecnie ma eval=FALSE?
+  print(wykres)
+  
   cat("\\textcolor{black}{\\relscale{0.75}Odsetki mogą sumować się do więcej niż 100\\% ze względu na możliwość kontynuowania edukacji w więcej niż jednej formie.}")
 }
 ```
 
-```{r, eval=FALSE, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=3}
-# if (szk$E2_nauka_kontyn[[1]]$n >= progLiczebnosci) {
-#   cat("\\textcolor{black}{\\relscale{0.75}Odsetki mogą sumować się do więcej niż 100\\% ze względu na możliwość kontynuowania edukacji w więcej niż jednej formie.}")
-# }
-```
-
 ## Kontynuowanie nauki na studiach w poszczególnych dziedzinach i dyscyplinach
 
-
-Tu muszę najpierw wskaźniki policzyć
-
-
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
-  
+  if (sum(szk$liczebnosc_dziedziny[[1]]$odsetek > 0) %in% 1) {
+    cat(
+      "Jedyną dziedziną, w której w grudniu ",
+      params$rok,
+      " roku studiowali absolwenci Państwa szkoły, była dziedzina ",
+      szk$liczebnosc_dziedziny[[1]]$dziedzina_kont[szk$liczebnosc_dziedziny[[1]]$odsetek > 0],
+      sep = ""
+    )
+  } else if (sum(szk$liczebnosc_dziedziny[[1]]$odsetek > 0) > 1 & sum(szk$liczebnosc_dziedziny[[1]]$odsetek %in% max(szk$liczebnosc_dziedziny[[1]]$odsetek)) %in% 1) {
+    cat(
+      "Dziedziną, w której w grudniu ",
+      params$rok,
+      " roku studiowało najwięcej absolwentów Państwa szkoły, była dziedzina ",
+      szk$liczebnosc_dziedziny[[1]]$dziedzina_kont[szk$liczebnosc_dziedziny[[1]]$odsetek %in% max(szk$liczebnosc_dziedziny[[1]]$odsetek)],
+      ". Kształciło się w niej ",
+      round(max(szk$liczebnosc_dziedziny[[1]]$odsetek) * 100),
+      "% spośród absolwentów, którzy w grudniu ",
+      params$rok,
+      " roku studiowali.",
+      sep = ""
+      )
+  } else if (sum(szk$liczebnosc_dziedziny[[1]]$odsetek > 0) > 1 & sum(szk$liczebnosc_dziedziny[[1]]$odsetek %in% max(szk$liczebnosc_dziedziny[[1]]$odsetek)) > 1) {
+    cat(
+      "Dziedzinami, w których w grudniu ",
+      params$rok,
+      " roku absolwenci Państwa szkoły najczęściej studiowali, były: ",
+      paste(
+        szk$liczebnosc_dziedziny[[1]]$dziedzina_kont[szk$liczebnosc_dziedziny[[1]]$odsetek %in% max(szk$liczebnosc_dziedziny[[1]]$odsetek)],
+        collapse = ", "),
+      ".",
+      sep = ""
+    )
+  }
 } else {
   cat(
     "Liczba absolwentów Państwa szkoły, którzy w grudniu ",
@@ -887,160 +800,179 @@ if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progL
 }
 ```
 
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
-  if(!length(szk$liczebnosc_dziedziny[[1]]) %in% 0) {
-    dziedziny_kont_kolejnosc = szk$liczebnosc_dziedziny[[1]] %>%
-      as_tibble() %>%
-      select(-n) %>%
-      mutate(across(odsetek, ~round(. * 100))) %>% 
-      arrange(desc(odsetek))
-    if (nrow(dziedziny_kont_kolejnosc) %in% 1) {
-      cat(
-        "Jedyną dziedziną, w której w grudniu ",
-        params$rok,
-        " roku absolwenci Państwa szkoły kontynuowali naukę na uczelni, była dziedzina ",
-        dziedziny_kont_kolejnosc$dziedzina_kont[dziedziny_kont_kolejnosc$odsetek > 0],
-        ".\n\n",
-        sep = ""
-      )
-    } else if ((nrow(dziedziny_kont_kolejnosc) > 1) & (max(dziedziny_kont_kolejnosc$odsetek) != min(dziedziny_kont_kolejnosc$odsetek))) {
-      cat(
-        "Dziedziną, w której w grudniu ",
-        params$rok,
-        " roku kontynuowało naukę najwięcej absolwentów Państwa szkoły, była dziedzina ",
-        dziedziny_kont_kolejnosc$dziedzina_kont[dziedziny_kont_kolejnosc$odsetek == max(dziedziny_kont_kolejnosc$odsetek)],
-        ". Kształciło się w niej ",
-        max(dziedziny_kont_kolejnosc$odsetek),
-        "% spośród absolwentów, którzy w grudniu ",
-        params$rok,
-        " roku studiowali.\n\n",
-        sep = ""
-      )
-    } else if ((nrow(dziedziny_kont_kolejnosc) > 1) & (max(dziedziny_kont_kolejnosc$odsetek) == min(dziedziny_kont_kolejnosc$odsetek))) {
-      cat(
-        "Dziedzinami, w których w grudniu ",
-        params$rok,
-        " roku studiowali absolwenci Państwa szkoły, były dziedziny: ",
-        paste0(dziedziny_kont_kolejnosc$dziedzina_kont, collapse = ", "),
-        sep = ""
-      )
-    }
-    
-    tabela = szk$liczebnosc_dziedziny[[1]] %>% 
-      as_tibble() %>% 
-      select(-n) %>% 
-      arrange(desc(odsetek)) %>% 
-      mutate(across(odsetek,
-                    ~ round(. * 100))) %>%
-      mutate(across(odsetek,
-                    ~ paste0(., "\\%"))) %>%
-      kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-            linesep = "",
-            align = "lc",
-            col.names = NULL,
-            digits = 0) %>% 
-      kable_styling(position = wyrownanieTabWykr,
-                    latex_options = c("hold_position", "repeat_header"),
-                    font_size = 10,
-                    full_width = TRUE,
-                    repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-      add_header_above(c(wrapper(paste0("Dziedziny, w których absolwenci Państwa szkoły kontynuowali naukę w grudniu ",
-        params$rok,
-        " roku"), 50),
-        "% wśród absolwentów studiujących" = 1),
-                       align = c("l", "l")) %>% 
-      column_spec(1, width = "8cm") %>% 
-      column_spec(2, width = "8cm")
-    
-    cat(
-      "**Tabela ",
+  cat("**Tabela ",
       tab_num(),
-      ": Dziedziny, w których kontynuowali naukę absolwenci Państwa szkoły na studiach (%)**\n\n",
-      tabela,
-      "\n\n\\textcolor{black}{\\relscale{0.75}Odsetki mogą sumować się do więcej niż 100\\% ze względu na możliwość kontynuowania edukacji w więcej niż jednej dziedzinie.}",
+      ":** Dziedziny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+      params$rok,
+      " roku - ogółem (%)",
+      sep = "")
+  
+  szk$liczebnosc_dziedziny[[1]] %>% 
+    as_tibble() %>% 
+    select(-n) %>% 
+    slice_max(order_by = odsetek, n = 10, with_ties = FALSE) %>% 
+    mutate(across(odsetek,
+                  ~paste0(round(. * 100), "\\%"))) %>% 
+    kable(format = "latex",
+          booktabs = TRUE,
+          escape = FALSE,
+          longtable = TRUE,
+          linesep = "",
+          align = "lc",
+          col.names = NULL,
+          digits = 0
+          # caption = paste0(
+          #   "Tabela ",
+          #   tab_num(),
+          #   ": Dziedziny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+          #   params$rok,
+          #   " roku - ogółem (%)")
+    ) %>%
+    kable_styling(position = wyrownanieTabWykr,
+                  latex_options = c("hold_position", "repeat_header"),
+                  full_width = FALSE,
+                  repeat_header_text = "(ciąg dalszy tabeli)") %>%
+    add_header_above(c(paste0("Dziedziny, w których absolwenci Państwa\nszkoły studiowali w grudniu ", params$rok, " roku"), "% wśród absolwentów studiujących" = 1),
+                     align = c("l", "c")) %>% 
+    add_footnote("W tabeli prezentowanych jest maksymalnie 10 dziedzin o najwyższych odsetkach kontynuacji",
+                 notation = "none")
+}
+```
+
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
+if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
+  if (sum(szk$liczebnosc_dyscypliny[[1]]$odsetek > 0) %in% 1) {
+    cat(
+      "Jedyną dyscypliną, w której w grudniu ",
+      params$rok,
+      " roku studiowali absolwenci Państwa szkoły, była dziedzina ",
+      szk$liczebnosc_dyscypliny[[1]]$dyscyplina_wiodaca_kont[szk$liczebnosc_dyscypliny[[1]]$odsetek > 0],
+      sep = ""
+    )
+  } else if (sum(szk$liczebnosc_dyscypliny[[1]]$odsetek > 0) > 1 & sum(szk$liczebnosc_dyscypliny[[1]]$odsetek %in% max(szk$liczebnosc_dyscypliny[[1]]$odsetek)) %in% 1) {
+    cat(
+      "Dyscypliną, w której w grudniu ",
+      params$rok,
+      " roku studiowało najwięcej absolwentów Państwa szkoły, była dyscyplina ",
+      szk$liczebnosc_dyscypliny[[1]]$dyscyplina_wiodaca_kont[szk$liczebnosc_dyscypliny[[1]]$odsetek %in% max(szk$liczebnosc_dyscypliny[[1]]$odsetek)],
+      ". Kształciło się w niej ",
+      round(max(szk$liczebnosc_dyscypliny[[1]]$odsetek) * 100),
+      "% spośród absolwentów, którzy w grudniu ",
+      params$rok,
+      " roku studiowali.",
+      sep = ""
+      )
+  } else if (sum(szk$liczebnosc_dyscypliny[[1]]$odsetek > 0) > 1 & sum(szk$liczebnosc_dyscypliny[[1]]$odsetek %in% max(szk$liczebnosc_dyscypliny[[1]]$odsetek)) > 1) {
+    cat(
+      "Dyscyplinami, w których w grudniu ",
+      params$rok,
+      " roku absolwenci Państwa szkoły najczęściej studiowali, były: ",
+      paste(
+        szk$liczebnosc_dyscypliny[[1]]$dyscyplina_wiodaca_kont[szk$liczebnosc_dyscypliny[[1]]$odsetek %in% max(szk$liczebnosc_dyscypliny[[1]]$odsetek)],
+        collapse = ", "),
+      ".",
       sep = ""
     )
   }
 }
 ```
 
-```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
-  if (!length(szk$liczebnosc_dyscypliny[[1]]) %in% 0) {
-    dyscypliny_kont_kolejnosc = szk$liczebnosc_dyscypliny[[1]] %>%
-      as_tibble() %>%
-      select(-n) %>%
-      mutate(across(odsetek, ~round(. * 100))) %>% 
-      arrange(desc(odsetek))
-    if (nrow(dyscypliny_kont_kolejnosc) %in% 1) {
-      cat(
-        "Jedyną dyscypliną, w której w grudniu ",
-        params$rok,
-        " roku absolwenci Państwa szkoły kontynuowali naukę na uczelni, była dyscyplina ",
-        dyscypliny_kont_kolejnosc$dyscyplina_wiodaca_kont[dyscypliny_kont_kolejnosc$odsetek > 0],
-        ".\n\n",
-        sep = ""
-      )
-    } else if ((nrow(dyscypliny_kont_kolejnosc) > 1) & (max(dyscypliny_kont_kolejnosc$odsetek) != min(dyscypliny_kont_kolejnosc$odsetek))) {
-      cat(
-        "Dyscypliną, w której w grudniu ",
-        params$rok,
-        " roku kontynuowało naukę najwięcej absolwentów Państwa szkoły, była dyscyplina ",
-        dyscypliny_kont_kolejnosc$dyscyplina_wiodaca_kont[dyscypliny_kont_kolejnosc$odsetek == max(dyscypliny_kont_kolejnosc$odsetek)],
-        ". Kształciło się w niej ",
-        max(dyscypliny_kont_kolejnosc$odsetek),
-        "% spośród absolwentów, którzy w grudniu ",
-        params$rok,
-        " roku studiowali.\n\n",
-        sep = ""
-      )
-    } else if ((nrow(dyscypliny_kont_kolejnosc) > 1) & (max(dyscypliny_kont_kolejnosc$odsetek) == min(dyscypliny_kont_kolejnosc$odsetek))) {
-      cat(
-        "Dyscyplinami, w których w grudniu ",
-        params$rok,
-        " roku studiowali absolwenci Państwa szkoły, były dyscypliny: ",
-        paste0(dyscypliny_kont_kolejnosc$dyscyplina_wiodaca_kont, collapse = ", "),
-        sep = ""
-      )
-    }
-    
-    tabela = szk$liczebnosc_dyscypliny[[1]] %>% 
-      as_tibble() %>% 
-      select(-n) %>% 
-      slice_max(n = 10, order_by = odsetek, with_ties = FALSE) %>% 
-      mutate(across(odsetek,
-                    ~ round(. * 100))) %>%
-      mutate(across(odsetek,
-                    ~ paste0(., "\\%"))) %>%
-      kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
-            linesep = "",
-            align = "lc",
-            col.names = NULL,
-            digits = 0) %>% 
-      kable_styling(position = wyrownanieTabWykr,
-                    latex_options = c("hold_position", "repeat_header"),
-                    font_size = 10,
-                    full_width = TRUE,
-                    repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-      add_header_above(c(
-        wrapper(paste0("Dyscypliny, w których absolwenci Państwa szkoły kontynuowali naukę w grudniu ",
-                       params$rok,
-                       " roku"), 50),
-        "% wśród absolwentów studiujących" = 1),
-        align = c("l", "l")) %>% 
-      column_spec(1, width = "8cm") %>% 
-      column_spec(2, width = "8cm") %>% 
-      footnote(general = "W tabeli prezentowanych jest maksymalnie 10 dyscyplin o najwyższych odsetkach kontynuacji", general_title = "")
-    
-    cat(
-      "**Tabela ",
+  cat("**Tabela ",
       tab_num(),
-      ": Dyscypliny, w których absolwenci Państwa szkoły najczęściej kontynuowali naukę na studiach (%)**\n\n",
-      tabela,
-      sep = ""
-    )
+      ":** Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+      params$rok,
+      " roku - ogółem (%)",
+      sep = "")
+  
+  szk$liczebnosc_dyscypliny[[1]] %>% 
+    as_tibble() %>% 
+    select(-n) %>% 
+    slice_max(order_by = odsetek, n = 10, with_ties = FALSE) %>%
+    mutate(across(odsetek,
+                  ~paste0(round(. * 100), "\\%"))) %>% 
+    kable(format = "latex",
+          booktabs = TRUE,
+          escape = FALSE,
+          longtable = TRUE,
+          linesep = "",
+          align = "lc",
+          col.names = NULL,
+          digits = 0
+          # caption = paste0(
+          #   "Tabela ",
+          #   tab_num(),
+          #   ": Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+          #   params$rok,
+          #   " roku - ogółem (%)")
+    ) %>%
+    kable_styling(position = wyrownanieTabWykr,
+                  latex_options = c("hold_position", "repeat_header"),
+                  full_width = FALSE,
+                  repeat_header_text = "(ciąg dalszy tabeli)") %>%
+    add_header_above(c(paste0("Dyscypliny, w których absolwenci Państwa\nszkoły studiowali w grudniu ", params$rok, " roku"), "% wśród absolwentów studiujących" = 1),
+                     align = c("l", "c")) %>% 
+    add_footnote("W tabeli prezentowanych jest maksymalnie 10 dyscyplin o najwyższych odsetkach kontynuacji",
+                 notation = "none")
+}
+```
+
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
+l_col = length(szk$dyscypliny_zawody[[1]]) - 1
+if (length(szk$dyscypliny_zawody[[1]]) > 1 & l_col > 0) {
+  cat(
+    "W poniższej tabeli przedstawione zostały informacje o dyscyplinach, w których studiowali absolwenci Państwa szkoły, należący do poszczególnych grup (liczących co najmniej 10 osób) wyróżnionych ze względu na zawód, w którym się w niej kształcili.")
+  
+  naz_wiersze_nag = character()
+  for (i in 1:l_col) {
+    naz_wiersze_nag = paste(
+      c(naz_wiersze_nag, paste(i, "-", names(szk$dyscypliny_zawody[[1]])[i + 1])),
+      collapse = "\n")
   }
+  wiersze_nag = l_col
+  names(wiersze_nag) = paste0("% wśród studiujących absolwentów Państwa\nszkoły, którzy kształcili się w niej w zawodzie:\n", naz_wiersze_nag)
+  
+  nagl = rep(1, l_col, by = 1)
+  names(nagl) = lapply(1:l_col, as.character)
+  
+  cat("\n\n**Tabela ",
+      tab_num(),
+      ":** Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+      params$rok,
+      " roku - w grupach wyróżnionych ze względu na zawód wyuczony w technikum (%)",
+      sep = "")
+  
+  # tu nie ma ograniczenia na max 10 dyscyplin, natomiast jest ograniczenie na liczbę zawodów
+  szk$dyscypliny_zawody[[1]] %>% 
+    as_tibble() %>% 
+    mutate(across(2:ncol(.),
+                ~paste0(round(. * 100), "\\%"))) %>% 
+    kable(format = "latex",
+        booktabs = TRUE,
+        escape = FALSE,
+        longtable = TRUE,
+        linesep = "",
+        # align = "lcccccccc",
+        col.names = NULL,
+        digits = 0
+        # caption = paste0(
+        #   "Tabela ",
+        #   tab_num(),
+        #   ": Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+        #   params$rok,
+        #   " roku - w grupach wyróżnionych ze względu na zawód wyuczony w technikum (%)")
+        ) %>%
+  kable_styling(position = wyrownanieTabWykr,
+                latex_options = c("hold_position", "repeat_header"),
+                full_width = FALSE,
+                repeat_header_text = "(ciąg dalszy tabeli)") %>%
+    add_header_above(header = c(paste0("Dyscypliny, w których absolwenci Państwa\nszkoły studiowali w grudniu ", params$rok, " roku"), nagl)) %>% 
+    add_header_above(header = c(" ", wiersze_nag))
+} else {
+  cat("Żadna grupa studiujących absolwentów Państwa szkoły wyróżniona ze względu na zawód, którego się w niej uczyli, nie liczyła co najmniej 10 osób. Dlatego, zgodnie z zasadą chroniącą anonimowość absolwentów, informacje dotyczące dyscyplin, w których studiowali absolwenci Państwa szkoły wykształceni w poszczególnych zawodach nie zostały przedstawione.")
 }
 ```
 
@@ -1082,8 +1014,8 @@ if (szk$Z4_ucz[[1]]$n >= progLiczebnosci) {
     as.list()
   przeprac_ods$name = c(
     paste0("od września do grudnia ", params$rok, " roku nie pracowały"),
-    paste0("pracowały przez część okresu od września do grudnia ", params$rok),
-    paste0("pracowały przez cały okres od września do grudnia ", params$rok))
+    paste0("pracowały przez część miesięcy w okresie od września do grudnia ", params$rok),
+    paste0("pracowały w każdym miesiącu w okresie od września do grudnia ", params$rok))
   
   if (length(przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)]) %in% 1) {
     cat(
@@ -1198,12 +1130,13 @@ if (szk$Z4_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   przeprac_ods = szk$Z4_nie_ucz[[1]] %>% 
     as_tibble() %>% 
+    select(-c(n, srednia, med)) %>% 
     pivot_longer(everything()) %>% 
     as.list()
   przeprac_ods$name = c(
     paste0("od września do grudnia ", params$rok, " roku nie pracowały"),
-    paste0("pracowały przez cały okres od września do grudnia ", params$rok),
-    paste0("pracowały przez część okresu od września do grudnia ", params$rok))
+    paste0("pracowały przez część miesięcy w okresie od września do grudnia ", params$rok),
+    paste0("pracowały w każdym miesiącu w okresie od września do grudnia ", params$rok))
   
   if (length(przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)]) %in% 1) {
     cat(
@@ -1345,6 +1278,9 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
                        szk$typ_szk[[1]],
                        80)
   
+  # levels(tab_wyk$typ)[grepl("^Pozostałe", levels(tab_wyk$typ))] = linebreak(paste0("Pozostałe technika z\n", powiaty_dop))
+  levels(tab_wyk$typ) = linebreak(levels(tab_wyk$typ))
+  
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
                            ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych techników w ",
@@ -1367,7 +1303,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
                   ~ paste0(., "\\%"))) %>%
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
           linesep = "",
-          align = "lccc",
+          align = "lcccc",
           col.names = NULL,
           digits = 0) %>%
     kable_styling(position = wyrownanieTabWykr,
@@ -1375,8 +1311,8 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
                   font_size = 10,
                   full_width = FALSE,
                   repeat_header_text = "(ciąg dalszy tabeli)") %>%
-    add_header_above(c(" ", "Zatrudnieni tylko\nna UOP" = 1, "Samozatrudnieni\nbez UOP" = 1, "Samozatrudnieni\noraz praca na UOP" = 1),
-                     align = c("l", "c", "c", "c"))
+    add_header_above(c(" ", "Zatrudnieni tylko\nna UOP" = 1, "Samozatrudnieni\nbez UOP" = 1, "Samozatrudnieni\noraz praca na UOP" = 1, "Więcej niż\njedna forma" = 1),
+                     align = c("l", "c", "c", "c", "c"))
   
   zwroc_wykres_tabela(wykres, tab_wyk)
 }
@@ -1477,7 +1413,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
 
 ## Przychody absolwentów z pracy etatowej w okresie od września do grudnia `r params$rok` roku w odniesieniu do średniego wynagrodzenia w powiatach, w których mieszkali
 
-Wskaźnik, którego wartości prezentujemy w tym rozdziale, pokazuje stosunek przychodów absolwentów Państwa szkoły z pracy etatowej^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w 2021 roku przeciętne miesięczne zarobki na poziomie [kwota] zł), w miesiącach, w których to przekroczenie wystąpiło.] do przeciętnego miesięcznego wynagrodzenia^[Według danych publikowanych w [Banku Danych Lokalnych Głównego Urzędu Statystycznego](https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/693,pojecie.html?pdf=1)] osób mieszkających w tych samych powiatach. Dla poszczególnych absolwentów wartość wskaźnika równa 100% oznaczałaby, że ich średnie zarobki z pracy etatowej były takie same, jak przeciętne wynagrodzenie mieszkańców danego powiatu. 
+Wskaźnik, którego wartości prezentujemy w tym rozdziale, pokazuje stosunek przychodów absolwentów Państwa szkoły z pracy etatowej^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w 2022 roku przeciętne miesięczne zarobki na poziomie 177 660 zł), w miesiącach, w których to przekroczenie wystąpiło.] do przeciętnego miesięcznego wynagrodzenia^[Według danych publikowanych w [Banku Danych Lokalnych Głównego Urzędu Statystycznego](https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/693,pojecie.html?pdf=1)] osób mieszkających w tych samych powiatach. Dla poszczególnych absolwentów wartość wskaźnika równa 100% oznaczałaby, że ich średnie zarobki z pracy etatowej były takie same, jak przeciętne wynagrodzenie mieszkańców danego powiatu. 
 
 Należy zastrzec, że kwoty te nie są porównywalne, ze względu na różnice w sposobie ich obliczania. Informacje dotyczące miesięcznych przychodów absolwentów nie uwzględniają czasu, jaki poświęcili na pracę (przychody te nie zostały przeliczone np. do wymiaru pełnego etatu). 
 
@@ -1748,7 +1684,7 @@ if (szk$l_abs[[1]] >= progLiczebnosci) {
 
 ## Bierność edukacyjna i zawodowa od września do grudnia `r params$rok` roku
 
-Wskaźnik mierzy długość okresu, w ciągu którego absolwenci Państwa szkoły nie pracowali, nie studiowali, nie uczyli się w kolejnej szkole ponadpodstawowej ani nie byli zarejestrowani jako osoby bezrobotne.
+Wskaźnik mierzy długość okresu, w ciągu którego absolwenci Państwa szkoły nie pracowali, nie studiowali, nie uczyli się w kolejnej szkole ani nie byli zarejestrowani jako osoby bezrobotne.
 
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=3}
 if (szk$l_abs[[1]] >= progLiczebnosci) {
@@ -1855,19 +1791,17 @@ if (szk$l_abs[[1]] >= progLiczebnosci) {
 }
 ```
 
-`r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
-
 `r ifelse(typDokumentu %in% "pdf", "---", "")`
 
-Instytut Badań Edukacyjnych pragnie podziękować dyrektorom szkół, nauczycielom i doradcom zawodowym, którzy wzięli udział w spotkaniach poświęconych wstępnym wersjom raportów szkolnych z monitoringu. Zgłoszone uwagi posłużyły do ulepszenia pierwszej edycji raportów i zostaną wykorzystane w pracach nad kolejnymi.
-
-Więcej informacji o monitorowaniu losów absolwentów znajdą Państwo na stronie:
+Więcej informacji o monitorowaniu karier absolwentów znajdą Państwo na stronie:
 
 <https://losyabsolwentow.ibe.edu.pl/>
 
+`r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
+
 # 6. Aneks: wyniki dla absolwentów techników z całego kraju
 
-```{r}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god1 = god1 %>% 
   filter(typ_szk %in% szk$typ_szk[[1]],
          nazwa_zaw %in% unique(szk$tab_s3_zaw[[1]]$nazwa_zaw))
@@ -1880,9 +1814,9 @@ W aneksie zaprezentowano tabelaryczne rozkłady wybranych wskaźników przedstaw
 
 1. Status edukacyjno-zawodowy w grudniu `r rocznik` roku
 
-    **a) ogółem**
+  a) ogółem
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god2$S3_12[[1]] %>%
   as_tibble() %>% 
   select(n, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
@@ -1903,9 +1837,9 @@ god2$S3_12[[1]] %>%
                    align = c("l", "c", "c", "c", "c"))
 ```
 
-    **b) w poszczególnych zawodach**
-
-```{r, fig.align='left'}
+  b) w poszczególnych zawodach
+    
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 tabela = tibble()
 for (i in 1:nrow(god1)) {
   wiersz = cbind(
@@ -1923,7 +1857,7 @@ tabela = tabela %>%
 
 if (nrow(tabela) > 0) {
   cat(
-    "Poniższa tabela przedstawia sytuację edukacyjno-zawodową absolwentów wykształconych w poszczególnych zawodach w technikach w całym god1u. Prezentowane są zawody, w których absolwentami zostali absolwenci Państwa szkoły, pod warunkiem, że na poziomie kraju w danym zawodzie kształciło się co najmniej 10 absolwentów. W przeciwnym razie sytuacja absolwentów wykształconych w danym zawodzie nie zostanie przedstawiona..\n\n")
+    "Poniższa tabela przedstawia sytuację edukacyjno-zawodową absolwentów wykształconych w poszczególnych zawodach w technikach w całym karju. Prezentowane są zawody, w których absolwentami zostali absolwenci Państwa szkoły, pod warunkiem, że na poziomie kraju w danym zawodzie kształciło się co najmniej 10 absolwentów. W przeciwnym razie sytuacja absolwentów wykształconych w danym zawodzie nie została przedstawiona.\n\n")
   
   tabela %>% 
     mutate(across(tylko_ucz:neet,
@@ -1955,7 +1889,7 @@ if (nrow(tabela) > 0) {
 
 2. Sposoby kontynuowania nauki w grudniu `r params$rok` roku
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 tabelka_bez_brak = god2$E2_nauka_kontyn[[1]][-1] %>% 
   as_tibble() %>% 
   pivot_longer(everything()) %>% 
@@ -2008,9 +1942,9 @@ Odsetki mogą sumować się do więcej niż 100% ze względu na możliwość kon
 
 Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów techników z całego kraju.
 
-    **a) Część przepracowanego okresu**
+  a) Część przepracowanego okresu
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 ucz = god2$Z4_ucz[[1]] %>% 
   as_tibble() %>% 
   select(-c(n, srednia, med)) %>% 
@@ -2043,11 +1977,11 @@ cbind(ucz, n_ucz[,2]) %>%
 
 ```
 
-    **b) Formy wykonywania pracy w grudniu `r params$rok` roku**
+  b) Formy wykonywania pracy w grudniu `r params$rok` roku
 
 Procentowy udział grup wyróżnionych ze względu na formę wykonywania pracy wśród pracujących absolwentów techników z całego kraju.
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 ucz = god2$Z8_formy_ucz[[1]] %>% 
   as_tibble() %>% 
   select(-n) %>% 
@@ -2081,11 +2015,11 @@ cbind(ucz, n_ucz[,2]) %>%
 
 4. Bezrobocie i bierność edukacyjno-zawodowa
 
-    **a) Bezrobocie rejestrowane od września do grudnia `r params$rok` roku**
+  a) Bezrobocie rejestrowane od września do grudnia `r params$rok` roku
 
 Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli zarejestrowani jako bezrobotni, wśród absolwentów techników z całego kraju.
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god2$B2_bezrob[[1]]$l_mies_bezrob[1] = "0 (brak bezrobocia)"
 god2$B2_bezrob[[1]] %>% 
   as_tibble() %>% 
@@ -2106,11 +2040,11 @@ god2$B2_bezrob[[1]] %>%
                    align = c("l", "c"))
 ```
 
-    **b) Bierność edukacyjna i zawodowa od września do grudnia `r params$rok` roku**
+  b) Bierność edukacyjna i zawodowa od września do grudnia `r params$rok` roku
 
 Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli bierni edukacyjnie i zawodowo, wśród absolwentów techników z całego kraju.
 
-```{r, fig.align='left'}
+```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god2$N2_biernosc[[1]]$l_mies_bier[1] = "0 (brak bierności)"
 god2$N2_biernosc[[1]] %>% 
   as_tibble() %>% 

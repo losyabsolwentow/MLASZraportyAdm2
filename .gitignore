@@ -5,3 +5,4 @@
 .DS_Store
 test_setup.R
 *.pdf
+*.log
