@@ -22,6 +22,7 @@ params:
   obiektWskaznikiPorownanie: god
   obiektWskaznikiKraj1: god1
   obiektWskaznikiKraj2: god2
+  obiektSzkoloZawody: szkozaw
   progLiczebnosci: 10
   typDokumentu: pdf
   wyrownanieTabWykr: center
@@ -32,6 +33,7 @@ wskazniki:
   wskaznikiGrPor: god
   wskaznikiKraj1: god1
   wskaznikiKraj2: god2
+  wskaznikiSzkozaw: szkozaw
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -77,15 +79,6 @@ powiaty_dop = powiaty %>%
   filter(teryt_pow %in% szk$teryt_pow_szk[[1]]) %>%
   select(starts_with(szk$odniesieniePoziom[[1]])) %>%
   as.character()
-# powiaty_dop = "województwa kujawsko-pomorskiego"
-
-# opcje chunków
-# knitr::opts_chunk$set(echo=FALSE,
-#                       message=FALSE, 
-#                       error=FALSE,
-#                       warning=FALSE,
-#                       results='asis',
-#                       fig.align=wyrownanieTabWykr)
 ```
 
 ```{r testing, eval=params$testowanie, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
@@ -367,7 +360,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
   if (nrow(tab_s3_zaw_check) %in% 0) {
     cat("W przypadku żadnego zawodu liczba absolwentów Państwa szkoły nie była wystarczająca, żeby możliwe było przedstawienie wyników w tym ujęciu zgodnie z zasadą chroniącą anonimowość absolwentów.")
   } else if (nrow(tab_s3_zaw_check) %in% 1) {
-    cat("Poniższy wykresy przedstawia sytuację absolwentów wykształconych w Państwa szkole w zawodzie, w którym kształciło się co najmniej 10 osób.")
+    cat("Poniższy wykres przedstawia sytuację absolwentów wykształconych w Państwa szkole w zawodzie, w którym kształciło się co najmniej 10 osób.")
   } else if (nrow(tab_s3_zaw_check) > 1) {
     cat("Poniższe tabele i wykresy przedstawiają sytuację absolwentów Państwa szkoły wykształconych w poszczególnych zawodach, o ile kształciło się w nich co najmniej 10 osób.")
   }
@@ -376,10 +369,16 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
 
 ```{r petla_zawody_S3, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (szk$S3_12[[1]]$n >= progLiczebnosci & nrow(tab_s3_zaw_check) > 0) {
+  szkozaw = szkozaw %>% 
+    filter(id_szk %in% szk$id_szk)
+  
   for (i in tab_s3_zaw_check$typ) {
     tab_szk = tab_s3_zaw_check[tab_s3_zaw_check$typ %in% i,]
     
-    tab_god = god$tab_s3_zaw[[1]] %>% 
+    tab_god = szkozaw %>% 
+      filter(nazwa_zaw %in% i)
+    
+    tab_god = tab_god$S3_12[[1]] %>% 
       as_tibble() %>%  
       mutate(typ = ordered(nazwa_zaw, levels = unique(nazwa_zaw))) %>% 
       select(-c(n, nazwa_zaw)) %>% 
@@ -451,8 +450,6 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci & nrow(tab_s3_zaw_check) > 0) {
 }
 ```
 
-<!-- Tu ma być tabelka z tymi problematycznymi zawodo-szkołami... -->
-
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 if (szk$S3_12[[1]]$n >= progLiczebnosci) {
   sty_sier = c(
@@ -495,7 +492,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     },
     "Natomiast w okresie od września do grudnia ",
     params$rok,
-    " odsetek absolwentów Państwa szkoły pracujących na podstawie umowy o pracę, samozatrudnionych, a także - w przypadku osób niekontynuujących nauki - pracujących na podstawie umowy zlecenia - wynosił łącznie ",
+    " odsetek absolwentów Państwa szkoły pracujących na podstawie umowy o pracę, samozatrudnionych, a także - w przypadku osób niekontynuujących nauki - pracujących na podstawie umowy zlecenia, wynosił łącznie ",
     if (length(unique(wrz_gru)) %in% 1) {
       paste0(round(szk$S3_09[[1]]$tylko_ucz * 100) + round(szk$S3_09[[1]]$tylko_prac * 100), "%.")
     } else {
@@ -822,14 +819,7 @@ if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progL
           linesep = "",
           align = "lc",
           col.names = NULL,
-          digits = 0
-          # caption = paste0(
-          #   "Tabela ",
-          #   tab_num(),
-          #   ": Dziedziny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
-          #   params$rok,
-          #   " roku - ogółem (%)")
-    ) %>%
+          digits = 0) %>%
     kable_styling(position = wyrownanieTabWykr,
                   latex_options = c("hold_position", "repeat_header"),
                   full_width = FALSE,
@@ -901,14 +891,7 @@ if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progL
           linesep = "",
           align = "lc",
           col.names = NULL,
-          digits = 0
-          # caption = paste0(
-          #   "Tabela ",
-          #   tab_num(),
-          #   ": Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
-          #   params$rok,
-          #   " roku - ogółem (%)")
-    ) %>%
+          digits = 0) %>%
     kable_styling(position = wyrownanieTabWykr,
                   latex_options = c("hold_position", "repeat_header"),
                   full_width = FALSE,
@@ -995,7 +978,7 @@ W związku z tym wskaźnik jest prezentowany oddzielnie dla każdej z tych grup^
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 if (szk$Z4_ucz[[1]]$n >= progLiczebnosci) {
   cat(
-    "Absolwenci Państwa szkoły, którzy studiowali lub uczyli się w szkole policealnej,  pracowali średnio w ciągu ",
+    "Absolwenci Państwa szkoły, którzy studiowali lub uczyli się w szkole policealnej, pracowali średnio w ciągu ",
     round(szk$Z4_ucz[[1]]$srednia * 100),
     "% okresu od września do grudnia ",
     params$rok,
@@ -1318,7 +1301,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
 }
 ```
 
-### Absolwenci nie kontynuujący nauki
+### Absolwenci niekontynuujący nauki
 
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE, fig.height=6}
 if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
@@ -1422,6 +1405,8 @@ Natomiast wyrażenie przychodów z pracy uzyskiwanych przez absolwentów jako od
 Na poniższej ilustracji opisano sposób prezentowania danych na wykresie typu boxplot wraz z ich interpretacją. Dane na tym wykresie są fikcyjne – służy on tylko objaśnieniu jakiego rodzaju informacje można znaleźć na tego typu wykresach.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = '100%'}
+# czekam jeszcze na ten boxplot
+# knitr::include_graphics("../boxplot_edycja2.png")
 knitr::include_graphics("../boxplot.png")
 ```
 
@@ -1883,7 +1868,7 @@ if (nrow(tabela) > 0) {
     column_spec(4, width = "2.25cm") %>%
     column_spec(5, width = "2.25cm")
 } else {
-  cat("W żadnym zawodzie, w którym absolwenci ukończyli kształcenie w Państwa szkole, na poziomie wszystkich techników nie udało się zebrać minimum 10 absolwentów, aby móc przedstawić wyniki")
+  cat("W żadnym zawodzie, w którym absolwenci ukończyli kształcenie w Państwa szkole, na poziomie wszystkich techników nie udało się zebrać minimum 10 absolwentów, aby móc przedstawić wyniki.")
 }
 ```
 
