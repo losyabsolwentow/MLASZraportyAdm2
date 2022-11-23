@@ -1,6 +1,6 @@
 ---
 title: |
-  | Raport roczny z monitoringu karier absolwentów, którzy ukończyli liceum ogólnokształcące dla młodzieży w roku szkolnym `r params$rok - 1`/`r params$rok`
+  | Raport roczny z monitoringu karier absolwentów, którzy ukończyli liceum ogólnokształcące dla dorosłych w roku szkolnym `r params$rok - 1`/`r params$rok`
 subtitle: |
   | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$nazwa`
   | `r get(params$obiektWskazniki)$dane_szkoly[[1]]$adres`
@@ -188,7 +188,7 @@ Wyniki monitoringu prezentujemy w różnych ujęciach:
 
 * Niektóre wskaźniki są zdefiniowane jako średnia wartość w danym okresie (przychód uzyskiwany z pracy) lub okres, w którym absolwent miał określony status (praca, bezrobocie, bierność edukacyjna i zawodowa). Takie wskaźniki obliczyliśmy dla okresu od września do grudnia `r params$rok` roku. Wrzesień jest pierwszym miesiącem, w którym absolwenci formalnie nie byli już uczniami Państwa szkoły, a grudzień ostatnim, dla którego w momencie sporządzania tego raportu dysponujemy kompletnymi danymi o absolwentach figurujących w rejestrach.
 
-Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne licea ogólnokształcące dla młodzieży. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 liceów innych^[Absolwenci Państwa szkoły są wykluczani z grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. W różnych częściach raportu absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale na uczących się i niekontynuujących nauki albo w podziale ze względu na wyuczony zawód.
+Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne licea ogólnokształcące dla dorosłych. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 liceów innych^[Absolwenci Państwa szkoły są wykluczani z grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. W różnych częściach raportu absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale na uczących się i niekontynuujących nauki albo w podziale ze względu na wyuczony zawód.
 
 Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup liczących poniżej 10 osób nie są prezentowane również w przypadku absolwentów Państwa szkoły. W celu zachowania czytelności, na wykresach nie są umieszczane wartości etykiet poniżej 6%.
 
@@ -278,7 +278,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     params$rok,
     " roku kształciło się ",
     round((szk$S3_12[[1]]$ucz_prac + szk$S3_12[[1]]$tylko_ucz) * 100),
-    "%, podczas gdy spośród absolwentów pozostałych liceów dla młodzieży z ",
+    "%, podczas gdy spośród absolwentów pozostałych liceów dla dorosłych z ",
     powiaty_dop,
     " ",
     round((god$S3_12[[1]]$ucz_prac + god$S3_12[[1]]$tylko_ucz) * 100),
@@ -290,7 +290,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       round(szk$S3_12[[1]]$ucz_prac * 100) > round(god$S3_12[[1]]$ucz_prac * 100) ~ "wyższy niż",
       round(szk$S3_12[[1]]$ucz_prac * 100) %in% round(god$S3_12[[1]]$ucz_prac * 100) ~ "taki sam, jak"
     ),
-    " wśród absolwentów pozostałych liceów dla młodzieży z ", 
+    " wśród absolwentów pozostałych liceów dla dorosłych z ", 
     powiaty_dop,
     " (",
     round(god$S3_12[[1]]$ucz_prac * 100),
@@ -306,7 +306,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     round(szk$S3_12[[1]]$neet * 100),
     "% nie kontynuowało nauki w szkole ponadpodstawowej lub na studiach ani nie wykonywało pracy odnotowywanej przez ZUS^[Na podstawie umowy o pracę, na podstawie umowy cywilnoprawnej ani prowadząc własną działalność gospodarczą.]. W takiej samej sytuacji było ",
     round(god$S3_12[[1]]$neet * 100),
-    "% absolwentów pozostałych liceów dla młodzieży z ",
+    "% absolwentów pozostałych liceów dla dorosłych z ",
     powiaty_dop,
     ".\n",
     sep = ""
@@ -340,7 +340,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
     tab,
     wrapper(paste0("Wykres ",
                    wyk_num(),
-                   ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+                   ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
                    powiaty_dop,
                    ", w grudniu ",
                    params$rok,
@@ -843,7 +843,7 @@ if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progL
 
 `r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
 
-# 4. Praca po ukończeniu liceum dla młodzieży
+# 4. Praca po ukończeniu liceum dla dorosłych
 
 ## Odsetek miesięcy, w których absolwenci pracowali od września do grudnia `r params$rok` roku
 
@@ -865,7 +865,7 @@ if (length(szk$Z4_ucz[[1]]) > 0) {
       round(szk$Z4_ucz[[1]]$srednia * 100),
       "% okresu od września do grudnia ",
       params$rok,
-      " roku. Dla kontynuujących naukę absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+      " roku. Dla kontynuujących naukę absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
       powiaty_dop,
       ", średnia arytmetyczna odsetka przepracowanych miesięcy wyniosła ",
       round(god$Z4_ucz[[1]]$srednia * 100),
@@ -944,7 +944,7 @@ if (length(szk$Z4_ucz[[1]]) > 0) {
     wykres = wyk_facet(tab_wyk,
                        wrapper(paste0("Wykres ",
                                       wyk_num(),
-                                      ": Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla młodzieży w ",
+                                      ": Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla dorosłych w ",
                                       powiaty_dop,
                                       ", w okresie od września do grudnia ",
                                       params$rok,
@@ -992,7 +992,7 @@ if (length(szk$Z4_nie_ucz[[1]]) > 0) {
       params$rok,
       " roku absolwenci Państwa szkoły, którzy nie byli wtedy studentami ani słuchaczami szkoły policealnej, pracowali średnio w ciągu ",
       round(szk$Z4_nie_ucz[[1]]$srednia * 100),
-      "% tego okresu. Dla niekontynuujących nauki na uczelni ani w szkole policealnej absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+      "% tego okresu. Dla niekontynuujących nauki na uczelni ani w szkole policealnej absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
       powiaty_dop,
       " średnia arytmetyczna odsetka przepracowanych miesięcy wyniosła ",
       round(god$Z4_nie_ucz[[1]]$srednia * 100),
@@ -1071,7 +1071,7 @@ if (length(szk$Z4_nie_ucz[[1]]) > 0) {
     wykres = wyk_facet(tab_wyk,
                        wrapper(paste0("Wykres ",
                                       wyk_num(),
-                                      ": Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla młodzieży w ",
+                                      ": Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów Państwa szkoły oraz absolwentów pozostałych liceów ogólnokształcących dla dorosłych w ",
                                       powiaty_dop,
                                       ", w okresie od września do grudnia ",
                                       params$rok,
@@ -1124,7 +1124,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
     round(szk$Z8_formy_ucz[[1]]$ucz_samoz * 100),
     "% nie pracowało na podstawie takiej umowy, lecz prowadziło własną działalność gospodarczą. Z kolei ", 
     round(szk$Z8_formy_ucz[[1]]$ucz_wiecej * 100),
-    "% łączyło różne formy.\n\nWśród kontynuujących naukę absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+    "% łączyło różne formy.\n\nWśród kontynuujących naukę absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
     ", analogiczne odsetki wynosiły odpowiednio: ",
     round(god$Z8_formy_ucz[[1]]$ucz_uop * 100),
@@ -1157,7 +1157,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży w ",
+                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych w ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1218,14 +1218,14 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
       szk_minus_god$nieucz_uop > 3 ~ "częściej niż",
       szk_minus_god$nieucz_uop >= -3 & szk_minus_god$nieucz_uop <= 3 ~ "podobnie często, co",
       szk_minus_god$nieucz_uop < -3 ~ "rzadziej niż"),
-    " absolwenci pozostałych liceów ogólnokształcących dla młodzieży z ",
+    " absolwenci pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
     ".\n\nZarazem niekontynuujący nauki absolwenci Państwa szkoły ",
     case_when(
       szk_minus_god$nieucz_samoz > 3 ~ "częściej niż",
       szk_minus_god$nieucz_samoz >= -3 & szk_minus_god$nieucz_samoz <= 3 ~ "podobnie często, co",
       szk_minus_god$nieucz_samoz < -3 ~ "rzadziej niż"),
-    " absolwenci pozostałych liceów ogólnokształcących dla młodzieży z ",
+    " absolwenci pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
     " pracowali wyłącznie prowadząc własną działalność gospodarczą.\n\n",
     sep = ""
@@ -1252,7 +1252,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży w ",
+                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych w ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1308,7 +1308,7 @@ if (szk$W3_ucz[[1]]$n >= progLiczebnosci) {
   cat(
     "Mediana średnich miesięcznych przychodów z pracy absolwentów Państwa szkoły, zatrudnionych na podstawie umowy o pracę i kontynuujących naukę, wynosiła ",
     round(szk$W3_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
     " wartość wskaźnika wynosiła ",
     round(god$W3_ucz[[1]]$med * 100),
@@ -1343,7 +1343,7 @@ if (szk$W3_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży z ",
+                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
                            powiaty_dop,
                            " w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
                            params$rok,
@@ -1373,7 +1373,7 @@ if (szk$W3_nie_ucz[[1]]$n >= progLiczebnosci) {
   cat(
     "Mediana średnich miesięcznych przychodów z pracy absolwentów Państwa szkoły, zatrudnionych na podstawie umowy o pracę i niekontynuujących nauki, wynosiła ",
     round(szk$W3_nie_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
      " wartość mediany wynosiła ",
     round(god$W3_nie_ucz[[1]]$med * 100),
@@ -1408,7 +1408,7 @@ if (szk$W3_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży w ",
+                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych w ",
                            powiaty_dop,
                            " w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
                            params$rok,
@@ -1446,7 +1446,7 @@ if (szk$l_abs[[1]] >= progLiczebnosci) {
     round(szk$B2_bezrob[[1]]$value[szk$B2_bezrob[[1]]$l_mies_bezrob %in% 0] * 100),
     "% absolwentów w rozpatrywanym okresie w ogóle nie było zarejestrowanych jako osoby bezrobotne, natomiast ",
     round(szk$B2_bezrob[[1]]$value[szk$B2_bezrob[[1]]$l_mies_bezrob %in% 4] * 100),
-    "% pozostawało w rejestrze osób bezrobotnych przez cały ten okres.\n\nWśród absolwentów pozostałych liceów ogólnokształcących dla młodzieży z ",
+    "% pozostawało w rejestrze osób bezrobotnych przez cały ten okres.\n\nWśród absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
     powiaty_dop,
     " analogiczne wartości wynosiły ",
     round(god$B2_bezrob[[1]]$value[god$B2_bezrob[[1]]$l_mies_bezrob %in% 0] * 100),
@@ -1474,7 +1474,7 @@ if (szk$l_abs[[1]] >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Odsetek absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży z ",
+                           ": Odsetek absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
                            powiaty_dop,
                            ", którzy byli bezrobotni przez daną liczbę miesięcy, od września do grudnia ",
                            params$rok,
@@ -1583,7 +1583,7 @@ if (szk$l_abs[[1]] >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Odsetek absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla młodzieży z ",
+                           ": Odsetek absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
                            powiaty_dop,
                            ", którzy byli bierni edukacyjnie i zawodowo przez daną liczbę miesięcy, od września do grudnia ",
                            params$rok,
@@ -1631,7 +1631,7 @@ Więcej informacji o monitorowaniu karier absolwentów znajdą Państwo na stron
 
 `r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
 
-# 6. Aneks: wyniki dla absolwentów liceów ogólnokształcących dla młodzieży z całego kraju
+# 6. Aneks: wyniki dla absolwentów liceów ogólnokształcących dla dorosłych z całego kraju
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god1 = god1 %>% 
@@ -1642,7 +1642,7 @@ god2 = god2 %>%
   filter(typ_szk %in% szk$typ_szk[[1]])
 ```
 
-W aneksie zaprezentowano tabelaryczne rozkłady wybranych wskaźników przedstawionych w raporcie, ale dla ogółu absolwentów, którzy w roku szkolnym `r rocznik` ukończyli licea ogólnokształcące dla młodzieży w całym kraju.
+W aneksie zaprezentowano tabelaryczne rozkłady wybranych wskaźników przedstawionych w raporcie, ale dla ogółu absolwentów, którzy w roku szkolnym `r rocznik` ukończyli licea ogólnokształcące dla dorosłych w całym kraju.
 
 1. Status edukacyjno-zawodowy w grudniu `r params$rok` roku - ogółem
 
@@ -1650,7 +1650,7 @@ W aneksie zaprezentowano tabelaryczne rozkłady wybranych wskaźników przedstaw
 god2$S3_12[[1]] %>%
   as_tibble() %>% 
   select(n, tylko_ucz, ucz_prac, tylko_prac, neet) %>% 
-  mutate(across(n, ~paste0("Absolwenci liceów ogólnokształcących\ndla młodzieży w całym kraju"))) %>%
+  mutate(across(n, ~paste0("Absolwenci liceów ogólnokształcących\ndla dorosłych w całym kraju"))) %>%
   mutate(across(tylko_ucz:neet,
                 ~paste0(round(. * 100), "\\%"))) %>%
   kable(format = "latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
@@ -1712,15 +1712,15 @@ tabelka %>%
                 # font_size = 10,
                 full_width = FALSE,
                 repeat_header_text = "(ciąg dalszy tabeli)") %>% 
-  add_header_above(c("Sposób kontynuowania kształcenia", "Udział kontynuujących kształcenie wśród\nabsolwentów liceów ogólnokształcących z całego kraju" = 1),
+  add_header_above(c("Sposób kontynuowania kształcenia", "Udział kontynuujących kształcenie wśród\nabsolwentów liceów dla dorosłych z całego kraju" = 1),
                    align = c("l", "c"))
 ```
 
 Odsetki mogą sumować się do więcej niż 100% ze względu na możliwość kontynuowania edukacji w więcej niż jednej formie.
 
-3. Praca po ukończeniu liceum ogólnokształcącego dla młodzieży w okresie od września do grudnia `r params$rok` roku
+3. Praca po ukończeniu liceum ogólnokształcącego dla dorosłych w okresie od września do grudnia `r params$rok` roku
 
-Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów liceów ogólnokształcących dla młodzieży z całego kraju.
+Procentowy udział grup wyróżnionych ze względu na część przepracowanego okresu wśród absolwentów liceów ogólnokształcących dla dorosłych z całego kraju.
 
   a) Część przepracowanego okresu
 
@@ -1752,7 +1752,7 @@ cbind(ucz, n_ucz[,2]) %>%
                 # font_size = 9,
                 full_width = FALSE,
                 repeat_header_text = "(ciąg dalszy tabeli)") %>%
-  add_header_above(c(" ", "Absolwenci liceów ogólnokształcących z całego\nkraju kontynuujący naukę" = 1, "Absolwenci liceów ogólnokształcących z całego\nkraju niekontynuujący nauki" = 1),
+  add_header_above(c(" ", "Absolwenci liceów dla dorosłych z całego\nkraju kontynuujący naukę" = 1, "Absolwenci liceów dla dorosłych z całego\nkraju niekontynuujący nauki" = 1),
                    align = c("l", "c", "c"))
 
 ```
@@ -1789,7 +1789,7 @@ cbind(ucz, n_ucz[,2]) %>%
                   # font_size = 10,
                   full_width = FALSE,
                   repeat_header_text = "(ciąg dalszy tabeli)") %>%
-    add_header_above(c(" ", "Absolwenci liceów ogólnokształcących z całego\nkraju kontynuujących naukę" = 1, "Absolwenci liceów ogólnokształcących z całego\nkraju niekontynuujący nauki" = 1),
+    add_header_above(c(" ", "Absolwenci liceów dla dorosłych z całego\nkraju kontynuujących naukę" = 1, "Absolwenci liceów dla dorosłych z całego\nkraju niekontynuujący nauki" = 1),
                    align = c("l", "c", "c"))
 ```
 
@@ -1797,7 +1797,7 @@ cbind(ucz, n_ucz[,2]) %>%
 
   a) Bezrobocie rejestrowane od września do grudnia `r params$rok` roku
 
-Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli zarejestrowani jako bezrobotni, wśród absolwentów liceów ogólnokształcących dla młodzieży z całego kraju.
+Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli zarejestrowani jako bezrobotni, wśród absolwentów liceów ogólnokształcących dla dorosłych z całego kraju.
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god2$B2_bezrob[[1]]$l_mies_bezrob[1] = "0 (brak bezrobocia)"
@@ -1822,7 +1822,7 @@ god2$B2_bezrob[[1]] %>%
 
   b) Bierność edukacyjna i zawodowa od września do grudnia `r params$rok` roku
 
-Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli bierni edukacyjnie i zawodowo, wśród absolwentów liceów ogólnokształcących dla młodzieży z całego kraju.
+Procentowy udział grup wyróżnionych ze względu na część okresu, w ciągu którego byli bierni edukacyjnie i zawodowo, wśród absolwentów liceów ogólnokształcących dla dorosłych z całego kraju.
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 god2$N2_biernosc[[1]]$l_mies_bier[1] = "0 (brak bierności)"

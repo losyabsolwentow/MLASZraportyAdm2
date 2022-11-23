@@ -105,8 +105,9 @@ wykres_poziomy_slupki = function(x, tytul) {
     scale_x_discrete(limits = rev) +
     labs(fill = NULL,
          title = tytul) +
-    geom_text(aes(label = x$lab),
-              position = position_stack(vjust = 1.3),
+    geom_text(aes(label = lab),
+              # position = position_stack(vjust = ifelse(round(x$value * 100) < 6, -1, 0.5)),
+              position = position_stack(vjust = 1.05),
               size = 3,
               # nudge_y = ifelse(round(x$value * 100) < 6, -1, 0.5),
               colour = "#000000") +

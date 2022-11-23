@@ -35,10 +35,12 @@ tab_wykres = function(dane_szk, dane_god, dane_kraj, nazwa_god, etykiety, typ_sz
   }
   
   szkola = case_when(
-    typ_szk %in% "Branżowa szkoła I stopnia" ~ "BS I",
+    typ_szk %in% "Branżowa szkoła I stopnia" ~ "branżowe szkoły I stopnia",
     typ_szk %in% "Technikum" ~ "technika",
     typ_szk %in% "Szkoła policealna" ~ "szkoły policealne",
-    typ_szk %in% "Liceum ogólnokształcące" ~ "licea")
+    typ_szk %in% "Liceum ogólnokształcące" ~ "licea",
+    typ_szk %in% "Szkoła specjalna przysposabiająca do pracy" ~ "szkoły specjalne",
+    typ_szk %in% "Liceum dla dorosłych" ~ "licea dla dorosłych")
   
   typ_god = ifelse(!is.null(nazwa_god),
                    paste0("Pozostałe ", szkola, " z\n", nazwa_god),
@@ -141,7 +143,9 @@ tab_facet = function(dane_szk, dane_god, dane_kraj, nazwa_god, typ_szk, szer = 8
     typ_szk %in% "Branżowa szkoła I stopnia" ~ "branżowe szkoły I stopnia",
     typ_szk %in% "Technikum" ~ "technika",
     typ_szk %in% "Szkoła policealna" ~ "szkoły policealne",
-    typ_szk %in% "Liceum ogólnokształcące" ~ "licea ogólnokształcące")
+    typ_szk %in% "Liceum ogólnokształcące" ~ "licea",
+    typ_szk %in% "Szkoła specjalna przysposabiająca do pracy" ~ "szkoły specjalne",
+    typ_szk %in% "Liceum dla dorosłych" ~ "licea dla dorosłych")
   
   typ_god = ifelse(!is.null(nazwa_god),
                    paste0("Pozostałe ", szkola, " z\n", nazwa_god),

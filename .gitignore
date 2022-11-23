@@ -6,3 +6,5 @@
 test_setup.R
 *.pdf
 *.log
+tworzenie_boxplota.*
+example_boxplot_raw.png
