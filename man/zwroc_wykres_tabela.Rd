@@ -13,7 +13,7 @@ zwroc_wykres_tabela(wykres, tabela, tekst = TRUE)
 \item{tabela}{obiekt klasy \code{knitr_kable}}
 
 \item{tekst}{wartość logiczna określająca czy ma być zwracany tekst "Dane z
-wykresu przedstwiono w poniższej tabeli:"?}
+wykresu przedstawiono w poniższej tabeli:"?}
 }
 \value{
 lista

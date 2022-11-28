@@ -4,7 +4,7 @@
 \alias{tab_facet}
 \title{Konwersja wskaźników w formie list na tabele do wsadu do wykresu}
 \usage{
-tab_facet(dane_szk, dane_god, dane_kraj, god, nazwa_god, typ_szk, szer = 80)
+tab_facet(dane_szk, dane_god, dane_kraj, nazwa_god, typ_szk, szer = 80)
 }
 \arguments{
 \item{dane_szk}{lista zawierająca wskaźniki na poziomie agregacji: szkoła
@@ -16,15 +16,15 @@ odniesienia (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)}
 \item{dane_kraj}{lista zawierająca wskaźniki na poziomie agregacji: cały kraj
 (lub wartość NULL jeśli ten poziom agregacji nie jest wymagany)}
 
-\item{god}{nazwa poziomu podziału terytorialnego, w którym znajduje
-się dana szkoła w formie dopełniacza (lub wartość NULL jeśli nie jest
-wymagana)}
-
 \item{nazwa_god}{nazwa poiatu, podregionu lub województwa}
 
 \item{typ_szk}{typ szkoły, której dotyczy raport}
 
 \item{szer}{szerokość tekstu - argument w funkcji \link{\code{wrapper}}}
+
+\item{god}{nazwa poziomu podziału terytorialnego, w którym znajduje
+się dana szkoła w formie dopełniacza (lub wartość NULL jeśli nie jest
+wymagana)}
 }
 \value{
 ramka danych w formacie tibble
