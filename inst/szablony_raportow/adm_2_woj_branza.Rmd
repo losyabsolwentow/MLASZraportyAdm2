@@ -628,20 +628,20 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci & !length(woj$tab_s3_zaw[[1]]) %in% 0) {
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 if (woj$S3_12[[1]]$n >= progLiczebnosci) {
   sty_sier = c(
-    "styczniu" = round(szk$S3_01[[1]]$ucz_prac * 100),
-    "lutym" = round(szk$S3_02[[1]]$ucz_prac * 100), 
-    "marcu" = round(szk$S3_03[[1]]$ucz_prac * 100),
-    "kwietniu" = round(szk$S3_04[[1]]$ucz_prac * 100),
-    "maju" = round(szk$S3_05[[1]]$ucz_prac * 100),
-    "czerwcu" = round(szk$S3_06[[1]]$ucz_prac * 100),
-    "lipcu" = round(szk$S3_07[[1]]$ucz_prac * 100),
-    "sierpniu" = round(szk$S3_08[[1]]$ucz_prac * 100))
+    "styczniu" = round(woj$S3_01[[1]]$ucz_prac * 100),
+    "lutym" = round(woj$S3_02[[1]]$ucz_prac * 100), 
+    "marcu" = round(woj$S3_03[[1]]$ucz_prac * 100),
+    "kwietniu" = round(woj$S3_04[[1]]$ucz_prac * 100),
+    "maju" = round(woj$S3_05[[1]]$ucz_prac * 100),
+    "czerwcu" = round(woj$S3_06[[1]]$ucz_prac * 100),
+    "lipcu" = round(woj$S3_07[[1]]$ucz_prac * 100),
+    "sierpniu" = round(woj$S3_08[[1]]$ucz_prac * 100))
   
   wrz_gru = c(
-    "wrześniu" = round(szk$S3_09[[1]]$ucz_prac * 100) + round(szk$S3_09[[1]]$tylko_prac * 100),
-    "październiku" = round(szk$S3_10[[1]]$ucz_prac * 100) + round(szk$S3_10[[1]]$tylko_prac * 100), 
-    "listopadzie" = round(szk$S3_11[[1]]$ucz_prac * 100) + round(szk$S3_11[[1]]$tylko_prac * 100),
-    "grudniu" = round(szk$S3_12[[1]]$ucz_prac * 100) + round(szk$S3_12[[1]]$tylko_prac * 100))
+    "wrześniu" = round(woj$S3_09[[1]]$ucz_prac * 100) + round(woj$S3_09[[1]]$tylko_prac * 100),
+    "październiku" = round(woj$S3_10[[1]]$ucz_prac * 100) + round(woj$S3_10[[1]]$tylko_prac * 100), 
+    "listopadzie" = round(woj$S3_11[[1]]$ucz_prac * 100) + round(woj$S3_11[[1]]$tylko_prac * 100),
+    "grudniu" = round(woj$S3_12[[1]]$ucz_prac * 100) + round(woj$S3_12[[1]]$tylko_prac * 100))
   
   cat(
     "W ",
@@ -654,7 +654,7 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     params$rok,
     " roku^[Tj. do momentu, kiedy obecni absolwenci danej szkoły przestali być jej uczniami.] odsetek uczniów ostatnich klas szkół pracujących na podstawie umowy o pracę^[W tym na podstawie umowy o pracę w celu przygotowania zawodowego. W tym okresie dla żadnego z obecnych absolwentów z branży w województwie nie możemy zaobserwować zatrudnienia na podstawie umowy zlecenia, ponieważ byli jeszcze uczniami - w przypadku uczniów i studentów do 26. roku życia nie są dostępne dane dotyczące ewentualnego wykonywania pracy na podstawie umów zleceń] lub samozatrudnionych, wynosił ",
     if (length(unique(sty_sier)) %in% 1) {
-      paste0(round(szk$S3_01[[1]]$ucz_prac * 100), "%.\n\n")
+      paste0(round(woj$S3_01[[1]]$ucz_prac * 100), "%.\n\n")
     } else {
       paste0(
         "od ",
@@ -673,7 +673,7 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     params$rok,
     " odsetek absolwentów wykształconych w branży w województwie pracujących na podstawie umowy o pracę, samozatrudnionych, a także - w przypadku osób niekontynuujących nauki - pracujących na podstawie umowy zlecenia, wynosił łącznie ",
     if (length(unique(wrz_gru)) %in% 1) {
-      paste0(round(szk$S3_09[[1]]$ucz_prac * 100) + round(szk$S3_09[[1]]$tylko_prac * 100), "%.")
+      paste0(round(woj$S3_09[[1]]$ucz_prac * 100) + round(woj$S3_09[[1]]$tylko_prac * 100), "%.")
     } else {
       paste0(
         "od ",
