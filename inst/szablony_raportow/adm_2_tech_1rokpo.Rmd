@@ -463,6 +463,8 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
                                  " roku - w zawodzie ",
                                  i), 85)
       } else {
+        zawod = wrapper(tab_szk$nazwa_zaw, 35)
+        
         tab_szk$typ = "Państwa szkoła"
         
         tabela = tab_szk %>% 
