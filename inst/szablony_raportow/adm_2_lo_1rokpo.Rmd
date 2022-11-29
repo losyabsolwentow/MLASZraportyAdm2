@@ -1272,7 +1272,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
-                           " roku - pracujący i niekontynuujący"),
+                           " roku - pracujący i niekontynuujący nauki"),
            width = 85)
   
   wykres = wykres_pion_skum(tab_wyk, wyk_tyt) +

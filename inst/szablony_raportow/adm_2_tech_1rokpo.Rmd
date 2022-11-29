@@ -425,44 +425,73 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       tab_god = szkozaw %>% 
         filter(nazwa_zaw %in% i)
       
-      zawod = wrapper(tab_god$nazwa_zaw, 35)
-      
-      tab_god = tab_god$S3_12[[1]] %>% 
-        as_tibble() %>% 
-        cbind(., zawod) %>% 
-        rename(nazwa_zaw = zawod) %>% 
-        mutate(typ = ordered(x = .$nazwa_zaw, levels = unique(.$nazwa_zaw))) %>% 
-        select(-c(n, nazwa_zaw))
-      
-      tab_szk$typ = "Państwa szkoła"
-      tab_god$typ = paste0("Pozostałe technika\nz ", powiaty_dop)
-      
-      tabela = rbind(tab_szk, tab_god) %>% 
-        pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
-        mutate(across(name,
-                      ~case_when(
-                        . %in% "ucz_prac" ~ "Nauka i praca",
-                        . %in% "tylko_ucz" ~ "Tylko nauka",
-                        . %in% "tylko_prac" ~ "Tylko praca",
-                        . %in% "neet" ~ "Brak nauki i brak pracy"))) %>% 
-        mutate(lab = ifelse(round(value, 2) >= 0.06,
-                            paste0(round(value * 100), "%"),
-                            ""),
-               name = ordered(name, levels = c("Brak nauki i brak pracy",
-                                               "Tylko praca",
-                                               "Nauka i praca",
-                                               "Tylko nauka")))
+      if (nrow(tab_god) > 0) {
+        zawod = wrapper(tab_god$nazwa_zaw, 35)
+        
+        tab_god = tab_god$S3_12[[1]] %>% 
+          as_tibble() %>% 
+          cbind(., zawod) %>% 
+          rename(nazwa_zaw = zawod) %>% 
+          mutate(typ = ordered(x = .$nazwa_zaw, levels = unique(.$nazwa_zaw))) %>% 
+          select(-c(n, nazwa_zaw))
+        
+        tab_szk$typ = "Państwa szkoła"
+        tab_god$typ = paste0("Pozostałe technika\nz ", powiaty_dop)
+        
+        tabela = rbind(tab_szk, tab_god) %>% 
+          pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
+          mutate(across(name,
+                        ~case_when(
+                          . %in% "ucz_prac" ~ "Nauka i praca",
+                          . %in% "tylko_ucz" ~ "Tylko nauka",
+                          . %in% "tylko_prac" ~ "Tylko praca",
+                          . %in% "neet" ~ "Brak nauki i brak pracy"))) %>% 
+          mutate(lab = ifelse(round(value, 2) >= 0.06,
+                              paste0(round(value * 100), "%"),
+                              ""),
+                 name = ordered(name, levels = c("Brak nauki i brak pracy",
+                                                 "Tylko praca",
+                                                 "Nauka i praca",
+                                                 "Tylko nauka")))
+        
+        wyk_tyt = wrapper(paste0("Wykres ",
+                                 wyk_num(),
+                                 ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych techników z ",
+                                 powiaty_dop,
+                                 ", w grudniu ",
+                                 params$rok,
+                                 " roku - w zawodzie ",
+                                 i), 85)
+      } else {
+        tab_szk$typ = "Państwa szkoła"
+        
+        tabela = tab_szk %>% 
+          pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
+          mutate(across(name,
+                        ~case_when(
+                          . %in% "ucz_prac" ~ "Nauka i praca",
+                          . %in% "tylko_ucz" ~ "Tylko nauka",
+                          . %in% "tylko_prac" ~ "Tylko praca",
+                          . %in% "neet" ~ "Brak nauki i brak pracy"))) %>% 
+          mutate(lab = ifelse(round(value, 2) >= 0.06,
+                              paste0(round(value * 100), "%"),
+                              ""),
+                 name = ordered(name, levels = c("Brak nauki i brak pracy",
+                                                 "Tylko praca",
+                                                 "Nauka i praca",
+                                                 "Tylko nauka")))
+        
+        wyk_tyt = wrapper(paste0("Wykres ",
+                                 wyk_num(),
+                                 ": Status edukacyjno-zawodowy absolwentów Państwa szkoły w grudniu ",
+                                 params$rok,
+                                 " roku - w zawodzie ",
+                                 i), 85)
+      }
       
       wykres = wykres_poziomy_statusy(
         tabela,
-        wrapper(paste0("Wykres ",
-                       wyk_num(),
-                       ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych techników z ",
-                       powiaty_dop,
-                       ", w grudniu ",
-                       params$rok,
-                       " roku - w zawodzie ",
-                       i), 85))
+        wyk_tyt)
       
       levels(tabela$typ) = linebreak(levels(tabela$typ), align = "l")
       
@@ -1434,7 +1463,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
-                           " roku - pracujący i niekontynuujący"),
+                           " roku - pracujący i niekontynuujący nauki"),
            width = 85)
   
   wykres = wykres_pion_skum(tab_wyk, wyk_tyt) +
