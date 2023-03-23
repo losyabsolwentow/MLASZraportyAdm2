@@ -1011,8 +1011,6 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
               nudge_y = 0.03,
               size = 2.5)
   
-  levels(tab_wyk$typ) = linebreak(levels(tab_wyk$typ), align = "l")
-  
   tab_wyk = tab_wyk %>%
     select(-lab) %>% 
     pivot_wider(names_from = mies) %>%
