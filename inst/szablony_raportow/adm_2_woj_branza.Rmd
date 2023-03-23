@@ -1000,7 +1000,6 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
   
   levels(tab_wyk$typ)[1] = paste0("Branża ", woj$branza[[1]], "\nWojewództwo ", woj$nazwa_woj[[1]])
   levels(tab_wyk$typ)[2] = paste0("Branża ", woj$branza[[1]], "\nCały kraj")
-  levels(tab_wyk$typ) = linebreak(levels(tab_wyk$typ), align = "l")
   
   wykres = wyk_facet(tab_wyk,
             wyk_tyt,
@@ -1030,6 +1029,8 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
                   repeat_header_text = "(ciąg dalszy tabeli)") %>%
     add_header_above(c(" ", "Brak\nbezrobocia" = 1, "1 miesiąc" = 1, "2 miesiące" = 1, "3 miesiące" = 1, "4 miesiące" = 1),
                      align = c("l", "c", "c", "c", "c", "c"))
+  
+  levels(tab_wyk$typ) = linebreak(levels(tab_wyk$typ), align = "l")
   
   zwroc_wykres_tabela(wykres, tab_wyk)
 } else {
