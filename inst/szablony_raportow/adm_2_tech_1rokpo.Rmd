@@ -394,14 +394,15 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (szk$S3_12[[1]]$n >= progLiczebnosci) {
-  if (szk$tab_s3_zaw[[1]]$n > 0) {
   tab_s3_zaw_check = szk$tab_s3_zaw[[1]] %>% 
-    as_tibble() %>%  
-    filter(!row_number() %in% nrow(.)) %>%
-    filter(n >= 10) %>% 
-    arrange(n, nazwa_zaw) %>%
-    mutate(typ = ordered(x = .$nazwa_zaw, levels = unique(.$nazwa_zaw))) %>% 
-    select(-c(n, nazwa_zaw))
+    as_tibble()
+  if (nrow(tab_s3_zaw_check) > 0) {
+    tab_s3_zaw_check = tab_s3_zaw_check %>%  
+      filter(!row_number() %in% nrow(.)) %>%
+      filter(n >= 10) %>% 
+      arrange(n, nazwa_zaw) %>%
+      mutate(typ = ordered(.$nazwa_zaw, levels = unique(.$nazwa_zaw))) %>% 
+      select(-c(n, nazwa_zaw))
   } else {
     tab_s3_zaw_check = tibble()
   }
