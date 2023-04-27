@@ -531,7 +531,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
         column_spec(4, width = "2.25cm") %>%
         column_spec(5, width = "2.25cm")
       
-      if (nrow(tab_god) %in% 0 | !is.na(tab_god$odniesieniePoziom)) {
+      if (nrow(tab_god) %in% 0) {
         cat("Liczba absolwentów w grupie odniesienia lub szkół do których uczęszczali nie była wystarczająca, żeby możliwe było przedstawienie dla niej wyników zgodnie z zasadą chroniącą anonimowość absolwentów.")
       }
       
@@ -845,7 +845,7 @@ if (szk$E2_nauka_kontyn[[1]]$n >= progLiczebnosci) {
 ## Kontynuowanie nauki na studiach w poszczególnych dziedzinach i dyscyplinach
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
-if (szk$liczebnosc_dziedziny[[1]]$n > 0) {
+if (length(szk$liczebnosc_dziedziny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
     if (sum(szk$liczebnosc_dziedziny[[1]]$odsetek > 0) %in% 1) {
       cat(
@@ -891,7 +891,7 @@ if (szk$liczebnosc_dziedziny[[1]]$n > 0) {
 ```
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
-if (szk$liczebnosc_dziedziny[[1]]$n > 0) {
+if (length(szk$liczebnosc_dziedziny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
     cat("**Tabela ",
         tab_num(),
@@ -929,13 +929,13 @@ if (szk$liczebnosc_dziedziny[[1]]$n > 0) {
 ```
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
-if (szk$liczebnosc_dyscypliny[[1]]$n > 0) {
+if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
     if (sum(szk$liczebnosc_dyscypliny[[1]]$odsetek > 0) %in% 1) {
       cat(
         "Jedyną dyscypliną, w której w grudniu ",
         params$rok,
-        " roku studiowali absolwenci Państwa szkoły, była dziedzina ",
+        " roku studiowali absolwenci Państwa szkoły, była dyscyplina ",
         szk$liczebnosc_dyscypliny[[1]]$dyscyplina_wiodaca_kont[szk$liczebnosc_dyscypliny[[1]]$odsetek > 0],
         sep = ""
       )
@@ -969,7 +969,7 @@ if (szk$liczebnosc_dyscypliny[[1]]$n > 0) {
 ```
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
-if (szk$liczebnosc_dyscypliny[[1]]$n > 0) {
+if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
     cat("**Tabela ",
         tab_num(),

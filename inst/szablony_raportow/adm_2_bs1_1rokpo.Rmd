@@ -526,7 +526,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
         column_spec(4, width = "2.25cm") %>%
         column_spec(5, width = "2.25cm")
       
-      if (nrow(tab_god) %in% 0 | !is.na(tab_god$odniesieniePoziom)) {
+      if (nrow(tab_god) %in% 0) {
         cat("Liczba absolwentów w grupie odniesienia lub szkół do których uczęszczali nie była wystarczająca, żeby możliwe było przedstawienie dla niej wyników zgodnie z zasadą chroniącą anonimowość absolwentów.")
       }
       
@@ -1461,7 +1461,7 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
     "Uczący się, kontynuujący pracę u danego\npracodawcy na podstawie umowy o pracę"
   )
   
-  if (length(god$Z9_mlod_ucz[[1]]) > 0) {
+  if (length(god$Z9_mlod_ucz[[1]]) > 1) {
     tab_wyk = tab_wykres(szk$Z9_mlod_ucz[[1]],
                          god$Z9_mlod_ucz[[1]],
                          NULL,
@@ -1529,7 +1529,7 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
   
   zwroc_wykres_tabela(wykres, tab_wyk)
   
-  if (!god$Z9_mlod_ucz[[1]] > 0) {
+  if (god$Z9_mlod_ucz[[1]]$n %in% 0) {
     cat("Wyniki dla grupy odniesienia nie zostały przedstawione ze względu na zbyt małą liczbę absolwentów (mniej niż 10) lub szkół (mniej niż 3)")
   }
 } else {
@@ -1564,7 +1564,7 @@ if (szk$Z9_mlod_nie_ucz[[1]]$n >= progLiczebnosci) {
     "Nieuczący się, kontynuujący pracę u danego pracodawcy w\nformie innej niż umowa o pracę"
   )
   
-  if (length(god$Z9_mlod_ucz[[1]]) > 0) {
+  if (length(god$Z9_mlod_ucz[[1]]) > 1) {
     tab_wyk = tab_wykres(szk$Z9_mlod_nie_ucz[[1]],
                          god$Z9_mlod_nie_ucz[[1]],
                          NULL,
@@ -1640,7 +1640,7 @@ if (szk$Z9_mlod_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   zwroc_wykres_tabela(wykres, tab_wyk)
   
-  if (!god$Z9_mlod_ucz[[1]] > 0) {
+  if (god$Z9_mlod_ucz[[1]]$n %in% 0) {
     cat("Wyniki dla grupy odniesienia nie zostały przedstawione ze względu na zbyt małą liczbę absolwentów (mniej niż 10) lub szkół (mniej niż 3)")
   }
 } else {
