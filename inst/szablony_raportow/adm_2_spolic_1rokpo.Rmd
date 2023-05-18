@@ -439,12 +439,19 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       # if (nrow(tab_god) > 0 & !is.na(tab_god$odniesieniePoziom)) {
         zawod = wrapper(unique(tab_god$nazwa_zaw), 35)
         
+        terytorium = tab_god$odniesieniePoziom[[1]]
+        
         tab_god = tab_god$S3_12[[1]] %>% 
           as_tibble() %>% 
           cbind(., zawod) %>% 
           rename(nazwa_zaw = zawod) %>% 
           mutate(typ = ordered(x = .$nazwa_zaw, levels = unique(.$nazwa_zaw))) %>% 
           select(-c(n, nazwa_zaw))
+        
+        powiaty_dop_petla = powiaty %>%
+          filter(teryt_pow %in% szk$teryt_pow_szk[[1]]) %>%
+          select(starts_with(terytorium)) %>%
+          as.character()
         
         tab_szk$typ = "Państwa szkoła"
         tab_god$typ = paste0("Pozostałe szkoły policealne\nz ", powiaty_dop_petla)
