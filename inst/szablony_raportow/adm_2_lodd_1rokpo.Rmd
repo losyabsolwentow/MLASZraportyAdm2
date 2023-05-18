@@ -172,7 +172,7 @@ cat(
   odmiany$abs_opi,
   " Państwa szkoły, którzy rozpoczęli naukę w szkołach wyższych do końca grudnia ", 
   params$rok,
-  " roku (według stanu na 31 grudnia 2021 roku).\n\n* Dane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia 2021 roku do 10 maja 2021 roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
+  " roku (według stanu na 31 grudnia 2021 roku).\n\n* Dane z Zakładu Ubezpieczeń Społecznych informują o rejestrowanej przez ZUS aktywności zawodowej ",
   szk$l_abs_zrodla[[1]]$n_zus,
   odmiany$abs_zus,
   " Państwa szkoły.\n\n",
@@ -182,7 +182,7 @@ cat(
 
 ## Sposób prezentowania wyników
 
-`r ifelse(szk$l_abs[[1]] >= progLiczebnosci, paste0("W raporcie przedstawiono sytuację absolwentów szkoły z rocznika ", rocznik, " w ", params$rok, " roku. "), "")`Przypisanie absolwentowi określonego statusu (np. “uczy się” lub “pracuje”) w danym miesiącu oznacza, że przynajmniej przez jeden dzień w tym miesiącu miał taki status. 
+`r ifelse(szk$l_abs[[1]] >= progLiczebnosci, paste0("W raporcie przedstawiono w jakiej sytuacji absolwenci, którzy ukończyli szkołę w roku szkolnym ", rocznik, ", byli w roku ", params$rok, " (kalendarzowym). W dalszej części raportu nazywamy ich \"absolwentami z rocznika ", rocznik, "\". "), "")`Przypisanie absolwentowi określonego statusu (np. “uczy się” lub “pracuje”) w danym miesiącu oznacza, że przynajmniej przez jeden dzień w tym miesiącu miał taki status. 
 
 Wyniki monitoringu prezentujemy w różnych ujęciach:
 
@@ -192,7 +192,7 @@ Wyniki monitoringu prezentujemy w różnych ujęciach:
 
 * Niektóre wskaźniki są zdefiniowane jako średnia wartość w danym okresie (przychód uzyskiwany z pracy) lub okres, w którym absolwent miał określony status (praca, bezrobocie). Takie wskaźniki obliczyliśmy dla okresu od września do grudnia `r params$rok` roku. Wrzesień jest pierwszym miesiącem, w którym absolwenci formalnie nie byli już uczniami Państwa szkoły, a grudzień ostatnim, dla którego w momencie sporządzania tego raportu dysponujemy kompletnymi danymi o absolwentach figurujących w rejestrach.
 
-Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne licea ogólnokształcące dla dorosłych. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 liceów innych^[Absolwenci Państwa szkoły są wykluczani z grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. W różnych częściach raportu absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale na uczących się i niekontynuujących nauki albo w podziale ze względu na wyuczony zawód.
+Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne licea ogólnokształcące dla dorosłych. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 liceów ogólnokształcących dla dorosłych innych^[Absolwenci Państwa szkoły są wykluczani z grupy odniesienia, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły.
 
 **Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup liczących poniżej 10 osób nie są prezentowane również w przypadku absolwentów Państwa szkoły.** W celu zachowania czytelności, na wykresach nie są umieszczane wartości etykiet poniżej 6%.
 
@@ -230,21 +230,19 @@ W każdym raporcie szkolnym umieszczono inny link do ankiety. Po wypełnieniu, a
 
 Wypełnienie ankiety zajmie około 10 minut.
 
-Prosimy o wypełnienie ankiety do końca czerwca 2023 roku.
+Ankieta będzie dostępna do grudnia 2023 roku, przy czym w kolejnej edycji monitoringu będziemy w stanie uwzględnić wyniki ankiet wypełnionych do czerwca 2023 roku, dlatego będziemy szczególnie wdzięczni za wypełnienie ankiety do końca tego miesiąca.
 
 ## Wykorzystanie raportu
 
 Przy wykorzystywaniu informacji z raportów prosimy o podanie źródła:
 
-*Raport roczny z monitoringu karier absolwentów, którzy ukończyli `r szk$dane_szkoly[[1]]$nazwa` w `r params$rok` roku, prowadzonego na podstawie danych administracyjnych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
+*Raport roczny z monitoringu karier absolwentów, których szkołą ukończoną w `r params$rok` roku było `r szk$dane_szkoly[[1]]$nazwa`. Monitoring na podstawie danych rejestrowych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
 
 Raport jest dostępny na zasadach licencji ["Creative Commons Uznanie autorstwa-Użycie niekomercyjne-Na tych samych warunkach 4.0 Międzynarodowe"](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pl).
 
 `r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
 
 # 2. Ścieżki edukacyjno-zawodowe
-
-## Kontynuowanie edukacji oraz wykonywanie pracy
 
 W tym rozdziale prezentowane są 4 statusy absolwentów opisujące ich sytuację edukacyjno-zawodową w różnych momentach. Poniższa tabela przybliża konstrukcję poszczególnych statusów.
 
@@ -253,7 +251,7 @@ data.frame(
   `Kategoria` = "Znaczenie kategorii",
   `1. Tylko nauka` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce i jednocześnie figurują w rejestrze ZUS z tytułu innego niż aktualne wykonywanie pracy (\"innym tytułem\" może być w szczególności status osoby bezrobotnej, przebywanie na urlopie macierzyńskim lub wychowawczym) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. Nie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło lub (jeżeli mają nie więcej niż 26 lat) umowy zlecenia albo bez umowy (\"na czarno\").",
   `2. Nauka i praca` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce, a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, prowadzenia indywidualnej działalności gospodarczej albo - ale tylko, jeśli mają więcej niż 26 lat - umowy zlecenia. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS), praca na podstawie umowy o dzieło - a w przypadku osób, które mają nie więcej niż 26 lat również praca na podstawie umowy zlecenia - oraz praca bez umowy (\"na czarno\").",
-  `3. Tylko praca` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, bez umowy (\"na czarno\"), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
+  `3. Tylko praca` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca bez umowy (\"na czarno\"), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
   `4. Brak nauki i brak pracy` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu bezrobocia lub innego powodu niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana.\nNie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło (jeżeli nie są zarejestrowane jako bezrobotne), albo bez umowy (\"na czarno\").",
   check.names = FALSE) %>% 
   pivot_longer(everything()) %>% 
@@ -441,13 +439,13 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       paste0(
         "od ",
         min(wrz_gru),
-        ifelse(unique(names(wrz_gru[wrz_gru == min(wrz_gru)])) %in% "wrześniu", paste0("% we "), paste0("% w ")),
-        paste(names(wrz_gru[wrz_gru == min(wrz_gru)]), collapse = ", "),
-        " do ",
+        ifelse(any(names(wrz_gru)[wrz_gru == min(wrz_gru)] %in% "wrześniu"), paste0("% (we "), paste0("% (w ")),
+        paste(names(wrz_gru)[wrz_gru == min(wrz_gru)], collapse = ", "),
+        ") do ",
         max(wrz_gru),
-        ifelse(unique(names(wrz_gru[wrz_gru == max(wrz_gru)])) %in% "wrześniu", paste0("% we "), paste0("% w ")),
-        paste(names(wrz_gru[wrz_gru == max(wrz_gru)]), collapse = ", "),
-        ".",
+        ifelse(any(names(wrz_gru)[wrz_gru == max(wrz_gru)] %in% "wrześniu"), paste0("% (we "), paste0("% (w ")),
+        paste(names(wrz_gru)[wrz_gru == max(wrz_gru)], collapse = ", "),
+        ").",
         sep = ""
       )
     },
@@ -744,14 +742,14 @@ if (length(szk$liczebnosc_dziedziny[[1]]) > 1) {
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (length(szk$liczebnosc_dziedziny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
-    cat("**Tabela ",
+    cat("Tabela ",
         tab_num(),
-        ":** Dziedziny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+        ": Dziedziny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
         params$rok,
         " roku - ogółem (%) - maksymalnie 10",
         sep = "")
     
-    szk$liczebnosc_dziedziny[[1]] %>% 
+    tabelka = szk$liczebnosc_dziedziny[[1]] %>% 
       as_tibble() %>% 
       select(-n) %>% 
       slice_max(order_by = odsetek, n = 10, with_ties = FALSE) %>% 
@@ -773,6 +771,10 @@ if (length(szk$liczebnosc_dziedziny[[1]]) > 1) {
                        align = c("l", "c")) %>% 
       add_footnote("W tabeli prezentowanych jest maksymalnie 10 dziedzin o najwyższych odsetkach kontynuacji",
                    notation = "none")
+    
+    print(tabelka)
+    
+    cat("\\textcolor{black}{\\relscale{0.75}Odsetki mogą sumować się do więcej niż 100\\% ze względu na możliwość studiowania w więcej niż jednej dziedzinie.}")
   }
 }
 ```
@@ -820,14 +822,14 @@ if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
   if (round(szk$E2_nauka_kontyn[[1]]$studia * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
-    cat("**Tabela ",
+    cat("Tabela ",
         tab_num(),
-        ":** Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
+        ": Dyscypliny, w których absolwenci Państwa szkoły najczęściej studiowali w grudniu ",
         params$rok,
         " roku - ogółem (%) - maksymalnie 10",
         sep = "")
     
-    szk$liczebnosc_dyscypliny[[1]] %>% 
+    tabelka = szk$liczebnosc_dyscypliny[[1]] %>% 
       as_tibble() %>% 
       select(-n) %>% 
       slice_max(order_by = odsetek, n = 10, with_ties = FALSE) %>%
@@ -849,6 +851,10 @@ if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
                        align = c("l", "c")) %>% 
       add_footnote("W tabeli prezentowanych jest maksymalnie 10 dyscyplin o najwyższych odsetkach kontynuacji",
                    notation = "none")
+    
+    print(tabelka)
+    
+    cat("\\textcolor{black}{\\relscale{0.75}Odsetki mogą sumować się do więcej niż 100\\% ze względu na możliwość studiowania w więcej niż jednej dyscyplinie}")
   }
 }
 ```
@@ -859,7 +865,7 @@ if (length(szk$liczebnosc_dyscypliny[[1]]) > 1) {
 
 ## Odsetek miesięcy, w których absolwenci pracowali od września do grudnia `r params$rok` roku
 
-Poszczególni absolwenci w okresie od września do grudnia `r params$rok` roku mogli pracować w ciągu maksymalnie 4 miesięcy. W takim przypadku wartość wskaźnika dla danego absolwenta wynosi 100%. Z kolei wartość minimalną, czyli 0%, wskaźnik przyjmuje dla absolwentów, którzy nie pracowali w tym okresie w ciągu ani jednego miesiąca.
+Poszczególni absolwenci w okresie od września do grudnia `r params$rok` roku mogli pracować w ciągu maksymalnie 4 miesięcy. W takim przypadku wartość wskaźnika dla danego absolwenta wynosi 100%. Z kolei wartość minimalną, czyli 0%, wskaźnik przyjmuje dla absolwentów, którzy nie pracowali w tym okresie w ciągu żadnego miesiąca.
 
 W przypadku absolwentów, którzy w danym miesiącu byli studentami lub uczniami szkoły policealnej, bierzemy pod uwagę jedynie pracę na etat oraz samozatrudnienie, ponieważ w ich przypadku brak informacji na temat zatrudnienia na podstawie umów cywilnoprawnych^[Ze względu na brak w rejestrze ZUS danych dotyczące ewentualnego wykonywania pracy na podstawie umów cywilnoprawnych przez uczniów i studentów do 26. roku życia.].
 
@@ -1004,7 +1010,7 @@ if (length(szk$Z4_nie_ucz[[1]]) > 0) {
     cat(
       "W okresie od września do grudnia ",
       params$rok,
-      " roku absolwenci Państwa szkoły, którzy nie byli wtedy studentami ani słuchaczami szkoły policealnej, pracowali średnio w ciągu ",
+      " roku absolwenci Państwa szkoły, którzy nie byli wtedy studentami ani uczniami szkoły policealnej, pracowali średnio w ciągu ",
       round(szk$Z4_nie_ucz[[1]]$srednia * 100),
       "% tego okresu. Dla niekontynuujących nauki na uczelni ani w szkole policealnej absolwentów pozostałych liceów ogólnokształcących dla dorosłych z ",
       powiaty_dop,
@@ -1026,7 +1032,7 @@ if (length(szk$Z4_nie_ucz[[1]]) > 0) {
     
     if (length(przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)]) %in% 1) {
       cat(
-        "Wśród absolwentów Państwa szkoły niekontynuujących nauki najliczniejsze były grupy osób, które ",
+        "Wśród absolwentów Państwa szkoły niekontynuujących nauki najliczniejsza była grupa osób, które ",
         przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)],
         ". Grupa ta stanowiła ",
         round(max(przeprac_ods$value) * 100),
@@ -1035,7 +1041,7 @@ if (length(szk$Z4_nie_ucz[[1]]) > 0) {
       )
     } else if (length(przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)]) > 1) {
       cat(
-        "Wśród niekontynuujących nauki absolwentów Państwa szkoły najliczniejsze były grupy osób, które ",
+        "Wśród niekontynuujących nauki absolwentów Państwa szkoły najliczniejsza była grupa osób, które ",
         paste0(przeprac_ods$name[przeprac_ods$value %in% max(przeprac_ods$value)], collapse = ", "),
         ". Grupy te stanowiły po ",
         round(max(przeprac_ods$value) * 100),
@@ -1143,9 +1149,9 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
     ", analogiczne odsetki wynosiły odpowiednio: ",
     round(god$Z8_formy_ucz[[1]]$ucz_uop * 100),
     "%, ",
-    round(szk$Z8_formy_ucz[[1]]$ucz_samoz * 100),
+    round(god$Z8_formy_ucz[[1]]$ucz_samoz * 100),
     "% i ",
-    round(szk$Z8_formy_ucz[[1]]$ucz_wiecej * 100),
+    round(god$Z8_formy_ucz[[1]]$ucz_wiecej * 100),
     "%.\n\n",
     sep = ""
   )
@@ -1158,7 +1164,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
 if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
   etykiety = c("Zatrudnieni tylko na podstawie umowy o pracę",
                "Tylko samozatrudnieni",
-               "Tylko zatrudnieni na podstawie innej formy umowy",
+               "Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę",
                "Zatrudnieni na podstawie więcej niż jednej formy umowy")
   
   tab_wyk = tab_wykres(szk$Z8_formy_ucz[[1]],
@@ -1171,7 +1177,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
+                           ": Formy wykonywania pracy przez pracujących absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1193,7 +1199,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
                   ~ paste0(., "\\%"))) %>%
     select(typ,
            `Tylko samozatrudnieni`,
-           `Tylko zatrudnieni na podstawie innej formy umowy`,
+           `Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę`,
            `Zatrudnieni na podstawie więcej niż jednej formy umowy`,
            `Zatrudnieni tylko na podstawie umowy o pracę`) %>%
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
@@ -1258,7 +1264,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
 if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
   etykiety = c("Zatrudnieni tylko na podstawie umowy o pracę",
                "Tylko samozatrudnieni",
-               "Tylko zatrudnieni na podstawie innej formy umowy",
+               "Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę",
                "Zatrudnieni na podstawie więcej niż jednej formy umowy")
   
   tab_wyk = tab_wykres(szk$Z8_formy_nie_ucz[[1]],
@@ -1271,7 +1277,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
+                           ": Formy wykonywania pracy przez pracujących absolwentów Państwa szkoły oraz pozostałych liceów ogólnokształcących dla dorosłych z ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1293,7 +1299,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
                   ~ paste0(., "\\%"))) %>%
     select(typ,
            `Tylko samozatrudnieni`,
-           `Tylko zatrudnieni na podstawie innej formy umowy`,
+           `Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę`,
            `Zatrudnieni na podstawie więcej niż jednej formy umowy`,
            `Zatrudnieni tylko na podstawie umowy o pracę`) %>%
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,

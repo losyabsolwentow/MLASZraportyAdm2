@@ -171,7 +171,7 @@ cat(
          paste0("którzy ukończyli")),
   " Państwa szkołę w roku szkolnym ",
   rocznik,
-  ". Informacje o absolwentach pozyskano z Systemu Informacji Oświatowej według stanu bazy na 15 marca 2022 roku. Absolwentami są uczniowie ostatnich klas Państwa szkoły, którym w SIO zakończono przypisanie do oddziału wybierając status \"Ukończył szkołę\". Ze względu na zapewnienie kompletności danych w kolejnych raportach, ważne jest nadawanie przez szkoły takiego statusu absolwentom do końca roku kalendarzowego, w którym zakończyli naukę.\n\nLiczebność grup, dla których prezentowane są wyniki, zależy od dostępności informacji o Państwa absolwentach w poszczególnych rejestrach.\n\n* Dane z Zakładu Ubezpieczeń Społecznych obejmują okres od 1 stycznia 2021 roku do 10 maja 2021 roku. Informują o rejestrowanej przez ZUS aktywności zawodowej ",
+  ". Informacje o absolwentach pozyskano z Systemu Informacji Oświatowej według stanu bazy na 15 marca 2022 roku. Absolwentami są uczniowie ostatnich klas Państwa szkoły, którym w SIO zakończono przypisanie do oddziału wybierając status \"Ukończył szkołę\". Ze względu na zapewnienie kompletności danych w kolejnych raportach, ważne jest nadawanie przez szkoły takiego statusu absolwentom do końca roku kalendarzowego, w którym zakończyli naukę.\n\nLiczebność grup, dla których prezentowane są wyniki, zależy od dostępności informacji o Państwa absolwentach w poszczególnych rejestrach.\n\n* Dane z Zakładu Ubezpieczeń Społecznych informują o rejestrowanej przez ZUS aktywności zawodowej ",
   szk$l_abs_zrodla[[1]]$n_zus,
   odmiany$abs_zus,
   " Państwa szkoły.\n\n",
@@ -181,7 +181,7 @@ cat(
 
 ## Sposób prezentowania wyników
 
-`r ifelse(szk$l_abs[[1]] >= progLiczebnosci, paste0("W raporcie przedstawiono sytuację absolwentów szkoły z rocznika ", rocznik, " w ", params$rok, " roku. "), "")`Przypisanie absolwentowi określonego statusu (np. “uczy się” lub “pracuje”) w danym miesiącu oznacza, że przynajmniej przez jeden dzień w tym miesiącu miał taki status. 
+`r ifelse(szk$l_abs[[1]] >= progLiczebnosci, paste0("W raporcie przedstawiono w jakiej sytuacji absolwenci, którzy ukończyli szkołę w roku szkolnym ", rocznik, ", byli w roku ", params$rok, " (kalendarzowym). W dalszej części raportu nazywamy ich \"absolwentami z rocznika ", rocznik, "\". "), "")`Przypisanie absolwentowi określonego statusu (np. “uczy się” lub “pracuje”) w danym miesiącu oznacza, że przynajmniej przez jeden dzień w tym miesiącu miał taki status. 
 
 Wyniki monitoringu prezentujemy w różnych ujęciach:
 
@@ -191,7 +191,7 @@ Wyniki monitoringu prezentujemy w różnych ujęciach:
 
 * Niektóre wskaźniki są zdefiniowane jako średnia wartość w danym okresie (przychód uzyskiwany z pracy) lub okres, w którym absolwent miał określony status (praca, bezrobocie). Takie wskaźniki obliczyliśmy dla okresu od września do grudnia `r params$rok` roku. Wrzesień jest pierwszym miesiącem, w którym absolwenci formalnie nie byli już uczniami Państwa szkoły, a grudzień ostatnim, dla którego w momencie sporządzania tego raportu dysponujemy kompletnymi danymi o absolwentach figurujących w rejestrach.
 
-Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne branżowe szkoły I stopnia. Grupa ta jest dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 branżowych szkół I stopnia innych^[Absolwenci Państwa szkoły są wykluczani z grupy porównawczej, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła^[Dla ogółu absolwentów szkoły, której dotyczy raport, grupę odniesienia mogą stanowić absolwenci pozostałych branżowych szkół I stopnia z danego powiatu, ale dla absolwentów wykształconych w danym zawodzie grupa odniesienia z poziomu powiatu mogłaby nie spełniać wymogów dotyczących liczebności. W takiej sytuacji zostałaby dobrana z poziomu podregionu, województwa lub kraju - w zależności od tego na ile powszechne jest kształcenie w danym zawodzie.]. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. W różnych częściach raportu absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale na uczących się i niekontynuujących nauki albo w podziale ze względu na wyuczony zawód.
+Niektóre wyniki dotyczące absolwentów Państwa szkoły zostały zestawione z wynikami dotyczącymi grupy odniesienia. Grupę odniesienia stanowią absolwenci, którzy ukończyli inne branżowe szkoły I stopnia. W rozdziale "Ścieżki edukacyjno-zawodowe" grupa odniesienia jest dynamiczna: dobierana z najmniejszego obszaru – powiatu, podregionu^[Informacje nt. administracyjnego podziału Polski na podregiony (jednostki NUTS 3) są dostępne na stronie: https://stat.gov.pl/statystyka-regionalna/jednostki-terytorialne/klasyfikacja-nuts/klasyfikacja-nuts-w-polsce/], województwa lub kraju – w którym jest łącznie co najmniej 10 absolwentów co najmniej 3 branżowych szkół I stopnia innych^[Absolwenci Państwa szkoły są wykluczani z grupy odniesienia, ponieważ w niektórych przypadkach ich sytuacja mogłaby w dużym stopniu rzutować na wyniki dotyczące tej grupy.] niż Państwa szkoła. Zasada ta chroni anonimowość absolwentów, a także uniemożliwia przypisanie wyników dotyczących grupy odniesienia do konkretnej szkoły. Absolwenci Państwa szkoły mogą być zestawiani z różnymi grupami odniesienia, w zależności od tego, czy prezentowane są wyniki dla ogółu absolwentów, czy w podziale ze względu na wyuczony zawód^[Na przykład dla ogółu absolwentów szkoły, której dotyczy raport, grupę odniesienia mogą stanowić absolwenci pozostałych branżowych szkół I stopnia z danego powiatu, ale dla absolwentów wykształconych w danym zawodzie grupa odniesienia z poziomu powiatu mogłaby nie spełniać wymogów dotyczących liczebności. W takiej sytuacji zostałaby dobrana z poziomu podregionu, województwa lub kraju - w zależności od tego na ile powszechne jest kształcenie w danym zawodzie.].
 
 **Ze względu na potrzebę zachowania anonimowości absolwentów, dane dla grup liczących poniżej 10 osób nie są prezentowane również w przypadku absolwentów Państwa szkoły.** W celu zachowania czytelności, na wykresach nie są umieszczane wartości etykiet poniżej 6%.
 
@@ -227,21 +227,19 @@ W każdym raporcie szkolnym umieszczono inny link do ankiety. Po wypełnieniu, a
 
 Wypełnienie ankiety zajmie około 10 minut.
 
-Prosimy o wypełnienie ankiety do końca czerwca 2023 roku.
+Ankieta będzie dostępna do grudnia 2023 roku, przy czym w kolejnej edycji monitoringu będziemy w stanie uwzględnić wyniki ankiet wypełnionych do czerwca 2023 roku, dlatego będziemy szczególnie wdzięczni za wypełnienie ankiety do końca tego miesiąca.
 
 ## Wykorzystanie raportu
 
 Przy wykorzystywaniu informacji z raportów prosimy o podanie źródła:
 
-*Raport roczny z monitoringu karier absolwentów, którzy ukończyli `r szk$dane_szkoly[[1]]$nazwa` w `r params$rok` roku, prowadzonego na podstawie danych administracyjnych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
+*Raport roczny z monitoringu karier absolwentów, których szkołą ukończoną w `r params$rok` roku była `r szk$dane_szkoly[[1]]$nazwa`. Monitoring na podstawie danych rejestrowych. Warszawa: Instytut Badań Edukacyjnych, 2022.*
 
 Raport jest dostępny na zasadach licencji ["Creative Commons Uznanie autorstwa-Użycie niekomercyjne-Na tych samych warunkach 4.0 Międzynarodowe"](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pl).
 
 `r ifelse(typDokumentu %in% "pdf", "\\newpage", "")`
 
 # 2. Ścieżki edukacyjno-zawodowe
-
-## Kontynuowanie edukacji oraz wykonywanie pracy
 
 W tym rozdziale prezentowane są 4 statusy absolwentów opisujące ich sytuację edukacyjno-zawodową w różnych momentach. Poniższa tabela przybliża konstrukcję poszczególnych statusów.
 
@@ -250,7 +248,7 @@ data.frame(
   `Kategoria` = "Znaczenie kategorii",
   `1. Tylko nauka` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce i jednocześnie figurują w rejestrze ZUS z tytułu innego niż aktualne wykonywanie pracy (\"innym tytułem\" może być w szczególności status osoby bezrobotnej, przebywanie na urlopie macierzyńskim lub wychowawczym) lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana. Nie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło lub (jeżeli mają nie więcej niż 26 lat) umowy zlecenia albo bez umowy (\"na czarno\").",
   `2. Nauka i praca` = "W takiej sytuacji są osoby, o których wiadomo, że odbywają edukację formalną w Polsce, a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, prowadzenia indywidualnej działalności gospodarczej albo - ale tylko, jeśli mają więcej niż 26 lat - umowy zlecenia. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS), praca na podstawie umowy o dzieło - a w przypadku osób, które mają nie więcej niż 26 lat również praca na podstawie umowy zlecenia - oraz praca bez umowy (\"na czarno\").",
-  `3. Tylko praca` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, bez umowy (\"na czarno\"), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
+  `3. Tylko praca` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu aktualnego wykonywania pracy etatowej, umowy zlecenia lub prowadzenia indywidualnej działalności gospodarczej. Nie jest natomiast uwzględniana praca za granicą u zagranicznego pracodawcy, praca bez umowy (\"na czarno\"), praca związana z korzystaniem z ubezpieczenia w innym systemie niż ZUS (np. KRUS) ani praca na podstawie umowy o dzieło.",
   `4. Brak nauki i brak pracy` = "W takiej sytuacji są osoby, o których wiadomo, że nie odbywają edukacji formalnej w Polsce (ale być może uczą się w innym kraju), a zarazem figurują w rejestrze ZUS z tytułu bezrobocia lub innego powodu niż aktualne wykonywanie pracy etatowej, umowy zlecenia lub prowadzenie indywidualnej działalności gospodarczej lub nie figurują w rejestrze ZUS z żadnego tytułu, w związku z tym ich sytuacja zawodowa nie jest znana.\nNie jest wykluczone, że pracują za granicą u zagranicznego pracodawcy lub korzystając z ubezpieczenia w innym systemie niż ZUS (np. KRUS) albo na podstawie umowy o dzieło (jeżeli nie są zarejestrowane jako bezrobotne), albo bez umowy (\"na czarno\").",
   check.names = FALSE) %>% 
   pivot_longer(everything()) %>% 
@@ -444,7 +442,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
           select(-c(n, nazwa_zaw))
         
         tab_szk$typ = "Państwa szkoła"
-        tab_god$typ = paste0("Pozostałe branżowye szkoły I stopnia\nz ", powiaty_dop_petla)
+        tab_god$typ = paste0("Pozostałe branżowe szkoły I stopnia\nz ", powiaty_dop_petla)
         
         tabela = rbind(tab_szk, tab_god) %>% 
           pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
@@ -465,7 +463,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
         wyk_tyt = wrapper(paste0("Wykres ",
                                  wyk_num(),
                                  ": Status edukacyjno-zawodowy absolwentów Państwa szkoły oraz absolwentów pozostałych branżowych szkół I stopnia z ",
-                                 powiaty_dop,
+                                 powiaty_dop_petla,
                                  ", w grudniu ",
                                  params$rok,
                                  " roku - w zawodzie ",
@@ -590,12 +588,12 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
       paste0(
         "od ",
         min(wrz_gru),
-        ifelse(unique(names(wrz_gru[wrz_gru == min(wrz_gru)])) %in% "wrześniu", paste0("% (we "), paste0("% (w ")),
-        paste(names(wrz_gru[wrz_gru == min(wrz_gru)]), collapse = ", "),
+        ifelse(any(names(wrz_gru)[wrz_gru == min(wrz_gru)] %in% "wrześniu"), paste0("% (we "), paste0("% (w ")),
+        paste(names(wrz_gru)[wrz_gru == min(wrz_gru)], collapse = ", "),
         ") do ",
         max(wrz_gru),
-        ifelse(unique(names(wrz_gru[wrz_gru == max(wrz_gru)])) %in% "wrześniu", paste0("% (we "), paste0("% (w ")),
-        paste(names(wrz_gru[wrz_gru == max(wrz_gru)]), collapse = ", "),
+        ifelse(any(names(wrz_gru)[wrz_gru == max(wrz_gru)] %in% "wrześniu"), paste0("% (we "), paste0("% (w ")),
+        paste(names(wrz_gru)[wrz_gru == max(wrz_gru)], collapse = ", "),
         ").",
         sep = ""
       )
@@ -891,9 +889,9 @@ if (round(szk$E2_nauka_kontyn[[1]]$bs2 * szk$E2_nauka_kontyn[[1]]$n) >= progLicz
 ```{r, echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='asis', fig.align=wyrownanieTabWykr}
 if (round(szk$E2_nauka_kontyn[[1]]$bs2 * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci) {
   if (length(szk$liczebnosc_branze_kont[[1]]) > 1) {
-    cat("**Tabela ",
+    cat("Tabela ",
         tab_num(),
-        ":** Branże, w których absolwenci Państwa szkoły najczęściej uczyli się w branżowych szkołach II stopnia w grudniu ",
+        ": Branże, w których absolwenci Państwa szkoły najczęściej uczyli się w branżowych szkołach II stopnia w grudniu ",
         params$rok,
         " roku - ogółem (%)",
         sep = "")
@@ -942,9 +940,9 @@ if (length(szk$branze_zawody[[1]]) > 1 & l_col > 0) {
   nagl = rep(1, l_col, by = 1)
   names(nagl) = lapply(1:l_col, as.character)
   
-  cat("\n\n**Tabela ",
+  cat("\n\nTabela ",
       tab_num(),
-      ":** Branże, w których absolwenci Państwa szkoły najczęściej uczyli się w branżowych szkołach II stopnia w grudniu ",
+      ": Branże, w których absolwenci Państwa szkoły najczęściej uczyli się w branżowych szkołach II stopnia w grudniu ",
       params$rok,
       " roku - w grupach wyróżnionych ze względu na zawód wyuczony w branżowej szkole I stopnia (%)",
       sep = "")
@@ -966,8 +964,9 @@ if (length(szk$branze_zawody[[1]]) > 1 & l_col > 0) {
                   latex_options = c("hold_position", "repeat_header"),
                   full_width = FALSE,
                   repeat_header_text = "(ciąg dalszy tabeli)") %>%
-    add_header_above(header = c(paste0("Branże, w których absolwenci Państwa\nszkoły uczyli się w BS II w grudniu ", params$rok, " roku"), nagl)) %>% 
-    add_header_above(header = c(" ", wiersze_nag))
+    add_header_above(header = c(paste0("Branże, w których absolwenci Państwa\nszkoły uczyli się w BS II w grudniu ", params$rok, " roku"), nagl),
+                     align = "l") %>% 
+    add_header_above(header = c(" ", wiersze_nag), align = "l")
 } 
 
 if (round(szk$E2_nauka_kontyn[[1]]$bs2 * szk$E2_nauka_kontyn[[1]]$n) >= progLiczebnosci & !(length(szk$branze_zawody[[1]]) > 1 & l_col > 0)) {
@@ -1255,9 +1254,9 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
     ", analogiczne odsetki wynosiły odpowiednio: ",
     round(god$Z8_formy_ucz[[1]]$ucz_uop * 100),
     "%, ",
-    round(szk$Z8_formy_ucz[[1]]$ucz_samoz * 100),
+    round(god$Z8_formy_ucz[[1]]$ucz_samoz * 100),
     "% i ",
-    round(szk$Z8_formy_ucz[[1]]$ucz_wiecej * 100),
+    round(god$Z8_formy_ucz[[1]]$ucz_wiecej * 100),
     "%.\n\n",
     sep = ""
   )
@@ -1270,7 +1269,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
 if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
   etykiety = c("Zatrudnieni tylko na podstawie umowy o pracę",
                "Tylko samozatrudnieni",
-               "Tylko zatrudnieni na podstawie innej formy umowy",
+               "Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę",
                "Zatrudnieni na podstawie więcej niż jednej formy umowy")
   
   tab_wyk = tab_wykres(szk$Z8_formy_ucz[[1]],
@@ -1283,7 +1282,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych branżowych szkół I stopnia z ",
+                           ": Formy wykonywania pracy przez pracujących absolwentów Państwa szkoły oraz pozostałych branżowych szkół I stopnia z ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1305,7 +1304,7 @@ if (szk$Z8_formy_ucz[[1]]$n >= progLiczebnosci) {
                   ~ paste0(., "\\%"))) %>%
     select(typ,
            `Tylko samozatrudnieni`,
-           `Tylko zatrudnieni na podstawie innej formy umowy`,
+           `Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę`,
            `Zatrudnieni na podstawie więcej niż jednej formy umowy`,
            `Zatrudnieni tylko na podstawie umowy o pracę`) %>% 
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
@@ -1370,7 +1369,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
 if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
   etykiety = c("Zatrudnieni tylko na podstawie umowy o pracę",
                "Tylko samozatrudnieni",
-               "Tylko zatrudnieni na podstawie innej formy umowy",
+               "Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę",
                "Zatrudnieni na podstawie więcej niż jednej formy umowy")
   
   tab_wyk = tab_wykres(szk$Z8_formy_nie_ucz[[1]],
@@ -1383,7 +1382,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Formy wykonywania pracy przez absolwentów Państwa szkoły oraz pozostałych branżowych szkół I stopnia z ",
+                           ": Formy wykonywania pracy przez pracujących absolwentów Państwa szkoły oraz pozostałych branżowych szkół I stopnia z ",
                            powiaty_dop,
                            ", w grudniu ",
                            params$rok,
@@ -1408,7 +1407,7 @@ if (szk$Z8_formy_nie_ucz[[1]]$n >= progLiczebnosci) {
                   ~ paste0(., "\\%"))) %>%
     select(typ,
            `Tylko samozatrudnieni`,
-           `Tylko zatrudnieni na podstawie innej formy umowy`,
+           `Tylko zatrudnieni na podstawie innej formy umowy niż umowa o pracę`,
            `Zatrudnieni na podstawie więcej niż jednej formy umowy`,
            `Zatrudnieni tylko na podstawie umowy o pracę`) %>%
     kable("latex", booktabs = TRUE, escape = FALSE, longtable = TRUE,
@@ -1454,10 +1453,7 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
     params$rok,
     " roku spośród absolwentów, którzy w Państwa szkole uczyli się jako młodociani pracownicy, a następnie kontynuowali naukę w kolejnej szkole ponadpodstawowej, ",
     round(szk$Z9_mlod_ucz[[1]]$kontuop * 100),
-    "% było zatrudnionych u tego samego pracodawcy, na podstawie umowy o pracę.\n\n",
-    "Ponadto wśród niekontynuujących nauki absolwentów Państwa szkoły, którzy uczyli się w niej jako młodociani pracownicy, ",
-    round(szk$Z9_mlod_ucz[[1]]$niekontuop * 100),
-    "% pracowało dla tego samego pracodawcy na podstawie innej niż umowa o pracę.",
+    "% było zatrudnionych u tego samego pracodawcy, na podstawie umowy o pracę.\n",
     sep = ""
   )
   
@@ -1502,7 +1498,7 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
   
   tab_wyk$name = factor(tab_wyk$name, levels = c("Uczący się, niekontynuujący pracy u danego\npracodawcy na podstawie umowy o pracę", "Uczący się, kontynuujący pracę u danego\npracodawcy na podstawie umowy o pracę"))
   wykres = wykres_poziomy_statusy(tab_wyk, wyk_tyt) +
-    scale_fill_manual(values = c("#d8ef8a", # jasnozielony 
+    scale_fill_manual(values = c("#d62f26", # czerwony
                                  "#fb8c59")) # pomarańczowy
   
   levels(tab_wyk$typ) = linebreak(levels(tab_wyk$typ), align = "c")
@@ -1531,7 +1527,8 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
                     repeat_header_text = "(ciąg dalszy tabeli)") %>% 
       column_spec(1, width = "6cm") %>% 
       column_spec(1, width = "5cm") %>% 
-      column_spec(1, width = "5cm")
+      column_spec(1, width = "5cm") %>% 
+      row_spec(1, hline_after = TRUE)
   } else {
     tab_wyk = tab_wyk %>%
       select(-lab) %>%
@@ -1556,7 +1553,8 @@ if (szk$Z9_mlod_ucz[[1]]$n >= progLiczebnosci) {
                     repeat_header_text = "(ciąg dalszy tabeli)") %>% 
       column_spec(1, width = "6cm") %>% 
       column_spec(1, width = "5cm") %>% 
-      column_spec(1, width = "5cm")
+      column_spec(1, width = "5cm") %>% 
+      row_spec(1, hline_after = TRUE)
   }
   
   zwroc_wykres_tabela(wykres, tab_wyk)
@@ -1581,7 +1579,7 @@ if (szk$Z9_mlod_nie_ucz[[1]]$n >= progLiczebnosci) {
   cat(
     "We wrześniu ",
     params$rok,
-    "roku spośród absolwentów, którzy w Państwa szkole uczyli się jako młodociani pracownicy, a następnie nie kontynuowali nauki w kolejnej szkole ponadpodstawowej, ",
+    " roku spośród absolwentów, którzy w Państwa szkole uczyli się jako młodociani pracownicy, a następnie nie kontynuowali nauki w kolejnej szkole ponadpodstawowej, ",
     round(szk$Z9_mlod_nie_ucz[[1]]$kont_uop * 100),
     "% było zatrudnionych na podstawie umowy o pracę u tego samego pracodawcy, z którym w okresie nauki w Państwa szkole mieli zawartą umowę o pracę w celu przygotowania zawodowego.\n\n",
     "Ponadto wśród niekontynuujących nauki absolwentów Państwa szkoły, którzy uczyli się w niej jako młodociani pracownicy, ",
@@ -1669,7 +1667,8 @@ if (szk$Z9_mlod_nie_ucz[[1]]$n >= progLiczebnosci) {
                     repeat_header_text = "(ciąg dalszy tabeli)") %>% 
       column_spec(1, width = "6cm") %>% 
       column_spec(1, width = "5cm") %>% 
-      column_spec(1, width = "5cm")
+      column_spec(1, width = "5cm") %>% 
+      row_spec(1:2, hline_after = TRUE)
   } else {
     tab_wyk = tab_wyk %>%
       select(-lab) %>%
@@ -1694,7 +1693,8 @@ if (szk$Z9_mlod_nie_ucz[[1]]$n >= progLiczebnosci) {
                     repeat_header_text = "(ciąg dalszy tabeli)") %>% 
       column_spec(1, width = "6cm") %>% 
       column_spec(1, width = "5cm") %>% 
-      column_spec(1, width = "5cm")
+      column_spec(1, width = "5cm") %>% 
+      row_spec(1:2, hline_after = TRUE)
   }
   
   zwroc_wykres_tabela(wykres, tab_wyk)
