@@ -474,7 +474,7 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
                                  i), 85)
       } else {
         tab_szk$typ = "Państwa szkoła"
-        zawod = wrapper(tab_szk$typ, 35)
+        zawod = wrapper(paste0(i), 35)
         
         tabela = tab_szk %>% 
           pivot_longer(cols = ucz_prac:neet, names_to = "name") %>% 
@@ -532,12 +532,12 @@ if (szk$S3_12[[1]]$n >= progLiczebnosci) {
         column_spec(3, width = "2.25cm") %>%
         column_spec(4, width = "2.25cm") %>%
         column_spec(5, width = "2.25cm")
-
+      
+      zwroc_wykres_tabela(wykres, tabela)
+      
       if (nrow(tab_god) %in% 0) {
         cat("Liczba absolwentów w grupie odniesienia lub szkół do których uczęszczali nie była wystarczająca, żeby możliwe było przedstawienie dla niej wyników zgodnie z zasadą chroniącą anonimowość absolwentów.")
       }
-      
-      zwroc_wykres_tabela(wykres, tabela)
     }
   }
 }
