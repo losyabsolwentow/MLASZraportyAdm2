@@ -200,7 +200,7 @@ Raporty szkolne pierwotnie były zaprojektowane dla szkół kształcących zawod
 
 ## Główne zmiany w stosunku do pierwszej edycji raportów
 
-Pierwsza edycja monitoringu karier dotyczyła wyłącznie absolwentów szkół kształcących zawodowo. W niniejszej edycji po raz pierwszy przygotowano raporty również dla liceów ogólnokształcących dla młodzieży, liceów ogólnokształcących dla dorosłych oraz szkół specjalnych przysposabiających do pracy. Żeby zwiększyć przydatność raportów, po rozważaniu uwag zgłoszonych przez dyrektorów szkół, nauczycieli i doradców zawodowych, wprowadziliśmy zmiany w stosunku do pierwszej edycji. Polegają one przede wszystkim na:
+Pierwsza edycja monitoringu karier dotyczyła wyłącznie absolwentów szkół kształcących zawodowo. W niniejszej edycji po raz pierwszy przygotowano raporty również dla liceów ogólnokształcących dla młodzieży oraz liceów ogólnokształcących dla dorosłych. Żeby zwiększyć przydatność raportów, po rozważaniu uwag zgłoszonych przez dyrektorów szkół, nauczycieli i doradców zawodowych, wprowadziliśmy zmiany w stosunku do pierwszej edycji. Polegają one przede wszystkim na:
 
 * zastosowaniu jako grupy odniesienia absolwentów z powiatu, podregionu, województwa lub kraju (zgodnie z zasadą opisaną w poprzednim podrozdziale),
 
