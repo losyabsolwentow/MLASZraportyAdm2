@@ -147,7 +147,7 @@ boxplot_proc = function(x, tytul) {
                      ymax = .data$q95),
                  stat = "identity",
                  width = 0.5) +
-    scale_fill_manual(values = c("#8de04e",	"#f8dd00", "#fb6a59"),
+    scale_fill_manual(values = c("#8de04e",	"#f8dd00"),
                       guide = guide_legend(reverse = TRUE)) +
     # scale_y_continuous(limits = c(0.0, 1.0), expand = c(0,0)) +
     theme(legend.position = "none",
