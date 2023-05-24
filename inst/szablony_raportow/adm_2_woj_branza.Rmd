@@ -840,9 +840,11 @@ if (woj$W3_ucz[[1]]$n >= progLiczebnosci) {
   cat(
     "Mediana średnich miesięcznych przychodów z pracy absolwentów wykształconych w branży w województwie, zatrudnionych na podstawie umowy o pracę i kontynuujących naukę, wynosiła ",
     round(woj$W3_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych techników z ",
-    paste0("branży ", woj$branza[[1]], "\nw województwie ", odmiany$woj_szk_narz),
-    " wartość wskaźnika wynosiła ",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych",
+    odmiany$typ_szk_cel_mn,
+    " z branży ",
+    odmiany$branza_dop,
+    " w całym kraju mediana wynosiła ",
     round(kraj$W3_ucz[[1]]$med * 100),
     "%.",
     sep = ""
@@ -878,9 +880,7 @@ if (woj$W3_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów wykształconych w branży w województwie oraz pozostałych techników z ",
-                           paste0("branży ", woj$branza[[1]], "\nw województwie ", odmiany$woj_szk_narz),
-                           " w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
+                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów wykształconych w branży w województwie oraz w całym kraju w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
                            params$rok,
                            " roku - pracujący i kontynuujący naukę"),
                     width = 85)
@@ -912,9 +912,11 @@ if (woj$W3_nie_ucz[[1]]$n >= progLiczebnosci) {
     odmiany$woj_szk_narz,
     ", zatrudnionych na podstawie umowy o pracę i niekontynuujących nauki, wynosiła ",
     round(woj$W3_nie_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych techników z ",
-    paste0("branży ", woj$branza[[1]], "\nw województwie ", odmiany$woj_szk_narz),
-     " wartość mediany wynosiła ",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nnDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych",
+    odmiany$typ_szk_cel_mn,
+    " z branży ",
+    odmiany$branza_dop,
+    " w całym kraju mediana wynosiła ",
     round(kraj$W3_nie_ucz[[1]]$med * 100),
     "%.",
     sep = ""
@@ -950,9 +952,7 @@ if (woj$W3_nie_ucz[[1]]$n >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów wykształconych w branży w województwie oraz pozostałych techników w ",
-                           paste0("branży ", woj$branza[[1]], "\nw województwie ", odmiany$woj_szk_narz),
-                           " w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
+                           ": Średni miesięczny przychód brutto z pracy uzyskiwany przez absolwentów wykształconych w branży w województwie oraz w całym kraju w odniesieniu do przeciętnego miesięcznego wynagrodzenia brutto w poszczególnych zamieszkiwanych przez nich powiatach, od września do grudnia ",
                            params$rok,
                            " roku - pracujący i niekontynuujący nauki"),
            width = 85)
@@ -1020,9 +1020,7 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
   
   wyk_tyt = wrapper(paste0("Wykres ",
                            wyk_num(),
-                           ": Odsetek absolwentów wykształconych w branży w województwie oraz pozostałych techników z ",
-                           paste0("branży ", woj$branza[[1]], "\nw województwie ", odmiany$woj_szk_narz),
-                           ", którzy byli bierni edukacyjnie i zawodowo przez daną liczbę miesięcy, od września do grudnia ",
+                           ": Odsetek absolwentów wykształconych w branży w województwie oraz w całym kraju, którzy byli bierni edukacyjnie i zawodowo przez daną liczbę miesięcy, od września do grudnia ",
                            params$rok,
                            " roku"),
                     width = 85)
