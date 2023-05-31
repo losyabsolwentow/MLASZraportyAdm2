@@ -449,11 +449,13 @@ data.frame(
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 if (woj$S3_12[[1]]$n >= progLiczebnosci) {
   cat(
-    "W grudniu ",params$rok," spośród absolwentów ",
+    "W grudniu ",
+    params$rok,
+    " roku spośród absolwentów ",
     odmiany$typ_szk_cel_mn,
     " z rocznika ",
     rocznik,
-    ", wykształconych w branży ",
+    " wykształconych w branży ",
     odmiany$branza_dop,
     " w województwie ",
     odmiany$woj_szk_narz,
@@ -489,7 +491,9 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     round(woj$S3_12[[1]]$tylko_prac * 100),
     "% absolwentów ",
     odmiany$typ_szk_cel_mn,
-    " z rocznika ",rocznik,", wykształconych w branży ",
+    " z rocznika ",
+    rocznik,
+    ", wykształconych w branży ",
     odmiany$branza_dop,
     " w województwie ",
     odmiany$woj_szk_narz,
@@ -499,7 +503,7 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     } else {
       paste0(" ani nie studiowało. ")
     },
-    "Do grupy absolwentów pracujących ale nie kontynuujących edukacji formalnej należało ",
+    "Do grupy absolwentów pracujących, ale nie kontynuujących edukacji formalnej należało ",
     round(kraj$S3_12[[1]]$tylko_prac * 100),
     "% absolwentów pozostałych szkół tego samego typu, wykształconych w tej samej branży w całym kraju.\n\nDalszych ",
     round(woj$S3_12[[1]]$neet * 100),
@@ -599,7 +603,7 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci & !length(woj$tab_s3_zaw[[1]]) %in% 0) {
     odmiany$branza_dop,
     " różnił się w grudniu ",
     params$rok,
-    " w zależności od zawodu, w którym ukończyli naukę. W poniższej tabeli przedstawiono informację o sytuacji absolwentów w najpopularniejszych zawodach branży ",
+    " roku w zależności od zawodu, w którym ukończyli naukę. W poniższej tabeli przedstawiono informację o sytuacji absolwentów w najpopularniejszych zawodach branży ",
     odmiany$branza_dop,
     " w województwie ",
     odmiany$woj_szk_narz,
@@ -682,7 +686,7 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     odmiany$woj_szk_narz,
     ", wyodrębnionymi ze względu na aktywność edukacyjną i zawodową.\n\nW okresie od stycznia do sierpnia ",
     params$rok,
-    " roku^[Tj. do momentu, kiedy obecni absolwenci danej szkoły przestali być jej uczniami.] odsetek uczniów ostatnich klas szkół pracujących na podstawie umowy o pracę^[W tym na podstawie umowy o pracę w celu przygotowania zawodowego. W tym okresie dla żadnego z obecnych absolwentów z branży w województwie nie możemy zaobserwować zatrudnienia na podstawie umowy zlecenia, ponieważ byli jeszcze uczniami - w przypadku uczniów i studentów do 26. roku życia nie są dostępne dane dotyczące ewentualnego wykonywania pracy na podstawie umów zleceń] lub samozatrudnionych, wynosił ",
+    " roku^[Tj. do momentu, kiedy obecni absolwenci danej szkoły przestali być jej uczniami.] odsetek uczniów ostatnich klas szkół pracujących na podstawie umowy o pracę^[W tym na podstawie umowy o pracę w celu przygotowania zawodowego. W tym okresie dla żadnego z obecnych absolwentów z branży w województwie nie możemy zaobserwować zatrudnienia na podstawie umowy zlecenia, ponieważ byli jeszcze uczniami - w przypadku uczniów i studentów do 26. roku życia nie są dostępne dane dotyczące ewentualnego wykonywania pracy na podstawie umów zleceń] lub samozatrudnionych wynosił ",
     if (length(unique(sty_sier)) %in% 1) {
       paste0(round(woj$S3_01[[1]]$ucz_prac * 100), "%.\n\n")
     } else {
@@ -701,7 +705,11 @@ if (woj$S3_12[[1]]$n >= progLiczebnosci) {
     },
     "Natomiast w okresie od września do grudnia ",
     params$rok,
-    " odsetek absolwentów wykształconych w branży w województwie pracujących na podstawie umowy o pracę, samozatrudnionych, a także - w przypadku osób niekontynuujących nauki - pracujących na podstawie umowy zlecenia, wynosił łącznie ",
+    " roku odsetek absolwentów wykształconych w branży ",
+    odmiany$branza_dop,
+    " w województwie ",
+    odmiany$woj_szk_narz,
+    " pracujących na podstawie umowy o pracę, samozatrudnionych, a także - w przypadku osób niekontynuujących nauki - pracujących na podstawie umowy zlecenia wynosił łącznie ",
     if (length(unique(wrz_gru)) %in% 1) {
       paste0(round(woj$S3_09[[1]]$ucz_prac * 100) + round(woj$S3_09[[1]]$tylko_prac * 100), "%.")
     } else {
@@ -823,9 +831,9 @@ if (min(szkoly_month$n) >= progLiczebnosci) {
 
 # 4. Przychody absolwentów z pracy etatowej w okresie od września do grudnia `r params$rok` roku w odniesieniu do średniego wynagrodzenia w powiatach, w których mieszkali
 
-Wskaźnik, którego wartości prezentujemy w tej części raportu, pokazuje stosunek przychodów absolwentów wykształconych w branży w województwie z pracy etatowej^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w 2022 roku przeciętne miesięczne zarobki na poziomie 177 660 zł), w miesiącach, w których to przekroczenie wystąpiło.] do przeciętnego miesięcznego wynagrodzenia^[Według danych publikowanych w [Banku Danych Lokalnych Głównego Urzędu Statystycznego](https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/693,pojecie.html?pdf=1)] osób mieszkających w tych samych powiatach. Dla poszczególnych absolwentów wartość wskaźnika równa 100% oznaczałaby, że ich średnie zarobki z pracy etatowej były takie same, jak przeciętne wynagrodzenie mieszkańców danego powiatu. 
+Wskaźnik, którego wartości prezentujemy w tej części raportu, pokazuje stosunek przychodów absolwentów wykształconych w branży `r odmiany$branza_dop` w województwie `r odmiany$woj_szk_narz` z pracy etatowej^[Średnią (arytmetyczną) obliczono wyłącznie dla miesięcy, w których absolwenci pracowali. Nie uwzględniono przychodów osób, które przekroczyły kwotę rocznego ograniczenia podstawy wymiaru składek na ubezpieczenie emerytalne i rentowe (tj. 30 krotność prognozowanego wynagrodzenia brutto, czyli w 2022 roku przeciętne miesięczne zarobki na poziomie 177 660 zł), w miesiącach, w których to przekroczenie wystąpiło.] do przeciętnego miesięcznego wynagrodzenia^[Według danych publikowanych w [Banku Danych Lokalnych Głównego Urzędu Statystycznego](https://stat.gov.pl/metainformacje/slownik-pojec/pojecia-stosowane-w-statystyce-publicznej/693,pojecie.html?pdf=1)] osób mieszkających w tych samych powiatach. Dla poszczególnych absolwentów wartość wskaźnika równa 100% oznaczałaby, że ich średnie zarobki z pracy etatowej były takie same, jak przeciętne wynagrodzenie mieszkańców danego powiatu. 
 
-Należy zastrzec, że kwoty te nie są porównywalne, ze względu na różnice w sposobie ich obliczania. Informacje dotyczące miesięcznych przychodów absolwentów nie uwzględniają czasu, jaki poświęcili na pracę (przychody te nie zostały przeliczone np. do wymiaru pełnego etatu). Natomiast wyrażenie przychodów z pracy uzyskiwanych przez absolwentów jako odsetka przeciętnego miesięcznego wynagrodzenia w danym powiecie podawanego przez GUS, pozwala uwzględnić lokalny kontekst. Ponadto przedstawianie wartości wskaźnika w ten sposób jest bardziej dogodne do porównywania przychodów uzyskiwanych przez absolwentów w kolejnych latach niż prezentowanie przychodów w złotych, na których wartość wpływa inflacja.
+Należy zastrzec, że kwoty te nie są porównywalne ze względu na różnice w sposobie ich obliczania. Informacje dotyczące miesięcznych przychodów absolwentów nie uwzględniają czasu, jaki poświęcili na pracę (przychody te nie zostały przeliczone np. do wymiaru pełnego etatu). Natomiast wyrażenie przychodów z pracy uzyskiwanych przez absolwentów jako odsetka przeciętnego miesięcznego wynagrodzenia w danym powiecie podawanego przez GUS, pozwala uwzględnić lokalny kontekst. Ponadto przedstawianie wartości wskaźnika w ten sposób jest bardziej dogodne do porównywania przychodów uzyskiwanych przez absolwentów w kolejnych latach niż prezentowanie przychodów w złotych, na których wartość wpływa inflacja.
 
 Na poniższej ilustracji opisano sposób prezentowania danych na wykresie typu boxplot wraz z ich interpretacją. Dane na tym wykresie są fikcyjne – służy on tylko objaśnieniu jakiego rodzaju informacje można znaleźć na tego typu wykresach.
 
@@ -838,9 +846,13 @@ knitr::include_graphics("../boxplot_edycja2.png")
 ```{r, echo=FALSE, message=FALSE, results='asis', fig.align=wyrownanieTabWykr, warning=FALSE}
 if (woj$W3_ucz[[1]]$n >= progLiczebnosci) {
   cat(
-    "Mediana średnich miesięcznych przychodów z pracy absolwentów wykształconych w branży w województwie, zatrudnionych na podstawie umowy o pracę i kontynuujących naukę, wynosiła ",
+    "Mediana średnich miesięcznych przychodów z pracy absolwentów wykształconych w branży ",
+    odmiany$branza_dop,
+    " w województwie ",
+    odmiany$woj_szk_narz,
+    ", zatrudnionych na podstawie umowy o pracę i kontynuujących naukę, wynosiła ",
     round(woj$W3_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i kontynuujących edukację absolwentów pozostałych ",
     odmiany$typ_szk_cel_mn,
     " z branży ",
     odmiany$branza_dop,
@@ -910,9 +922,9 @@ if (woj$W3_nie_ucz[[1]]$n >= progLiczebnosci) {
     odmiany$branza_dop,
     " w województwie ",
     odmiany$woj_szk_narz,
-    ", zatrudnionych na podstawie umowy o pracę i niekontynuujących nauki, wynosiła ",
+    ", zatrudnionych na podstawie umowy o pracę i niekontynuujących nauki wynosiła ",
     round(woj$W3_nie_ucz[[1]]$med * 100),
-    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nnDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych",
+    "% średnich wynagrodzeń mieszkańców powiatów, w których mieszkali.\n\nDla pracujących na etat i niekontynuujących edukacji absolwentów pozostałych ",
     odmiany$typ_szk_cel_mn,
     " z branży ",
     odmiany$branza_dop,
@@ -985,7 +997,7 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
     "Średnia liczba miesięcy bezrobocia rejestrowanego, obliczona dla wszystkich absolwentów ",
     odmiany$typ_szk_cel_mn,
     " z województwa ",
-    odmiany$woj_szk_narz,
+    odmiany$woj_dop,
     ", wykształconych w zawodach należących do branży ",
     odmiany$branza_dop,
     " wyniosła ",
@@ -996,12 +1008,12 @@ if (woj$l_abs[[1]] >= progLiczebnosci) {
     odmiany$typ_szk_cel_mn,
     " z tej branży wynosiła ",
     round(kraj$B2_bezrob[[1]]$srednia, 2),
-    " a mediana ",
+    ", a mediana ",
     kraj$B2_bezrob[[1]]$mediana,
     ".\n\nWśród absolwentów ",
     odmiany$typ_szk_cel_mn,
     " z województwa ",
-    odmiany$woj_szk_narz,
+    odmiany$woj_dop,
     ", wykształconych w zawodach należących do branży ",
     odmiany$branza_dop,
     " ",
